@@ -1,0 +1,24 @@
+---
+title: "ABSTRACT (ESA 2017): Ecological Genomics of the Genus
+Aphaenogaster Reveals Biogeographic Variation in Key Ecosystem and
+Climate Change Traits"
+author: M.K. Lau, A.M. Ellison, B. DiMarco, A.Nguyen, S.H. Cahan
+output: html_document
+---
+
+### Abstract
+
+- Climate change rates are currently on track with the worst case
+  sencarios, resulting in both terrestrial and aquatic ecosystem responses
+- Ants play important roles in ecosystems, including seed dispersal,
+  which is a know factor in determining the rates of shifts in the
+  range of many plant species
+- Here, we present an analysis of a set of genomic sequences from six
+  species in the genus Aphaenogaster, which is ecologically important
+  in eastern forest ecosystems and has been shown to respond to
+  changes in atmospheric temperature
+- Analysis: Determine target analyses from recent ant and climate change
+  genomics papers
+- Results: 
+- Conclusion:
+- Take-Home:
