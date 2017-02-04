@@ -2,8 +2,9 @@
 title: "ABSTRACT (ESA 2017): Ecological Genomics of the Genus
 Aphaenogaster Reveals Biogeographic Variation in Key Ecosystem and
 Climate Change Traits"
-author: M.K. Lau, A.M. Ellison, B. DiMarco, A.Nguyen, S.H. Cahan
+author: M.K. Lau, A.M. Ellison, B. DiMarco, A.Nguyen, S.H. Cahan, et al.
 output: html_document
+bibliography: mendeley.bib
 ---
 
 ### Abstract
