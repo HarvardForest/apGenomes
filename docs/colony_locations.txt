@@ -1,0 +1,12 @@
+
+### From Andrew (UVM)
+species colony.id KO_temp_worker colony_mass_mgs
+floridana  KH7  42.725 813.6
+ashmeadi  KH6  42.75  955.9(2 tubes)
+picea   Greenfield 41.225  721.7
+fulva   Kite4  40.45  436.9
+miamiana  Ala5  38.85  904.5
+
+### From Clint (Duke)
+rudis1
+rudis6

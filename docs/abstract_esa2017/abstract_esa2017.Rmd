@@ -24,6 +24,30 @@ bibliography: mendeley.bib
 - Conclusion:
 - Take-Home:
 
+### Methods 
+
+The complete genome of six species of Aphaenogaster were sequenced:
+Aphaenogaster ashmeadi, A. floridana, A. fulva, A. miamiana, A. picea
+and A. rudis. Whole colonies were collected from field sites in
+Eastern North America. Living individuals from each colony were
+isolated from debris, placed in 50 ml Falcon centrifuge tubes and
+immediately flash frozen in a -80 C freezer. DNA was extracted from
+each colony and sequenced on an Illumina HiSeq 2500 at the Broad
+Institute (Cambridge, MA). Raw sequences were processed to remove
+chimeric and contaminant sequences and assembled using ALLPATHS-LG
+with an additional post-assembly processing using Pilon to reduce gaps
+in coverage. The genomes of all six species were successfully
+sequenced with an average genome size of ~470 Mb. All genomes showed
+high assembly quality (70% fragments mapped). The additional Pilon
+processing of the assembly reduced the gaps in coverage by 3.1% on
+average for an average reduction of 3.9 Mb of gaps. Both raw and
+assembly data are currently housed at Harvard University on both a
+long-term storage server that is routinely backed-up and a solid state
+external hard drive stored at Harvard Forest (Petersham,
+MA). Additionally, after publication the assemblies will be submitted
+to NCBI’s genome database and linked to meta-data hosted by the
+Harvard Forest Data Archive.
+
 ### Analysis Outline
 
 Basic analysis of genomic similarity across species
