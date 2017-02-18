@@ -1,11 +1,13 @@
 ---
-title: "ABSTRACT (ESA 2017): Ecological Genomics of the Genus
+title: "ABSTRACT (ESA 2017): Genomics of the Genus
 Aphaenogaster Reveals Biogeographic Variation in Key Ecosystem and
 Climate Change Traits"
-author: M.K. Lau, A.M. Ellison, B. DiMarco, A.Nguyen, S.H. Cahan, et al.
+author: M.K. Lau, A.M. Ellison, B. DiMarco, A.Nguyen, S.H. Cahan,
+N.J. Sanders, R. Dunn, C. Pennick, N.J. Gotelli
 output: html_document
 bibliography: mendeley.bib
 ---
+
 
 ### Abstract
 
@@ -18,8 +20,10 @@ bibliography: mendeley.bib
   species in the genus Aphaenogaster, which is ecologically important
   in eastern forest ecosystems and has been shown to respond to
   changes in atmospheric temperature
-- Analysis: Determine target analyses from recent ant and climate change
-  genomics papers
+
+- Analysis: Determine target analyses from recent ant and climate
+  change genomics papers
+
 - Results: 
 - Conclusion:
 - Take-Home:
@@ -47,6 +51,33 @@ external hard drive stored at Harvard Forest (Petersham,
 MA). Additionally, after publication the assemblies will be submitted
 to NCBI’s genome database and linked to meta-data hosted by the
 Harvard Forest Data Archive.
+
+### Sequencing Details
+
+0. Sample locations
+1. Genetics of ants and colonies
+2. DNA extraction and quality
+3. Library perparation
+4. Genome assembly de novo (draft genome)
+5. Assembly quality assessment and validation
+6. Genome annotation (GO, KEGG, protein coding sequences)
+
+
+### Genome Annotation
+
+0. Gather target genes from other ant, insect and animal research
+1. Mask repeat regions
+2. Map target sequences
+3. Compare translated sequences
+
+Check out these software packages:
+
+MAKER
+PASA
+WebApollo
+GMOD
+
+
 
 ### Analysis Outline
 
