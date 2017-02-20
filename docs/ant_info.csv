@@ -1,0 +1,143 @@
+"","Project","Site","Collection_no","Phytotron_ID..Ap_GXL.","Species..varying.ID.sources...Bernice.if.different.from.original.ID.","Locale","State","Extractor","DNA.extracted","RAD_lane","Barcode_well","Qubit.quantification..ng.ul.","Total.amt..ng.","Box","order"
+"1","ANBE","AHF","1","","picea","Harvard Forest","MA","SHC","10/2/14","ddRAD5","D8",27,945,"1",66
+"2","ANBE","AHF","2","","picea","Harvard Forest","MA","Skye L","10/9/14","ddRAD5","C9",14,490,"1",73
+"3","ANBE","AHF","3","","picea","Harvard Forest","MA","Skye L","10/16/14","ddRAD5","B10",10.4,364,"1",80
+"5","ANBE","AHW","2","","rudis","Hitchcock Woods","SC","SHC & Skye L","10/24/14","ddRAD4","D11",6.87,240.45,"1",86
+"6","ANBE","AHW","3","","rudis","Hitchcock Woods","SC","Skye L","11/13/14","ddRAD4","A1",13,455,"2",1
+"9","ANBE","AHW","7","","fulva","Hitchcock Woods","SC","SHC","9/7/14","ddRAD4","C7",14.8,518,"1",53
+"10","ANBE","Ala","1","","miamiana","Alachua Co","FL","","","ddRAD7","A4",NA,NA,"Frozen",17
+"11","ANBE","Ala","2","","miamiana","Alachua Co","FL","","","ddRAD7","D1",NA,NA,"Frozen",18
+"12","ANBE","Ala","3","","miamiana","Alachua Co","FL","","","ddRAD7","D2",NA,NA,"Frozen",19
+"13","ANBE","Ala","4","","miamiana","Alachua Co","FL","","","ddRAD6","C3",NA,NA,"Frozen",20
+"14","ANBE","Ala","5","","miamiana","Alachua Co","FL","","","ddRAD6","D3",NA,NA,"Frozen",21
+"16","Phyt","APB","3","20-B/C","picea","Albany Pine Bush","NY","","","ddRAD3","B9",NA,NA,"EtOH",3
+"21","Phyt","APB","8","20-D","picea","Albany Pine Bush","NY","","","ddRAD3","B8",NA,NA,"EtOH",2
+"23","Phyt","APB","10","20-A","picea","Albany","NY","SHC","8/30/14","ddRAD3","D2",9.26,324.1,"1",34
+"26","Phyt","APB","3b","20-C","picea","Albany Pine Bush","NY","SHC","9/7/14","ddRAD3","D3",10.4,364,"1",47
+"27","Bernice","Aphash","12","","ashmeadi","Pullen Park, Wake Co.","NC","","","ddRAD7","D10",NA,NA,"EtOH",62
+"31","Bernice","Aphful","13","","fulva","Hennepin Canal near town of Rock Falls","IL","","","ddRAD7","D9",NA,NA,"EtOH",66
+"38","Bernice","Aphmia","5","","miamiana","Bladen Lakes State Forest nr river","NC","","","ddRAD6","C11",NA,NA,"EtOH",70
+"41","Bernice","Aphpic","30","","picea","Lieber Rec.l Area, Covered Bridge Trail","IN","","","ddRAD7","A8",NA,NA,"EtOH",73
+"42","Bernice","Aphpic","32","","picea","Pinery Provincial Park","ON","","","ddRAD8","A1",NA,NA,"EtOH",74
+"43","Bernice","Aphrud","6","","rudis","McIntyre Park","VA","","","ddRAD6","C7",NA,NA,"EtOH",79
+"44","Bernice","Aphrud","14","","picea","Rondeau Provincial Park","ON","","","ddRAD7","C8",NA,NA,"EtOH",75
+"45","Bernice","Aphrud","16","","rudis","Wayne Naional Forest, Wildcat trail","OH","","","ddRAD6","A7",NA,NA,"EtOH",77
+"46","Bernice","Aphrud","45","","rudis","Lieber Rec.l Area, Covered Bridge Trail","IN","","","ddRAD6","B7",NA,NA,"EtOH",78
+"47","Bernice","Aphrud","48","","rudis","Duke Forest Warming Project","NC","","","ddRAD7","D8",NA,NA,"EtOH",76
+"54","Phyt","BARD","3","17-C","picea","Bard College","NY","SHC","7/7/14","ddRAD1","A9",NA,NA,"",NA
+"56","Pop genomics","BARD","5","","fulva","Bard College","NY","SHC","7/10/14","ddRAD1","D2",NA,NA,"",NA
+"59","Phyt","Bard","9","17-B","picea","Red Hook","NY","SHC","8/30/14","ddRAD3","D4",14.7,514.5,"1",38
+"60","Phyt","Bard","10","17-A","picea","Red Hook","NY","SHC","8/30/14","ddRAD3","D5",15.4,539,"1",43
+"64","Phyt","Bear","3","21-C","picea","Allenstown","NH","SHC","8/30/14","ddRAD3","D6",11.5,402.5,"1",32
+"66","Phyt","Bear","5","21-B","picea","Allenstown","NH","","","ddRAD3","B11",NA,NA,"EtOH",5
+"67","Phyt","Bear","6","21-A","picea","Allenstown","NH","","","ddRAD3","C2",NA,NA,"EtOH",8
+"72","Phyt","Brad","1","28-A","picea","Bradford","ME","SHC","8/30/14","ddRAD3","D7",13,455,"1",35
+"77","Phyt","Brad","6","28-B","picea","Bradley Public Lands","ME","","","ddRAD3","B6",NA,NA,"Frozen",44
+"81","Phyt","BRM /BRF","4","16-A","picea","Black Rock Forest","NY","SHC","7/7/14","ddRAD1","A3",NA,NA,"",NA
+"89","Phyt","BRM/BRF","8","16-B","picea","Black Rock Forest","NY","","","ddRAD3","C4",NA,NA,"EtOH",10
+"91","Pop genomics","BRP","1","","picea","Blue Ridge Parkway, high elevation","NC","SHC","8/28/14","ddRAD4","D5",7.54,263.9,"1",23
+"92","Phyt","BRP","2","07-A","picea","Blue Ridge Pkwy, Spruce Pine","NC","","","ddRAD3","A10",NA,NA,"Frozen",36
+"93","Pop genomics","BRP","3","","picea","Blue Ridge Parkway, high elevation","NC","SHC","8/28/14","ddRAD5","B5",6.33,221.55,"1",26
+"95","Pop genomics","BRP","5","","picea","Blue Ridge Parkway, high elevation","NC","","","ddRAD9","B2",NA,NA,"Frozen",55
+"97","Pop genomics","BRP","7","","picea","Blue Ridge Parkway, high elevation","NC","","","ddRAD8","B7",NA,NA,"Frozen",57
+"99","Phyt","BRP","9","07-B","picea","Blue Ridge Parkway","NC","SHC","5/20/14","ddRAD2","A4",NA,NA,"",NA
+"138","ANBE","CJ","2","","fulva","Cabin John Park, Montgomery Co.","MD","","","ddRAD7","C1",NA,NA,"Frozen",5
+"139","ANBE","CJ","3","","rudis","Cabin John Park, Montgomery Co.","MD","SHC","9/7/14","ddRAD4","B7",36.7,1284.5,"1",52
+"140","ANBE","CJ","4","","rudis","Cabin John Park, Montgomery Co.","MD","SHC","10/2/14","ddRAD5","C8",19,665,"1",65
+"141","ANBE","CJ","5","","rudis","Cabin John Park, Montgomery Co.","MD","Skye L","10/9/14","ddRAD8","A4",5.91,206.85,"1",5
+"142","ANBE","CJ","6","","fulva","Cabin John Park, Montgomery Co.","MD","Skye L","10/16/14","ddRAD4","D10",6.24,218.4,"1",78
+"143","ANBE","CJ","7","","rudis","Cabin John Park, Montgomery Co.","MD","SHC & Skye L","10/24/14","ddRAD5","C11",6.82,238.7,"1",89
+"144","ANBE","CJ","8","","fulva","Cabin John Park, Montgomery Co.","MD","","","ddRAD6","D2",NA,NA,"Frozen",13
+"145","ANBE","CJ","9","","rudis","Cabin John Park, Montgomery Co.","MD","Skye L","11/21/14","ddRAD5","B1",22.8,798,"2",6
+"151","Phyt","DSF","4","15-A","picea","Greentown","PA","","","ddRAD3","A1",NA,NA,"Frozen",59
+"153","Phyt","DSF","8","15-C","picea","Delaware State Park","PA","SHC","7/7/14","ddRAD1","A11",NA,NA,"",NA
+"156","Phyt","DSF","11","15-B","picea","Delaware State Park","PA","SHC","7/7/14","ddRAD1","A10",NA,NA,"",NA
+"157","Phyt","DSF","12","15-D","picea","Delaware State Park","NY","","","ddRAD3","C6",NA,NA,"EtOH",12
+"158","ANBE","Duke","1","","rudis","Duke Forest","NC","SHC","10/2/14","ddRAD4","D8",12.5,437.5,"1",62
+"159","ANBE","Duke","2","","rudis","Duke Forest","NC","Skye L","10/9/14","ddRAD4","C9",9.93,347.55,"1",69
+"160","ANBE","Duke","3","","rudis","Duke Forest","NC","","","ddRAD7","B1",NA,NA,"Frozen",16
+"161","ANBE","Duke","4","","rudis","Duke Forest","NC","","","ddRAD7","A6",NA,NA,"Frozen",14
+"162","ANBE","Duke","5","","rudis","Duke Forest","NC","","","ddRAD6","B2",NA,NA,"Frozen",22
+"167","Phyt","DW","2","06-A","rudis","Deans Woods","TN","","","ddRAD3","A8",NA,NA,"Frozen",34
+"168","Phyt","DW ","1","06-B","rudis","Deans Woods","TN","","","ddRAD3","A9",NA,NA,"Frozen",35
+"169","Phyt","EW","4","24-B","picea","East Woods","VT","SHC","8/7/14","ddRAD2","D11",NA,NA,"",NA
+"170","Phyt","EW","9","24-A","picea","East Woods","VT","","","ddRAD3","C5",NA,NA,"EtOH",11
+"173","ANBE","Fbragg","2","","ashmeadi","Fort Bragg","NC","SHC","10/2/14","ddRAD5","A8",23,805,"1",63
+"187","Phyt","GSMNP","4","05-B","picea","Great Smoky Mountains National Park","TN","","","ddRAD3","A7",NA,NA,"Frozen",33
+"188","Phyt","GSMNP","5","05-D","picea","Great Smoky Mountains National Park","TN","SHC","","ddRAD2","A3",NA,NA,"",NA
+"191","Phyt","HF","1","19-A","picea","Harvard Forest","MA","SHC","8/7/14","ddRAD3","D8",12.3,430.5,"1",1
+"200","Pop genomics","HSP","5","","picea","Hickory Run State Park","PA","SHC","7/10/14","ddRAD1","D8",NA,NA,"",NA
+"201","Phyt","HSP","6","13-A","picea","Hickory Run State Park","PA","SHC","7/7/14","ddRAD1","A2",NA,NA,"",NA
+"202","Phyt","HSP","7","13-B","picea","Hickory Run State Park","PA","","","ddRAD3","C3",NA,NA,"EtOH",9
+"207","Phyt","HSP","12","13-D","picea","White Haven","PA","SHC","8/30/14","ddRAD3","D9",10.9,381.5,"1",41
+"208","Phyt","HW","1","02-A","rudis","Hitchcock Woods","SC","","","ddRAD3","A5",NA,NA,"Frozen",31
+"213","Phyt","HW","7","02-C","rudis","Hitchcock Woods","SC","SHC","","ddRAD2","A2",NA,NA,"",NA
+"217","Phyt","IJAMS","1","08-D","rudis","Ijams Nature Center","TN","","","ddRAD3","A2",NA,NA,"Frozen",60
+"221","Phyt","Ijams","6","08-A","rudis","Ijams Nature Center","TN","","","ddRAD3","A11",NA,NA,"Frozen",37
+"224","Phyt","KBH","1","27-B","picea","Kennebec Highlands","ME","","","ddRAD3","C9",NA,NA,"EtOH",86
+"227","Phyt","KBH","4","27-A","picea","Kennebec Highlands","ME","","","ddRAD3","B12",NA,NA,"EtOH",6
+"230","Pop genomics","KBH","8","","picea","Kennebec Highlands","ME","","","ddRAD8","C5",NA,NA,"Frozen",51
+"234","ANBE","KH","4","","ashmeadi","Key Heights","FL","","","ddRAD6","A2",NA,NA,"Frozen",24
+"235","ANBE","KH","5","","ashmeadi","Key Heights","FL","Skye L","11/21/14","ddRAD5","D1",26.6,931,"2",8
+"239","ANBE","Kite","1","","rudis","Kite","GA","Skye L","11/13/14","ddRAD5","B12",10.8,378,"1",96
+"240","ANBE","Kite","2","","fulva","Kite","GA","Skye L","11/21/14","ddRAD4","A2",24,840,"2",9
+"242","ANBE","Kite","4","","fulva","Kite","GA","","","ddRAD7","C7",NA,NA,"Frozen",8
+"243","ANBE","Kite","5","","rudis","Kite","GA","SHC","9/7/14","ddRAD5","D6",52,1820,"1",50
+"244","ANBE","Kite","8","","fulva","Kite","GA","","","ddRAD7","C4",NA,NA,"Frozen",15
+"248","ANBE","Lex","11","","rudis","Lexington","VA","Skye L","11/13/14","ddRAD4","B12",13,455,"1",92
+"250","ANBE","Lex-SHC","4","","rudis","Lexington","VA","","","ddRAD7","A7",NA,NA,"Frozen",6
+"253","ANBE","LPR","2","","ashmeadi","Longleaf Flatwoods Reserve","FL","SHC","9/7/14","ddRAD4","A7",21.5,752.5,"1",51
+"254","ANBE","LPR","4","","ashmeadi","Longleaf Flatwoods Reserve","FL","SHC","10/2/14","","",27.7,969.5,"1",61
+"255","Pop genomics","LVA","1","","fulva","Lynchburg (Black Water Creek park)","VA","SHC","8/28/14","ddRAD5","A5",9.89,346.15,"1",25
+"256","ANBE","LVA","2","","rudis","Lynchburg","VA","SHC","9/7/14","ddRAD5","B6",9.26,324.1,"1",48
+"257","Pop genomics","LVA","3","","rudis","Lynchburg (Black Water Creek park)","VA","SHC","8/28/14","ddRAD5","B4",8.27,289.45,"1",16
+"262","Phyt","LVA","9","10-F","rudis","Lynchburg","VA","SHC","9/7/14","ddRAD3","D12",18.7,654.5,"1",46
+"264","Phyt","LVA","11","10-C","fulva","Lynchburg","VA","","","ddRAD3","B1",NA,NA,"Frozen",39
+"265","Phyt","LVA","12","10-B","rudis","Lynchburg","VA","SHC","8/30/14","ddRAD8","A10",8.32,291.2,"1",42
+"266","Pop genomics","LVA","13","","rudis","Lynchburg (Black Water Creek park)","VA","SHC","8/28/14","ddRAD4","B6",8.62,301.7,"1",30
+"267","ANBE","MA","","","rudis","Mike's house","OH","","","ddRAD7","C6",NA,NA,"Frozen",2
+"272","Phyt","MB","1","26-A","picea","Molly Bog, Stowe","VT","","","ddRAD3","C7",NA,NA,"Frozen",46
+"273","Phyt","MB","2","26-D","picea","Molly Bog, Stowe","VT","","","ddRAD3","C8",NA,NA,"Frozen",45
+"274","Phyt","MB","4","26-C","picea","Molly Bog, Stowe","VT","SHC","9/7/14","ddRAD8","A11",11.2,392,"1",45
+"275","Phyt","MB","6","26-E","picea","Molly Bog","VT","SHC","7/7/14","ddRAD1","A4",NA,NA,"",NA
+"278","Phyt","MM","1","23-A","picea","Silver Lake","NH","","","ddRAD3","B10",NA,NA,"EtOH",4
+"279","Phyt","MM","2","23-B","picea","Silver Lake","NH","SHC","8/30/14","ddRAD8","B10",11.6,406,"1",37
+"280","Phyt","MM","4","23-C","picea","Silver Lake","NH","SHC","8/30/14","ddRAD8","B11",12.8,448,"1",36
+"301","Pop genomics","NSP","2","","picea","Neshamany State Park","PA","SHC","8/6/14","ddRAD2","C12",NA,NA,"",NA
+"302","Pop genomics","NSP","3","","rudis","Neshamany State Park","PA","SHC","8/5/14","ddRAD2","A7",NA,NA,"",NA
+"306","Pop genomics","NSP","7","","fulva","Neshamany State Park","PA","SHC","8/5/14","ddRAD2","A12",NA,NA,"",NA
+"321","ANBE","Pop","1","","picea","PopPop","PA","SHC","9/7/14","ddRAD4","D7",10.5,367.5,"1",54
+"322","ANBE","Pop","2","","picea","PopPop","PA","Skye L","10/2/14","ddRAD4","A8",19.1,668.5,"1",59
+"323","ANBE","Pop","3","","rudis","PopPop","PA","SHC","10/2/14","ddRAD4","B8",16.8,588,"1",60
+"324","Pop genomics","RC","2","","fulva","Raleigh Chambers","NC","SHC","8/28/14","ddRAD5","D5",10.4,364,"1",28
+"325","Pop genomics","RC","6","","rudis","Raleigh Chambers","NC","SHC","8/28/14","ddRAD5","A6",4.8,168,"1",24
+"326","Pop genomics","RC","9","","rudis","Raleigh Chambers","NC","SHC","8/28/14","ddRAD4","C5",11.8,413,"1",22
+"327","Pop genomics","RC","11","","rudis","Raleigh Chambers","NC","SHC","8/28/14","ddRAD4","A5",7.82,273.7,"1",19
+"328","Phyt","RC","12","09-A","rudis","Raleigh Chambers, Duke forest","NC","","","ddRAD3","A12",NA,NA,"Frozen",38
+"329","Pop genomics","RC","13","","rudis","Raleigh Chambers","NC","SHC","8/28/14","ddRAD4","B5",5.89,206.15,"1",21
+"330","Pop genomics","RC","14","","rudis","Raleigh Chambers","NC","SHC","8/28/14","ddRAD4","A6",8.67,303.45,"1",29
+"331","Pop genomics","RC","15","","rudis","Raleigh Chambers","NC","SHC","8/28/14","ddRAD5","C5",7.49,262.15,"1",27
+"332","Pop genomics","RC","16","","rudis","Raleigh Chambers","NC","SHC","8/28/14","ddRAD5","A4",9.67,338.45,"1",15
+"334","Phyt","RW","3","25-A","picea","Rugar Woods, SUNY Plattsburgh","NY","","","ddRAD3","B4",NA,NA,"Frozen",42
+"335","Phyt","RW","5","25-D","picea","Rugar Woods, Plattsburgh","NY","SHC","9/7/14","ddRAD8","C11",13.2,462,"1",44
+"343","Phyt","Seb","8","22-B","picea","Sebago Lake State Park","ME","","","ddRAD3","C1",NA,NA,"EtOH",7
+"344","Phyt","SEB","9","22-C","picea","Sebago Lake State Park","ME","SHC","7/7/14","ddRAD1","A5",NA,NA,"",NA
+"347","ANBE","SHC","1","","fulva","Lexington","VA","Skye L","11/13/14","ddRAD4","A12",12.5,437.5,"1",91
+"348","ANBE","SHC","2","","rudis","Lexington","VA","Skye L","11/21/14","ddRAD4","C1",14.9,521.5,"2",3
+"350","ANBE","SHC","5","","rudis","Lexington","VA","SHC","9/7/14","ddRAD5","C6",13.4,469,"1",49
+"351","ANBE","SHC","6","","rudis","Lexington","VA","SHC","10/2/14","ddRAD5","B8",7.25,253.75,"1",64
+"352","ANBE","SHC","7","","rudis","Lexington","VA","Skye L","10/16/14","ddRAD9","A4",6.29,220.15,"1",77
+"353","ANBE","SHC","8","","rudis","Lexington","VA","SHC & Skye L","10/24/14","ddRAD5","B11",6.74,235.9,"1",88
+"355","ANBE","SHC","10","","rudis","Lexington","VA","Skye L","11/21/14","ddRAD4","D1",15.6,546,"2",4
+"390","ANBE","ted","3","","picea","East Woods","VT","","","ddRAD7","B7",NA,NA,"Frozen",11
+"391","ANBE","ted","4","","picea","East Woods","VT","","","ddRAD7","C5",NA,NA,"Frozen",23
+"392","ANBE","ted","6","","picea","East Woods","VT","Skye L","11/21/14","ddRAD5","A1",25.1,878.5,"2",5
+"397","Pop genomics","UNF","4","","rudis","Uwharrie National Forest","NC","","","ddRAD8","C7",NA,NA,"Frozen",62
+"399","Pop genomics","UNF","7","","miamiana","Uwharrie National Forest","NC","SHC","8/28/14","ddRAD4","C6",9.01,315.35,"1",31
+"400","Phyt","UNF","8","04-A","rudis","Uwharrie National Forest, Troy","NY","","","ddRAD3","A6",NA,NA,"Frozen",32
+"401","Phyt","UNF","9","04-B","rudis","Uwharrie National Forest","NC","SHC","","ddRAD2","A1",NA,NA,"",NA
+"403","Phyt","WP","3","11-C","fulva","William Penn","PA","SHC","8/6/14","ddRAD2","C7",NA,NA,"",NA
+"406","Phyt","WP","6","11-D","rudis","William Penn","PA","SHC","7/9/14","ddRAD1","B12",NA,NA,"",NA
+"408","Phyt","WP","9","11-A","rudis","William Penn","PA","SHC","7/7/14","ddRAD1","A6",NA,NA,"",NA
+"414","ANBE","Yates","2","","rudis","Yates Mill","NC","","","ddRAD7","C2",NA,NA,"Frozen",4
+"415","ANBE","Yates","3","","rudis","Yates Mill","NC","Skye L","10/2/14","ddRAD5","B7",14.6,511,"1",56

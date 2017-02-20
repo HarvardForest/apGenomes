@@ -25,6 +25,16 @@ bibliography: mendeley.bib
   change genomics papers
 
 - Results: 
+
+
+```{r gaemr-table}
+
+
+
+```
+
+
+
 - Conclusion:
 - Take-Home:
 

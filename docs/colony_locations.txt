@@ -1,6 +1,7 @@
 ### From Andrew (UVM)
 species colony.id KO_temp_worker colony_mass_mgs, location, state
 floridana  KH7  42.725 813.6 "Key Hights" FL
+
 ashmeadi  KH6  42.75  955.9(2 tubes) "Key Heights" FL
 picea   Greenfield 41.225  721.7 "Greenfield" MA
 fulva   Kite4  40.45  436.9 "Kite" FL
