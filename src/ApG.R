@@ -2,6 +2,9 @@
 ### MKLau 07February2017
 
 library(gdata)
+library(prism)
+library(ggplot2)
+library(raster)
 
 ### Analysis Outline
 
@@ -11,6 +14,36 @@ sample.info <- read.csv('../docs/colony_locations.csv')
 ant.info <- read.csv('../docs/RADseq_mastersheet_2014.csv')
 ant.info <- ant.info[ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. %in% na.omit(sample.info$spec_epithet),]
 ant.info <- ant.info[!ant.info$State == "",]
+ant.geo <- read.csv('../docs/ant_sites.csv')
+ant.geo[,c("Lon","Lat")] <- apply(ant.geo[,c("Lon","Lat")],2,as.numeric)
+ant.info <- data.frame(ant.info,
+                       ant.geo[match(as.character(ant.info$Locale),ant.geo$Site),c("Lon","Lat")])
+ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. <- 
+    as.character(ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.)
+ant.info <- na.omit(ant.info)
+ant.color <- ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.
+ant.factor <- factor(ant.color)
+
+geo.ctr <- split(ant.info[,c("Lon","Lat")],ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.)
+geo.ctr <- lapply(geo.ctr,function(x) apply(x,2,mean))
+geo.ctr <- do.call(rbind,geo.ctr)
+
+site <- ant.info[1,c("Lon","Lat")]
+get_prism_monthlys(type="tavg", year = 1982:2014, mon = 1, keepZip=F)
+
+to_slice <- grep("_[0-9]{4}[0][1]",ls_prism_data()[,1],value=T)
+to_slice <- grep("tmean",to_slice, value = T)
+p <- prism_slice(as.numeric(site[1,]),to_slice)
+
+p + stat_smooth(method="lm",se=F) + theme_bw() +
+    ggtitle(paste0("Avg Jan Temp",ant.geo[1,1]))
+
+jnorm <- raster(ls_prism_data(absPath=T)[1,2])
+j2013 <- raster(ls_prism_data(absPath=T)[52,2])
+
+
+plot(jnorm)
+points(geo.ctr,pch=19,cex=0.25,col=1:5)
 
 ## cross reference site-collection with location
 phyto.info <- read.xls('/Users/hermes/Dropbox/WarmAntDimensions/Phytotron\ 2013/Phytotron\ colonies\ 2013\ Transcriptome.xlsx',1)
