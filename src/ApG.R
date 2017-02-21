@@ -28,28 +28,24 @@ geo.ctr <- split(ant.info[,c("Lon","Lat")],ant.info$Species..varying.ID.sources.
 geo.ctr <- lapply(geo.ctr,function(x) apply(x,2,mean))
 geo.ctr <- do.call(rbind,geo.ctr)
 
-site <- ant.info[1,c("Lon","Lat")]
-get_prism_monthlys(type="tavg", year = 1982:2014, mon = 1, keepZip=F)
-
-to_slice <- grep("_[0-9]{4}[0][1]",ls_prism_data()[,1],value=T)
-to_slice <- grep("tmean",to_slice, value = T)
-p <- prism_slice(as.numeric(site[1,]),to_slice)
-
-p + stat_smooth(method="lm",se=F) + theme_bw() +
-    ggtitle(paste0("Avg Jan Temp",ant.geo[1,1]))
-
+## site <- ant.info[1,c("Lon","Lat")]
+## get_prism_monthlys(type="tmean", year = 1982:2014, mon = 1, keepZip=F)
+## to_slice <- grep("_[0-9]{4}[0][1]",ls_prism_data()[,1],value=T)
+## to_slice <- grep("tmean",to_slice, value = T)
+## p <- prism_slice(as.numeric(site[1,]),to_slice)
+## p + stat_smooth(method="lm",se=F) + theme_bw() +
+##     ggtitle(paste0("Avg Jan Temp",ant.geo[1,1]))
 jnorm <- raster(ls_prism_data(absPath=T)[1,2])
-j2013 <- raster(ls_prism_data(absPath=T)[52,2])
-
+## j2013 <- raster(ls_prism_data(absPath=T)[52,2])
 
 plot(jnorm)
 points(geo.ctr,pch=19,cex=0.25,col=1:5)
 
+plot(geo.ctr,pch=19,cex=2,col=1:5,xlim = c(-85,-70), ylim = c(30,45))
+text(geo.ctr,labels = rownames(geo.ctr),pos=4)
+
 ## cross reference site-collection with location
 phyto.info <- read.xls('/Users/hermes/Dropbox/WarmAntDimensions/Phytotron\ 2013/Phytotron\ colonies\ 2013\ Transcriptome.xlsx',1)
-
-
-northness <- c(3,3,1,5,2,4,6)
 
 ## gaemr info
 gaemr.tab <- read.csv('../docs/abstract_esa2017/tables/gaemr-table.csv')
@@ -62,7 +58,6 @@ for (i in 1:nrow(gaemr.tab)){
         gaemr.tab$Value[i] <- round((x[1] / x[2]), 7)
     }
 }
-
 gaemr.tab$Value <- as.numeric(gsub(',','',as.character(gaemr.tab$Value)))
 gaemr <- split(gaemr.tab,gaemr.tab$ID)
 gaemr
@@ -73,17 +68,12 @@ for (i in 1:length(gaemr)){
 }
 tmp <- do.call(rbind,gaemr)
 gaemr <- data.frame(id = names(gaemr),tmp)
+sample.info <- data.frame(sample.info,geo.ctr[match(sample.info$spec_epithet,rownames(geo.ctr)),])
+sample.info
+sample.info <- data.frame(seqID = broad.info$Sample.ID[match(sample.info$broadID,broad.info$Collaborator.Sample.ID)] , sample.info)
+gaemr <- gaemr[match(sample.info$seqID,gaemr$id),]
+apg.dat <- data.frame(sample.info,gaemr)
 
-gaemr <- data.frame(gaemr,northness)
-
-par(mfrow = c(3,3))
-for (i in 2:9){
-    plot(gaemr[,c(10,i)])
-    abline(lm(gaemr[,i]~gaemr[,10]))
-}
-
-
-gaemr <- data.frame(gaemr,northness)
 ## Average depth of coverage == "Mean Total Aligned Depth"
 ## Assembly size == "Total Contig Length"
 ## Total genome size ==  "Genome size estimate" "Genome size estimate CN = 1" "Genome size estimate CN > 1"
@@ -104,7 +94,6 @@ gaemr <- data.frame(gaemr,northness)
 radseq.info <- read.xls('~/Dropbox/WarmAntDimensions/Genomics/Data_allocation_mastersheet_12-23-16.xlsx')
 phyt.info <- read.xls('~/Dropbox/WarmAntDimensions/Phytotron 2013/Phytotron colonies 2013 Transcriptome.xlsx',3)
 ## phyt.info <- read.xls('~/Dropbox/WarmAntDimensions/Phytotron 2013/Aphaeno thermal data_field and phyto.xls')
-head(aph.info)
 
 ## geographic information
 
@@ -112,6 +101,28 @@ head(aph.info)
 ## 0. genome quality (from the gaemer results)
 
 ## GC content
+
+## apg.dat
+
+## par(mfrow=c(2,2))
+## plot(Assembly.GC~Lat,data=apg.dat)
+## abline(lm(Assembly.GC~Lat,data=apg.dat))
+## plot(Genome.size.estimate~Lat,data=apg.dat)
+## abline(lm(Genome.size.estimate~Lat,data=apg.dat))
+## plot(Scaffold.N50~Lat,data=apg.dat)
+## abline(lm(Scaffold.N50~Lat,data=apg.dat))
+## plot(SNP.rate....................~Lat,data=apg.dat)
+## abline(lm(SNP.rate....................~Lat,data=apg.dat))
+
+## summary(lm(Assembly.GC~Lat,data=apg.dat))
+## summary(lm(Genome.size.estimate~Lat,data=apg.dat))
+## summary(lm(Contig.N50~Lat,data=apg.dat))
+## summary(lm(Scaffold.N50~Lat,data=apg.dat))
+## summary(lm(SNP.rate....................~Lat,data=apg.dat))
+
+## round(na.omit(apply(apply(apg.dat,2,as.numeric),2,mean)),3)
+
+## apg.dat
 ## percent contaminants
 ## 
 

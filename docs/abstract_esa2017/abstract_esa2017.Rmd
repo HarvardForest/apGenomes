@@ -1,34 +1,86 @@
 ---
-title: "ABSTRACT (ESA 2017): Genomics of the Genus
-Aphaenogaster Reveals Biogeographic Variation in Key Ecosystem and
-Climate Change Traits"
-author: M.K. Lau, A.M. Ellison, B. DiMarco, A.Nguyen, S.H. Cahan,
-N.J. Sanders, R. Dunn, C. Pennick, N.J. Gotelli
+title: "ABSTRACT (ESA 2017): The draft genome of *Aphaenogaster* species
+from across a biogeographic gradient"
+author: M.K. Lau, A.M. Ellison, B. DeMarco, A. Nguyen, S.H. Cahan, N.J. Sanders, R. Dunn, C. Penick, N.J. Gotelli
 output: html_document
-bibliography: mendeley.bib
 ---
 
 
 ### Abstract
 
-- Climate change rates are currently on track with the worst case
-  sencarios, resulting in both terrestrial and aquatic ecosystem responses
-- Ants play important roles in ecosystems, including seed dispersal,
-  which is a know factor in determining the rates of shifts in the
-  range of many plant species
-- Here, we present an analysis of a set of genomic sequences from six
-  species in the genus Aphaenogaster, which is ecologically important
-  in eastern forest ecosystems and has been shown to respond to
-  changes in atmospheric temperature
+**Background/Question/Methods** 
 
-- Analysis: Determine target analyses from recent ant and climate
-  change genomics papers
+Climate change rates are currently on track with the worst case
+scenarios, resulting in both terrestrial and aquatic ecosystem
+responses. Ants play important roles in ecosystems, including seed
+dispersal, which is a known factor in determining the rates of shifts
+in the range of many plant species. Recent field and laboratory
+climate experiments have demonstrated that ant communities in Eastern
+Forest ecosystems are likely to respond to climate change and that
+genetically based traits involved in heat and cold tolerance are
+likely to contribute to community dynamics.  To address the need for
+detailed genetic information about the ant communities of this region,
+we conducted whole genome sequencing of six species of ants from the
+genus *Aphaenogaster*: including, *Aphaenogaster ashmeadi*,
+*A. floridana*, *A. fulva*, *A. miamiana*, *A. picea* and
+*A. rudis*. Whole colonies were collected from field sites in Eastern
+North America. Live individuals from each colony were isolated from
+debris, placed in 50 ml Falcon centrifuge tubes and immediately flash
+frozen in a -80 C freezer. DNA was extracted from each colony and
+sequenced on an Illumina HiSeq 2500 at the Broad Institute (Cambridge,
+MA). Raw sequences were processed to remove chimeric and contaminant
+sequences and assembled using ALLPATHS-LG with an additional
+post-assembly processing using Pilon, which reduced the gaps in
+coverage by 3.1% on average for an average reduction of 3.9 Mb of
+gaps.
 
-- Results: 
 
+**Results/Conclusion** 
+
+The genomes of all six species were successfully sequenced; and both
+raw sequences and the assembled genomes are currently stored at
+Harvard Forest (Petersham, MA). Assemblies and annotation are
+currently being processed for submission to NCBI’s genome
+database. All genomes showed high assembly quality (70% fragments
+mapped). Across all species average shortest contig length at 50% of
+the genome (i.e. *N50*) was 18864 bases; average assembly GC content
+was 38.18%; and average genome size was 471 Mb. Initial analyses using
+linear regression of *N50*, GC content and genome size revealed that
+none of these genomic characters varied significantly with
+latitude. These results provide a useful resource for examining the
+contribution of genetic variation underlying the response of these
+communities to climatic factors. Further work investigating the
+variation in genomic content (e.g. gene ontology or GO terms) and
+mapping of target coding regions from from previous experimental
+transcriptomic work on *Aphaenogaster* and other ants and social
+insects could improve predictions of the response of these ecosystems
+to climate change.
+
+
+
+<!-- ```{r load-data,results = hide,cache=TRUE} -->
+<!-- ### Make sure that ellison_lab is mounted -->
+<!-- source('../src/ApG.R') -->
+
+<!-- ``` -->
 
 ```{r gaemr-table}
 
+par(mfrow=c(2,2))
+plot(Assembly.GC~Lat,data=apg.dat)
+abline(lm(Assembly.GC~Lat,data=apg.dat))
+plot(Genome.size.estimate~Lat,data=apg.dat)
+abline(lm(Genome.size.estimate~Lat,data=apg.dat))
+plot(Scaffold.N50~Lat,data=apg.dat)
+abline(lm(Scaffold.N50~Lat,data=apg.dat))
+plot(SNP.rate....................~Lat,data=apg.dat)
+abline(lm(SNP.rate....................~Lat,data=apg.dat))
+
+summary(lm(Assembly.GC~Lat,data=apg.dat))
+summary(lm(Genome.size.estimate~Lat,data=apg.dat))
+summary(lm(Contig.N50~Lat,data=apg.dat))
+summary(lm(Scaffold.N50~Lat,data=apg.dat))
+summary(lm(SNP.rate....................~Lat,data=apg.dat))
 
 
 ```
