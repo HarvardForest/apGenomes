@@ -1,0 +1,3 @@
+
+## Check memory usage by job
+sacct -o MaxRSS -j JOBID
