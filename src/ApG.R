@@ -10,11 +10,11 @@ library(raster)
 
 ## sample information
 broad.info <- read.xls('/Volumes/ellison_lab/ap_genomes/SSF-1728_KeyforCollaborator.xlsx',2)
-sample.info <- read.csv('../docs/colony_locations.csv')
-ant.info <- read.csv('../docs/RADseq_mastersheet_2014.csv')
+sample.info <- read.csv('../../docs/colony_locations.csv')
+ant.info <- read.csv('../../docs/RADseq_mastersheet_2014.csv')
 ant.info <- ant.info[ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. %in% na.omit(sample.info$spec_epithet),]
 ant.info <- ant.info[!ant.info$State == "",]
-ant.geo <- read.csv('../docs/ant_sites.csv')
+ant.geo <- read.csv('../../docs/ant_sites.csv')
 ant.geo[,c("Lon","Lat")] <- apply(ant.geo[,c("Lon","Lat")],2,as.numeric)
 ant.info <- data.frame(ant.info,
                        ant.geo[match(as.character(ant.info$Locale),ant.geo$Site),c("Lon","Lat")])
