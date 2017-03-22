@@ -10,11 +10,11 @@ library(raster)
 
 ## sample information
 broad.info <- read.xls('/Volumes/ellison_lab/ap_genomes/SSF-1728_KeyforCollaborator.xlsx',2)
-sample.info <- read.csv('../docs/colony_locations.csv')
-ant.info <- read.csv('../docs/RADseq_mastersheet_2014.csv')
+sample.info <- read.csv('../../docs/colony_locations.csv')
+ant.info <- read.csv('../../docs/RADseq_mastersheet_2014.csv')
 ant.info <- ant.info[ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. %in% na.omit(sample.info$spec_epithet),]
 ant.info <- ant.info[!ant.info$State == "",]
-ant.geo <- read.csv('../docs/ant_sites.csv')
+ant.geo <- read.csv('../../docs/ant_sites.csv')
 ant.geo[,c("Lon","Lat")] <- apply(ant.geo[,c("Lon","Lat")],2,as.numeric)
 ant.info <- data.frame(ant.info,
                        ant.geo[match(as.character(ant.info$Locale),ant.geo$Site),c("Lon","Lat")])
@@ -28,45 +28,67 @@ geo.ctr <- split(ant.info[,c("Lon","Lat")],ant.info$Species..varying.ID.sources.
 geo.ctr <- lapply(geo.ctr,function(x) apply(x,2,mean))
 geo.ctr <- do.call(rbind,geo.ctr)
 
-site <- ant.info[1,c("Lon","Lat")]
-get_prism_monthlys(type="tmean", year = 1982:2014, mon = 1, keepZip=F)
-to_slice <- grep("_[0-9]{4}[0][1]",ls_prism_data()[,1],value=T)
-to_slice <- grep("tmean",to_slice, value = T)
+## site <- ant.info[1,c("Lon","Lat")]
+## get_prism_monthlys(type="tmean", year = 1982:2014, mon = 1, keepZip=F)
+## to_slice <- grep("_[0-9]{4}[0][1]",ls_prism_data()[,1],value=T)
+## to_slice <- grep("tmean",to_slice, value = T)
+## p <- prism_slice(as.numeric(site[1,]),to_slice)
+## p + stat_smooth(method="lm",se=F) + theme_bw() +
+##     ggtitle(paste0("Avg Jan Temp",ant.geo[1,1]))
 jnorm <- raster(ls_prism_data(absPath=T)[1,2])
-p <- prism_slice(as.numeric(site[1,]),to_slice)
-p + stat_smooth(method="lm",se=F) + theme_bw() +
-    ggtitle(paste0("Avg Jan Temp",ant.geo[1,1]))
+## j2013 <- raster(ls_prism_data(absPath=T)[52,2])
 
-par(mfrow = c(1,2))
 plot(jnorm)
 points(geo.ctr,pch=19,cex=0.25,col=1:5)
+
 plot(geo.ctr,pch=19,cex=2,col=1:5,xlim = c(-85,-70), ylim = c(30,45))
-text(geo.ctr,labels = rownames(geo.ctr),pos=4,cex=0.75)
-
-### GAEMR Info
-gaemr <- read.table("../docs/filtered_gaemr.csv",header = TRUE, sep = ",")
-rownames(gaemr) <- gaemr[,1]
-gaemr <- gaemr[,-1]
-geo.gaemr <- rbind(geo.ctr,geo.ctr[rownames(geo.ctr) == "rudis",])
-rownames(geo.gaemr)[nrow(geo.gaemr)] <- "rudis"
-gaemr <- gaemr[match(sample.info[,"broadID"],broad.info[,"Collaborator.Sample.ID"]),]
-
-geo.gaemr <- list()
-for (i in 1:nrow(gaemr)){
-    geo.gaemr[[i]] <- geo.ctr[rownames(geo.ctr) == sample.info[i,"spec_epithet"],]
-}
-geo.gaemr <- do.call(rbind,geo.gaemr)
-
-lat.d <- dist(geo.gaemr[,'Lat'])
-gaemr.d <- vegdist(apply(gaemr,2,function(x) x/max(x)))
-gc.d <- dist(matrix(gaemr[,"Assembly.GC."]))
-mantel(lat.d,gc.d)
-mantel(lat.d,gaemr.d)
-plot(lat.d,gaemr.d);abline(lm(gaemr.d~lat.d))
-plot(lat.d,gc.d);abline(lm(gc.d~lat.d))
+text(geo.ctr,labels = rownames(geo.ctr),pos=4)
 
 ## cross reference site-collection with location
 phyto.info <- read.xls('/Users/hermes/Dropbox/WarmAntDimensions/Phytotron\ 2013/Phytotron\ colonies\ 2013\ Transcriptome.xlsx',1)
+
+## gaemr info
+gaemr.tab <- read.csv('../docs/abstract_esa2017/tables/gaemr-table.csv')
+metrics <- c("Mean Total Aligned Depth","Total Contig Length","Genome size estimate","Contig N50","Scaffold N50","Assembly GC","SNP rate                   ~","Snps")
+gaemr.tab <- gaemr.tab[gaemr.tab$Metric %in% metrics,]
+gaemr.tab$Value <- sub(' bases','',gaemr.tab$Value)
+for (i in 1:nrow(gaemr.tab)){
+    if (grepl('SNP rate',gaemr.tab$Metric[i])){
+        x <- as.numeric(strsplit(gaemr.tab$Value[i],'\\/')[[1]])
+        gaemr.tab$Value[i] <- round((x[1] / x[2]), 7)
+    }
+}
+gaemr.tab$Value <- as.numeric(gsub(',','',as.character(gaemr.tab$Value)))
+gaemr <- split(gaemr.tab,gaemr.tab$ID)
+gaemr
+for (i in 1:length(gaemr)){
+    tmp <- as.character(gaemr[[i]]$Metric)
+    gaemr[[i]] <- t(gaemr[[i]][,4])
+    colnames(gaemr[[i]]) <- tmp
+}
+tmp <- do.call(rbind,gaemr)
+gaemr <- data.frame(id = names(gaemr),tmp)
+sample.info <- data.frame(sample.info,geo.ctr[match(sample.info$spec_epithet,rownames(geo.ctr)),])
+sample.info
+sample.info <- data.frame(seqID = broad.info$Sample.ID[match(sample.info$broadID,broad.info$Collaborator.Sample.ID)] , sample.info)
+gaemr <- gaemr[match(sample.info$seqID,gaemr$id),]
+apg.dat <- data.frame(sample.info,gaemr)
+
+## Average depth of coverage == "Mean Total Aligned Depth"
+## Assembly size == "Total Contig Length"
+## Total genome size ==  "Genome size estimate" "Genome size estimate CN = 1" "Genome size estimate CN > 1"
+## Contig N50 == "Contig N50"
+## Scaffold N50 == "Scaffold N50"
+## % genomic G+C base composition == "Assembly GC"
+## SNP == "SNP rate                   ~"      "Snps"
+
+## Haploid chromosome number == ?
+## Protein-coding genes == ?
+## Manually curated genes == ?
+## Genes with EST support == ?
+## miRNA == ?
+## Total repeat content == ?
+
 
 ## phytotron information
 radseq.info <- read.xls('~/Dropbox/WarmAntDimensions/Genomics/Data_allocation_mastersheet_12-23-16.xlsx')

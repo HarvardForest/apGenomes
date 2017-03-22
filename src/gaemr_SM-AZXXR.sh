@@ -8,7 +8,7 @@
 #SBATCH -e gaemr_%j.err      # File to which STDERR will be written
 #SBATCH --mail-type=ALL         # Type of email notification- BEGIN,END,FAIL,ALL
 #SBATCH --mail-user=matthewklau@fas.harvard.edu # Email to which notifications will be sent
-#SBATCH -d=~/storage/ap_genomes/SM-AZXXM
+#SBATCH -d=~/storage/ap_genomes/SM-AZXXR
 
 module load GAEMR/1.0.1-fasrc03
 GAEMR.py -c filtered.contigs.fasta --scaffolds=filtered.scaffolds.fasta --agp=filtered.agp --force
