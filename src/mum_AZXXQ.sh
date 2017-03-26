@@ -4,11 +4,11 @@
 #SBATCH -t 0-02:00              # Runtime in D-HH:MM
 #SBATCH -p general       # Partition to submit to
 #SBATCH --mem-per-cpu=10000               # Memory pool for all cores (see also --mem-per-cpu)
-#SBATCH -o mummer_AJDMW%j.out      # File to which STDOUT will be written
-#SBATCH -e mummer_AJDMW%j.err      # File to which STDERR will be written
+#SBATCH -o mummer_AZXXQ%j.out      # File to which STDOUT will be written
+#SBATCH -e mummer_AZXXQ%j.err      # File to which STDERR will be written
 #SBATCH --mail-type=ALL         # Type of email notification- BEGIN,END,FAIL,ALL
 #SBATCH --mail-user=matthewklau@fas.harvard.edu # Email to which notifications will be sent
 
 cd /n/home10/mklau/storage/ap_genomes/
 module load MUMmer/3.23-fasrc04
-mummer -mum -b -c SM-AJDMW/filtered.scaffolds.fasta SM-AZXXM/filtered.scaffolds.fasta SM-AZXXN/filtered.scaffolds.fasta SM-AZXXO/filtered.scaffolds.fasta SM-AZXXP/filtered.scaffolds.fasta SM-AZXXQ/filtered.scaffolds.fasta SM-AZXXR/filtered.scaffolds.fasta > AJDMW.mums
+mummer -mum -b -c SM-AZXXQ/filtered.scaffolds.fasta SM-AJDMW/filtered.scaffolds.fasta SM-AZXXM/filtered.scaffolds.fasta SM-AZXXN/filtered.scaffolds.fasta SM-AZXXO/filtered.scaffolds.fasta SM-AZXXP/filtered.scaffolds.fasta SM-AZXXR/filtered.scaffolds.fasta > AZXXQ.mums

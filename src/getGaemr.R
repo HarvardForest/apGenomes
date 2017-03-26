@@ -1,6 +1,8 @@
 ### Compile gaemr output
 
-apg.dir <- "/Volumes/ellison_lab/ap_genomes"
+apg.dir <- "~/stoarage/ap_genomes"
+
+
 apg.files <- dir(apg.dir)
 apg.samples <- apg.files[grepl("SM",apg.files)]
 apg.files <- paste0(apg.dir,"/",apg.samples,"/gaemr")
