@@ -11,4 +11,4 @@
 
 cd /n/home10/mklau/storage/ap_genomes/SM-AZXXO
 module load GAEMR/1.0.1-fasrc03
-GAEMR.py --threads=8 -c filtered.contigs.fasta --scaffolds=filtered.scaffolds.fasta --assembler=allPaths --agp=filtered.agp --force 
+GAEMR.py --threads=8 -c filtered.contigs.fasta --scaffolds=filtered.scaffolds.fasta --assembler=allPaths --agp=filtered.agp --force --no_blast
