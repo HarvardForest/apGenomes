@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -n 8                    # Number of cores
 #SBATCH -N 1                    # Ensure that all cores are on one machine
-#SBATCH -t 0-10:00              # Runtime in D-HH:MM
+#SBATCH -t 0-06:00              # Runtime in D-HH:MM
 #SBATCH -p general       # Partition to submit to
 #SBATCH --mem-per-cpu=10000               # Memory pool for all cores (see also --mem-per-cpu)
 #SBATCH -o azxxm_%j.out      # File to which STDOUT will be written
