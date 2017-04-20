@@ -40,10 +40,12 @@ colnames(stats) <- stats.lab
 rownames(stats) <- ap.lab
 
 pdf("apg_stats.pdf")
-par(mfrow = c(3,6))
-apply(stats,2,barplot,las = 2)
+par(mfrow = c(3,6),mar = c(0,0,1,0))
+for(i in 1:ncol(stats)){
+    barplot(stats[,i],
+            main = colnames(stats)[i],
+            yaxt = 'n', xaxt = 'n')
+}
 dev.off()
 system("scp apg_stats.pdf matthewklau@fas.harvard.edu:public_html/")
-
-library(xtable)
-xtable(stats)
+print(xtable::xtable(stats),type = "latex",file = "../docs/manuscript/assembly_stats.tex")
