@@ -1,10 +1,10 @@
 ### Analytical script for the Apaenogaster genome
 ### MKLau 07February2017
-
 library(gdata)
 library(prism)
 library(ggplot2)
 library(raster)
+library(AntWeb)
 
 ### Analysis Outline
 
@@ -44,26 +44,25 @@ plot(geo.ctr,pch=19,cex=2,col=1:5,xlim = c(-85,-70), ylim = c(30,45))
 text(geo.ctr,labels = rownames(geo.ctr),pos=4,cex=0.75)
 
 ### GAEMR Info
-gaemr <- read.table("../docs/filtered_gaemr.csv",header = TRUE, sep = ",")
-rownames(gaemr) <- gaemr[,1]
-gaemr <- gaemr[,-1]
-geo.gaemr <- rbind(geo.ctr,geo.ctr[rownames(geo.ctr) == "rudis",])
-rownames(geo.gaemr)[nrow(geo.gaemr)] <- "rudis"
-gaemr <- gaemr[match(sample.info[,"broadID"],broad.info[,"Collaborator.Sample.ID"]),]
+source('assembly_info.R')
 
-geo.gaemr <- list()
-for (i in 1:nrow(gaemr)){
-    geo.gaemr[[i]] <- geo.ctr[rownames(geo.ctr) == sample.info[i,"spec_epithet"],]
+### Make the table
+print(xtable::xtable(stats),type = "latex",file = "../docs/manuscript/assembly_stats.tex")
+
+### NCBI Genome Info
+source('ncbi_genome_info.R')
+colnames(ncbi.ant)[1] <- 'Organism'
+
+### AntWeb Info
+aw.apg <- list()
+for (i in 1:nrow(sample.info)){
+    aw.info[[i]] <- aw_data(scientific_name = paste('Aphaenogaster',sample.info[i,'spec_epithet']),georeferenced = TRUE)
 }
-geo.gaemr <- do.call(rbind,geo.gaemr)
+aw.ncbi <- list()
+for (i in 1:nrow(sample.info)){
+    aw.ncbi[[i]] <- aw_data(scientific_name = ncbi.ant[i,1],georeferenced = TRUE)
+}
 
-lat.d <- dist(geo.gaemr[,'Lat'])
-gaemr.d <- vegdist(apply(gaemr,2,function(x) x/max(x)))
-gc.d <- dist(matrix(gaemr[,"Assembly.GC."]))
-mantel(lat.d,gc.d)
-mantel(lat.d,gaemr.d)
-plot(lat.d,gaemr.d);abline(lm(gaemr.d~lat.d))
-plot(lat.d,gc.d);abline(lm(gc.d~lat.d))
 
 ## cross reference site-collection with location
 phyto.info <- read.xls('/Users/hermes/Dropbox/WarmAntDimensions/Phytotron\ 2013/Phytotron\ colonies\ 2013\ Transcriptome.xlsx',1)

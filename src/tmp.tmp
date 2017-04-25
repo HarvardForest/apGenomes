@@ -1,0 +1,16 @@
+"Package" "AntWeb"
+"LibPath" "/Library/Frameworks/R.framework/Versions/3.3/Resources/library"
+"Version" "0.7"
+"Priority" NA
+"Depends" "R (>= 3.0.1)"
+"Imports" "rjson, plyr, assertthat, httr, leafletR (>= 0.1-1)"
+"LinkingTo" NA
+"Suggests" NA
+"Enhances" NA
+"License" "CC0"
+"License_is_FOSS" NA
+"License_restricts_use" NA
+"OS_type" NA
+"MD5sum" NA
+"NeedsCompilation" "no"
+"Built" "3.3.0"
