@@ -38,14 +38,11 @@ stats <- t(stats)
 stats <- apply(stats,2,as.numeric)
 colnames(stats) <- stats.lab
 rownames(stats) <- ap.lab
+colnames(stats) <- sub(' ','',colnames(stats))
+colnames(stats) <- sub(' ','',colnames(stats))
+stats.ord <- c("Contigs","MaxContig","MeanContig","ContigN50","ContigN90","TotalContigLength","TotalGapLength","CapturedGaps","MaxGap","MeanGap","GapN50","Scaffolds","MaxScaffold","MeanScaffold","ScaffoldN50","ScaffoldN90","AssemblyGC","TotalScaffoldLength")
 
-pdf("apg_stats.pdf")
-par(mfrow = c(3,6),mar = c(0,0,1,0))
-for(i in 1:ncol(stats)){
-    barplot(stats[,i],
-            main = colnames(stats)[i],
-            yaxt = 'n', xaxt = 'n')
-}
-dev.off()
-system("scp apg_stats.pdf matthewklau@fas.harvard.edu:public_html/")
+all(colnames(stats)[match(stats.ord,colnames(stats))] == stats.ord)
+stats <- stats[,match(stats.ord,colnames(stats))]
+
 print(xtable::xtable(stats),type = "latex",file = "../docs/manuscript/assembly_stats.tex")
