@@ -45,19 +45,3 @@ stats.ord <- c("Contigs","MaxContig","MeanContig","ContigN50","ContigN90","Total
 all(colnames(stats)[match(stats.ord,colnames(stats))] == stats.ord)
 stats <- stats[,match(stats.ord,colnames(stats))]
 
-### Make the table
-print(xtable::xtable(stats),type = "latex",file = "../docs/manuscript/assembly_stats.tex")
-
-### Inter-species comparisons
-size.xlim <- range(as.numeric(c((stats[,'TotalScaffoldLength'] / (1000000)),ncbi.ant[,'Size (Mb)'])))
-size.xlim <- c(floor(size.xlim[1]),ceiling(size.xlim[2]))
-gc.xlim <- range(as.numeric(c(stats[,'AssemblyGC'],ncbi.ant[,'GC%'])))
-gc.xlim <- c(floor(gc.xlim[1]),ceiling(gc.xlim[2]))
-
-par(mfrow = c(1,2))
-plot(density(as.numeric(ncbi.ant[,'Size (Mb)'])),main = '',xlab = 'Size (Mb)',xlim = size.xlim)
-abline(v = stats[,'TotalScaffoldLength'] / (1000000),col = 'grey')
-plot(density(as.numeric(ncbi.ant[,'GC%'])),main = '',xlab = 'GC%',xlim = gc.xlim)
-abline(v = stats[,'AssemblyGC'],col = 'grey')
-
-

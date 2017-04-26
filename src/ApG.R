@@ -29,7 +29,9 @@ geo.ctr <- lapply(geo.ctr,function(x) apply(x,2,mean))
 geo.ctr <- do.call(rbind,geo.ctr)
 
 site <- ant.info[1,c("Lon","Lat")]
-get_prism_monthlys(type="tmean", year = 1982:2014, mon = 1, keepZip=F)
+if (!'jnorm' %in% ls()){
+    get_prism_monthlys(type="tmean", year = 2000:2016, mon = 1, keepZip=F)
+}
 to_slice <- grep("_[0-9]{4}[0][1]",ls_prism_data()[,1],value=T)
 to_slice <- grep("tmean",to_slice, value = T)
 jnorm <- raster(ls_prism_data(absPath=T)[1,2])
@@ -39,15 +41,17 @@ p + stat_smooth(method="lm",se=F) + theme_bw() +
 
 par(mfrow = c(1,2))
 plot(jnorm)
-points(geo.ctr,pch=19,cex=0.25,col=1:5)
-plot(geo.ctr,pch=19,cex=2,col=1:5,xlim = c(-85,-70), ylim = c(30,45))
+points(geo.ctr,pch=19,cex=0.25,col=1:6)
+plot(geo.ctr,pch=19,cex=2,col=1:6,xlim = c(-85,-70), ylim = c(30,45))
 text(geo.ctr,labels = rownames(geo.ctr),pos=4,cex=0.75)
 
 ### GAEMR Info
 source('assembly_info.R')
 
 ### Make the table
-print(xtable::xtable(stats),type = "latex",file = "../docs/manuscript/assembly_stats.tex")
+print(xtable::xtable(stats),
+      type = "latex",
+      file = "../docs/manuscript/assembly_stats.tex")
 
 ### NCBI Genome Info
 source('ncbi_genome_info.R')
@@ -56,13 +60,33 @@ colnames(ncbi.ant)[1] <- 'Organism'
 ### AntWeb Info
 aw.apg <- list()
 for (i in 1:nrow(sample.info)){
-    aw.info[[i]] <- aw_data(scientific_name = paste('Aphaenogaster',sample.info[i,'spec_epithet']),georeferenced = TRUE)
+    aw.apg[[i]] <- aw_data(scientific_name = paste('Aphaenogaster',sample.info[i,'spec_epithet']),georeferenced = TRUE)
 }
 aw.ncbi <- list()
 for (i in 1:nrow(sample.info)){
     aw.ncbi[[i]] <- aw_data(scientific_name = ncbi.ant[i,1],georeferenced = TRUE)
 }
 
+
+### Inter-species comparisons
+size.xlim <- range(as.numeric(c((stats[,'TotalScaffoldLength'] / (1000000)),ncbi.ant[,'Size (Mb)'])))
+size.xlim <- c(floor(size.xlim[1]),ceiling(size.xlim[2]))
+gc.xlim <- range(as.numeric(c(stats[,'AssemblyGC'],ncbi.ant[,'GC%'])))
+gc.xlim <- c(floor(gc.xlim[1]),ceiling(gc.xlim[2]))
+
+
+stats.col <- c(6,6,5,4,3,1,2)
+par(mfrow = c(1,2))
+hist(as.numeric(ncbi.ant[,'Size (Mb)']),main = '',xlab = 'Size (Mb)')
+abline(v = stats[,'TotalScaffoldLength'] / (1000000),col = stats.col)
+hist(as.numeric(ncbi.ant[,'GC%']),main = '',xlab = 'GC%',xlim = gc.xlim)
+abline(v = stats[,'AssemblyGC'],col = stats.col)
+
+
+plot(log(as.numeric(ncbi.ant[,'Genes']))~log(as.numeric(ncbi.ant[,'Size (Mb)'])))
+abline(lm(log(as.numeric(ncbi.ant[,'Genes']))~log(as.numeric(ncbi.ant[,'Size (Mb)']))))
+
+ncbi.ant[ncbi.ant[,'Genes'] == max(ncbi.ant[,'Genes']),]
 
 ## cross reference site-collection with location
 phyto.info <- read.xls('/Users/hermes/Dropbox/WarmAntDimensions/Phytotron\ 2013/Phytotron\ colonies\ 2013\ Transcriptome.xlsx',1)
