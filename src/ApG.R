@@ -1,5 +1,12 @@
 ### Analytical script for the Apaenogaster genome
 ### MKLau 07February2017
+pkg <- c("gdata","prism","ggplot2","raster","AntWeb")
+sapply(pkg,function(pkg) 
+    if(!pkg %in% installed.packages()[,1]){
+        install.packages(pkg)
+    }
+)
+
 library(gdata)
 library(prism)
 library(ggplot2)
@@ -73,7 +80,6 @@ size.xlim <- range(as.numeric(c((stats[,'TotalScaffoldLength'] / (1000000)),ncbi
 size.xlim <- c(floor(size.xlim[1]),ceiling(size.xlim[2]))
 gc.xlim <- range(as.numeric(c(stats[,'AssemblyGC'],ncbi.ant[,'GC%'])))
 gc.xlim <- c(floor(gc.xlim[1]),ceiling(gc.xlim[2]))
-
 
 stats.col <- c(6,6,5,4,3,1,2)
 par(mfrow = c(1,2))
