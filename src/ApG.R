@@ -15,7 +15,21 @@ library(AntWeb)
 
 
 ### Nat History
+
+##############################
+#### Outline of results ######
+##############################
+
+## Get contiminent percentages
+
+## Table. GEAMR output
+## Figure. Sequenced ants and genomes
+## Figure. BLAST hits to other ants 
+## Figure. Genome sizes of other ants
+## Figure. Bivariate plot of climate variables vs Size and GC
+
 source('apg_dataloader.R')
+
 par(mfrow = c(1,2))
 plot(jnorm)
 points(geo.ctr,pch=19,cex=0.25,col=1:6)
