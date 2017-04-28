@@ -30,11 +30,20 @@ library(AntWeb)
 
 source('apg_dataloader.R')
 
-par(mfrow = c(1,2))
-plot(jnorm)
-points(geo.ctr,pch=19,cex=0.25,col=1:6)
-plot(geo.ctr,pch=19,cex=2,col=1:6,xlim = c(-85,-70), ylim = c(30,45))
-text(geo.ctr,labels = rownames(geo.ctr),pos=4,cex=0.75)
+site <- ant.info[1,c("Lon","Lat")]
+
+par(mfrow = c(2,2))
+plot(jmin,main = 'January Minimum')
+plot(jnorm,main = 'January Average')
+plot(julmin,main = 'July Minimum')
+plot(julmin2010,main = 'July Minimum')
+
+par(mfrow = c(1,1))
+plot(jan.min,main = 'January 30 year minimum temp')
+
+plot(jul.max,main = 'July 30 year maximum temp')
+
+### Add sample locations
 
 ### QC, Composition, Structure
 ### GAEMR Info
