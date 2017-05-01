@@ -9,12 +9,14 @@ df <- list()
 for (i in 1:length(apgs)){
     x <- apgs[i]
     tab <- lapply(paste0(x,'/gaemr/table/',
-                         c("assembly.basic_assembly_stats.table.txt",
-                           "assembly.blast_hit_taxonomy.table.txt",
-                           "assembly.contig_detail.table.txt",
-                           "assembly.gap_analysis.table.txt",
-                           "assembly.kmer_copy_number.table.txt",
-                           "assembly.scaffold_detail.table.txt")
+                         c("assembly.basic_assembly_stats.table.txt"
+#,
+#                           "assembly.blast_hit_taxonomy.table.txt",
+#                           "assembly.contig_detail.table.txt",
+#                           "assembly.gap_analysis.table.txt",
+#                           "assembly.kmer_copy_number.table.txt",
+#                           "assembly.scaffold_detail.table.txt"
+                           )
                          ),
                   readLines)
     names(tab) <- unlist(lapply(tab,function(x) x[1]))
@@ -40,8 +42,86 @@ colnames(stats) <- stats.lab
 rownames(stats) <- ap.lab
 colnames(stats) <- sub(' ','',colnames(stats))
 colnames(stats) <- sub(' ','',colnames(stats))
-stats.ord <- c("Contigs","MaxContig","MeanContig","ContigN50","ContigN90","TotalContigLength","TotalGapLength","CapturedGaps","MaxGap","MeanGap","GapN50","Scaffolds","MaxScaffold","MeanScaffold","ScaffoldN50","ScaffoldN90","AssemblyGC","TotalScaffoldLength")
+stats.ord <- c("AssemblyGC","Contigs","MaxContig","MeanContig","ContigN50","ContigN90","TotalContigLength","TotalGapLength","CapturedGaps","MaxGap","MeanGap","GapN50","Scaffolds","MaxScaffold","MeanScaffold","ScaffoldN50","ScaffoldN90","TotalScaffoldLength")
 
 all(colnames(stats)[match(stats.ord,colnames(stats))] == stats.ord)
 stats <- stats[,match(stats.ord,colnames(stats))]
 
+### Repeat for contaminants
+
+df <- list()
+for (i in 1:length(apgs)){
+    tab <- sapply(c(
+        "basic_assembly_stats.table.txt"
+#,
+#        "blast_hit_taxonomy.table.txt",
+#        "contig_detail.table.txt",
+#        "gap_analysis.table.txt",
+#        "kmer_copy_number.table.txt",
+#        "scaffold_detail.table.txt"
+        ),function(x,y) y[grep(x,y)],
+                  y = dir(paste0(apgs[i],'/unfiltered_gaemr/table/'),
+                      full = TRUE))
+    tab <- sapply(tab,readLines)
+    tab <- tab[-1]
+    tab <- do.call(rbind,strsplit(tab,'\\|'))
+    df[[i]] <- tab
+}
+
+uf.stats <- df
+uf.stats <- lapply(uf.stats,function(x) x[-1:-2,])
+uf.stats <- lapply(uf.stats,sub, pattern = " ",replacement = "")
+uf.stats <- lapply(uf.stats,sub, pattern = ",",replacement = "")
+uf.stats <- lapply(uf.stats,sub, pattern = ",",replacement = "")
+uf.stats.lab <- uf.stats[[1]][,1]
+uf.stats <- lapply(uf.stats,function(x) x[,-1])
+uf.stats <- do.call(cbind,uf.stats)
+ap.lab <- substr(apgs,(nchar(apgs[1]) - 4),nchar(apgs))
+colnames(uf.stats) <- ap.lab
+uf.stats <- t(uf.stats)
+uf.stats <- apply(uf.stats,2,as.numeric)
+colnames(uf.stats) <- uf.stats.lab
+rownames(uf.stats) <- ap.lab
+colnames(uf.stats) <- sub(' ','',colnames(uf.stats))
+colnames(uf.stats) <- sub(' ','',colnames(uf.stats))
+uf.stats.ord <- c("Contigs","MaxContig","MeanContig","ContigN50","ContigN90","TotalContigLength","TotalGapLength","CapturedGaps","MaxGap","MeanGap","GapN50","Scaffolds","MaxScaffold","MeanScaffold","ScaffoldN50","ScaffoldN90","AssemblyGC","TotalScaffoldLength")
+
+all(colnames(uf.stats)[match(uf.stats.ord,colnames(uf.stats))] == uf.stats.ord)
+uf.stats <- uf.stats[,match(uf.stats.ord,colnames(uf.stats))]
+
+
+### table for filtered
+table.stats <- stats[,c(
+    grep('GC',colnames(stats)),
+    grep('gap',colnames(stats),ign = TRUE),
+    grep('contig',colnames(stats),ign = TRUE),
+    grep('Scaffold',colnames(stats))
+    )]
+tab.names <- c("AssemblyGC","TotalGapLength","CapturedGaps",
+"Contigs","MaxContig","MeanContig","ContigN50","ContigN90","TotalContigLength",
+"Scaffolds","MaxScaffold","MeanScaffold","ScaffoldN50","ScaffoldN90","TotalScaffoldLength")
+table.stats <- table.stats[,match(tab.names,colnames(table.stats))]
+colnames(table.stats) <- c("Assembly GC","Total Gap Length","Captured Gaps",
+"Contigs","Max Contig","Mean Contig","Contig N50","Contig N90","Total Contig Length",
+"Scaffolds","Max Scaffold","Mean Scaffold","Scaffold N50","Scaffold N90","Total Scaffold Length")
+
+
+### table for UN-filtered
+table.uf.stats <- uf.stats[,c(
+    grep('GC',colnames(uf.stats)),
+    grep('gap',colnames(uf.stats),ign = TRUE),
+    grep('contig',colnames(uf.stats),ign = TRUE),
+    grep('Scaffold',colnames(uf.stats))
+    )]
+tab.names <- c("AssemblyGC","TotalGapLength","CapturedGaps",
+"Contigs","MaxContig","MeanContig","ContigN50","ContigN90","TotalContigLength",
+"Scaffolds","MaxScaffold","MeanScaffold","ScaffoldN50","ScaffoldN90","TotalScaffoldLength")
+table.uf.stats <- table.uf.stats[,match(tab.names,colnames(table.uf.stats))]
+colnames(table.uf.stats) <- c("Assembly GC","Total Gap Length","Captured Gaps",
+"Contigs","Max Contig","Mean Contig","Contig N50","Contig N90","Total Contig Length",
+"Scaffolds","Max Scaffold","Mean Scaffold","Scaffold N50","Scaffold N90","Total Scaffold Length")
+
+dif.stats <- uf.stats - stats
+pc.contam <- (dif.stats[,'TotalScaffoldLength'] / uf.stats[,'TotalScaffoldLength']) * 100
+
+stats <- data.frame('Removed Scaffold' = pc.contam,stats)

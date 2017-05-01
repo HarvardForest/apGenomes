@@ -32,9 +32,31 @@ geo.ctr <- split(ant.info[,c("Lon","Lat")],ant.info$Species..varying.ID.sources.
 geo.ctr <- lapply(geo.ctr,function(x) apply(x,2,mean))
 geo.ctr <- do.call(rbind,geo.ctr)
 
-### 
-geo.apg <- 
+ap.ctr <- do.call(rbind,list(rud1 = geo.ctr[6,],
+                             rud6 = geo.ctr[6,],
+                             pic1 = geo.ctr[5,],
+                             mia1 = geo.ctr[4,],
+                             ful1 = geo.ctr[3,],
+                             ash1 = geo.ctr[1,],
+                             flo1 = geo.ctr[2,]))
 
+### apg sample geographic info
+### arudis and picea are from google earth
+### All other coords are from ant_sites.csv
+apg.geo  <- do.call(rbind,list('arudis1' = c(-78.9830464,36.0200847),
+                 'rud6' = c(-78.9830464,36.0200847),
+                 'pic1' = c(-72.5847494,42.6004513),
+                 'mia1' = c(-82.301773,29.657955),
+                 'ful1' = c(-82.514575,32.692384),
+                 'ash1' = c(-82.031176,29.785325),
+                 'flo1' = c(-82.031176,29.785325)))
+colnames(apg.geo) <- c('Longitude','Latitude')
+apg.geo.labs <- paste0(substr(rownames(apg.geo),1,3),
+                       substr(rownames(apg.geo),nchar(rownames(apg.geo)),
+                              nchar(rownames(apg.geo))))
+apg.geo.labs[1] <- 'rud1'
+
+### 
 options(prism.path = "~/prismtmp")
 if (!'jnorm' %in% ls()){
     get_prism_monthlys(type="tmin", year = 2000:2016, mon = 7, keepZip=F)
@@ -46,14 +68,15 @@ abs.path <- ls_prism_data(absPath = T)[,2]
 jul.max <- grep('tmax_30yr_normal',abs.path,value = TRUE)
 jul.max <- grep('07_bil',jul.max,value = TRUE)
 jul.max <- raster(jul.max)
-
 jan.min <- grep('tmin_30yr_normal',abs.path,value = TRUE)
 jan.min <- grep('01_bil',jan.min,value = TRUE)
 jan.min <- raster(jan.min)
 
-
-
-
+### crop rasters
+### extent: -125.0208, -66.47917, 24.0625, 49.9375  (xmin, xmax, ymin, ymax)
+crop.ext <- extent(-85,-65,20,49)
+jan.min <- crop(jan.min,crop.ext)
+jul.max <- crop(jul.max,crop.ext)
 
 
 

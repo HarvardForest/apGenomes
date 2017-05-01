@@ -20,7 +20,8 @@ library(AntWeb)
 #### Outline of results ######
 ##############################
 
-## Get contiminent percentages
+## Get contaminent percentages
+
 
 ## Table. GEAMR output
 ## Figure. Sequenced ants and genomes
@@ -30,16 +31,10 @@ library(AntWeb)
 
 source('apg_dataloader.R')
 
-site <- ant.info[1,c("Lon","Lat")]
-
-par(mfrow = c(2,2))
-plot(jmin,main = 'January Minimum')
-plot(jnorm,main = 'January Average')
-plot(julmin,main = 'July Minimum')
-plot(julmin2010,main = 'July Minimum')
-
-par(mfrow = c(1,1))
-plot(jan.min,main = 'January 30 year minimum temp')
+pdf('../docs/manuscript/map_janmin.pdf',width = 5,height = )
+plot(jan.min,main = 'January 30 Year Minimum (C)',xlim = c(-85,-66),asp = 1.25)
+points(jitter(apg.geo,10),cex = 1.45,pch = 1)
+dev.off()
 
 plot(jul.max,main = 'July 30 year maximum temp')
 
@@ -48,20 +43,8 @@ plot(jul.max,main = 'July 30 year maximum temp')
 ### QC, Composition, Structure
 ### GAEMR Info
 if (!'stats' %in% ls()){source('assembly_info.R')}
-table.stats <- stats[,c(
-    grep('GC',colnames(stats)),
-    grep('gap',colnames(stats),ign = TRUE),
-    grep('contig',colnames(stats),ign = TRUE),
-    grep('Scaffold',colnames(stats))
-    )]
-tab.names <- c("AssemblyGC","TotalGapLength","CapturedGaps",
-"Contigs","MaxContig","MeanContig","ContigN50","ContigN90","TotalContigLength",
-"Scaffolds","MaxScaffold","MeanScaffold","ScaffoldN50","ScaffoldN90","TotalScaffoldLength")
-table.stats <- table.stats[,match(tab.names,colnames(table.stats))]
-colnames(table.stats) <- c("Assembly GC","Total Gap Length","Captured Gaps",
-"Contigs","Max Contig","Mean Contig","Contig N50","Contig N90","Total Contig Length",
-"Scaffolds","Max Scaffold","Mean Scaffold","Scaffold N50","Scaffold N90","Total Scaffold Length")
 
+(table.stats - table.uf.stats)[,'Total Scaffold Length']
 print(xtable::xtable(table.stats),
       type = "latex",
       file = "../docs/manuscript/assembly_stats.tex")
@@ -88,6 +71,24 @@ abline(v = log(stats[,'TotalScaffoldLength'] / (1000000)),col = stats.col)
 ## 1. Heat stress response genes @Stanton-Geddes2016
 ## 2. Cold tolerance genes @Stanton-Geddes2016
 ## 3. Map transcripts onto genome and look for inter-specific variance @Stanton-Geddes2016
+
+cor.test(stats[,'Removed.Scaffold'],apg.geo[,'Latitude'])
+cor.test(stats[,'TotalScaffoldLength'],apg.geo[,'Latitude'])
+cor.test(stats[,'Removed.Scaffold'],ap.ctr[,'Lat'])
+cor.test(stats[,'TotalScaffoldLength'],ap.ctr[,'Lat'])
+
+
+par(mfrow = c(2,2))
+plot(stats[,'Removed.Scaffold']~apg.geo[,'Latitude'],
+     xlab = 'Latitude',ylab = 'Contaminant Scaffold')
+abline(lm(stats[,'Removed.Scaffold']~apg.geo[,'Latitude']))
+plot(stats[,'TotalScaffoldLength']~apg.geo[,'Latitude'],
+     xlab = 'Latitude',ylab = 'Total Scaffold Length')
+plot(stats[,'Removed.Scaffold']~ap.ctr[,'Lat'],
+     xlab = 'Lat',ylab = 'Contaminant Scaffold')
+plot(stats[,'TotalScaffoldLength']~ap.ctr[,'Lat'],
+     xlab = 'Latitude',ylab = 'Total Scaffold Length')
+
 
 ## cross reference site-collection with location
 phyto.info <- read.xls('/Users/hermes/Dropbox/WarmAntDimensions/Phytotron\ 2013/Phytotron\ colonies\ 2013\ Transcriptome.xlsx',1)
