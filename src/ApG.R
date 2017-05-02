@@ -90,6 +90,7 @@ plot(stats[,'TotalScaffoldLength']~ap.ctr[,'Lat'],
      xlab = 'Latitude',ylab = 'Total Scaffold Length')
 
 
+
 ## cross reference site-collection with location
 phyto.info <- read.xls('/Users/hermes/Dropbox/WarmAntDimensions/Phytotron\ 2013/Phytotron\ colonies\ 2013\ Transcriptome.xlsx',1)
 
