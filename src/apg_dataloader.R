@@ -11,6 +11,8 @@ library(ggplot2)
 library(raster)
 library(AntWeb)
 
+get.prism <- FALSE
+
 ## sample information
 broad.info <- read.xls('/Volumes/ellison_lab/ap_genomes/SSF-1728_KeyforCollaborator.xlsx',2)
 sample.info <- read.csv('../docs/colony_locations.csv')
@@ -57,31 +59,27 @@ apg.geo.labs <- paste0(substr(rownames(apg.geo),1,3),
 apg.geo.labs[1] <- 'rud1'
 
 ### 
-options(prism.path = "~/prismtmp")
-if (!'jnorm' %in% ls()){
-    get_prism_monthlys(type="tmin", year = 2000:2016, mon = 7, keepZip=F)
-    get_prism_normals(type = "tmin",mon = 1,res = '4km',keepZip = F)
-    get_prism_normals(type = "tmax",mon = 7,res = '4km',keepZip = F)
-}
-abs.path <- ls_prism_data(absPath = T)[,2]
-
-jul.max <- grep('tmax_30yr_normal',abs.path,value = TRUE)
-jul.max <- grep('07_bil',jul.max,value = TRUE)
-jul.max <- raster(jul.max)
-jan.min <- grep('tmin_30yr_normal',abs.path,value = TRUE)
-jan.min <- grep('01_bil',jan.min,value = TRUE)
-jan.min <- raster(jan.min)
+if (get.prism){
+    options(prism.path = "~/prismtmp")
+    if (!'jnorm' %in% ls()){
+        get_prism_monthlys(type="tmin", year = 2000:2016, mon = 7, keepZip=F)
+        get_prism_normals(type = "tmin",mon = 1,res = '4km',keepZip = F)
+        get_prism_normals(type = "tmax",mon = 7,res = '4km',keepZip = F)
+    }
+    abs.path <- ls_prism_data(absPath = T)[,2]
+    
+    jul.max <- grep('tmax_30yr_normal',abs.path,value = TRUE)
+    jul.max <- grep('07_bil',jul.max,value = TRUE)
+    jul.max <- raster(jul.max)
+    jan.min <- grep('tmin_30yr_normal',abs.path,value = TRUE)
+    jan.min <- grep('01_bil',jan.min,value = TRUE)
+    jan.min <- raster(jan.min)
 
 ### crop rasters
 ### extent: -125.0208, -66.47917, 24.0625, 49.9375  (xmin, xmax, ymin, ymax)
-crop.ext <- extent(-85,-65,20,49)
-jan.min <- crop(jan.min,crop.ext)
-jul.max <- crop(jul.max,crop.ext)
-
-
-
-
-
-
+    crop.ext <- extent(-85,-65,20,49)
+    jan.min <- crop(jan.min,crop.ext)
+    jul.max <- crop(jul.max,crop.ext)
+}
 
 

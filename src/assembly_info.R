@@ -124,4 +124,24 @@ colnames(table.uf.stats) <- c("Assembly GC","Total Gap Length","Captured Gaps",
 dif.stats <- uf.stats - stats
 pc.contam <- (dif.stats[,'TotalScaffoldLength'] / uf.stats[,'TotalScaffoldLength']) * 100
 
-stats <- data.frame('Removed Scaffold' = pc.contam,stats)
+### Add contaimant and species columns
+table.stats <- data.frame('Removed Scaffold' = pc.contam,stats)
+table.stats <- data.frame('Species' = paste('A.',sample.info[match(broad.info[,'Collaborator.Sample.ID'],sample.info[,'broadID']),'spec_epithet']),table.stats)
+
+### Remove rownames
+rownames(table.stats) <- NULL
+
+### Remove N90
+table.stats <- table.stats[,!grepl('N90',colnames(table.stats))]
+table.stats <- table.stats[,!grepl('MaxScaffold',colnames(table.stats))]
+table.stats <- table.stats[,!grepl('MaxContig',colnames(table.stats))]
+table.stats <- table.stats[,!grepl('MeanGap',colnames(table.stats))]
+
+### Formatting
+
+apg.xtab <- xtable::xtable(table.stats,
+                     align = c('>{\\itshape}l',
+                         rep('r',ncol(table.stats))))
+
+names(apg.xtab) <- c("Assembly GC","Total Gap Length","Captured Gaps",
+"Contigs","Max Contig","Mean Contig","Contig N50","Contig N90","Total Contig Length", "Scaffolds","Max Scaffold","Mean Scaffold","Scaffold N50","Scaffold N90","Total Scaffold Length")
