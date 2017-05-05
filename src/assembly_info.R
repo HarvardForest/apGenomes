@@ -136,12 +136,10 @@ table.stats <- table.stats[,!grepl('N90',colnames(table.stats))]
 table.stats <- table.stats[,!grepl('MaxScaffold',colnames(table.stats))]
 table.stats <- table.stats[,!grepl('MaxContig',colnames(table.stats))]
 table.stats <- table.stats[,!grepl('MeanGap',colnames(table.stats))]
+table.stats <- table.stats[,!grepl('GapN50',colnames(table.stats))]
 
 ### Formatting
-
 apg.xtab <- xtable::xtable(table.stats,
                      align = c('>{\\itshape}l',
                          rep('r',ncol(table.stats))))
 
-names(apg.xtab) <- c("Assembly GC","Total Gap Length","Captured Gaps",
-"Contigs","Max Contig","Mean Contig","Contig N50","Contig N90","Total Contig Length", "Scaffolds","Max Scaffold","Mean Scaffold","Scaffold N50","Scaffold N90","Total Scaffold Length")
