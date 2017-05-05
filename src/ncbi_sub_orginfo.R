@@ -7,7 +7,7 @@ temp.cols <- colnames(temp)
 temp <- do.call(rbind,lapply(1:nrow(sample.info),function(times) rep(x = '',times = length(temp.cols))))
 colnames(temp) <- temp.cols
 lat.lon <- apg.geo[match(sample.info[,'broadID'],rownames(apg.geo)),2:1]
-orginfo <- data.frame(X.sample_name = sample.info[,'broadID'],
+orginfo <- data.frame(X.sample_name = gsub('SM-','',broad.info[,1]),
                       X.organism = paste('Aphaenogaster',sample.info[,'spec_epithet']),
                       X.collection_date = rep('25-Sep-2015',nrow(temp)),
                       lat_lon = paste(lat.lon[,1],lat.lon[,2],sep = '_'),
@@ -27,7 +27,7 @@ orginfo <- data.frame(X.sample_name = sample.info[,'broadID'],
 )
 
 ### Rename samples
-orginfo[,'X.sample_name'] <- paste(paste('Aphaenogaster',sample.info[,'spec_epithet'],sep = '_'),orginfo[,'replicate'],sep = '_')
+### orginfo[,'X.sample_name'] <- paste(paste('Aphaenogaster',sample.info[,'spec_epithet'],sep = '_'),orginfo[,'replicate'],sep = '_')
 
 ### Adjust formatting for export
 orginfo <- data.frame(orginfo,temp[,!colnames(temp) %in% colnames(orginfo)])
@@ -37,7 +37,7 @@ orginfo <- apply(orginfo,2,as.character)
 ### Fix columns
 all(colnames(orginfo) == colnames(temp))
 orginfo <- rbind(colnames(orginfo),orginfo)
-orginfo <- apply(orginfo,2,gsub,pattern = 'X.',replacement = '*')
+orginfo[1,] <- sapply(orginfo[1,],gsub,pattern = 'X.',replacement = '*')
 
 ### Export
 write.table(orginfo,file = '../docs/apg_orginfo.tsv',row.names = FALSE,sep = '\t',col.names = FALSE)
@@ -62,7 +62,7 @@ batch.sub[,"sequencing_technology"] <- rep('Illumina Hi-Seq 2500',nrow(batch.sub
 batch.sub[,"reference_genome"] <- rep('not applicable',nrow(batch.sub))
 batch.sub[,"update_for"] <- rep('not applicable',nrow(batch.sub))
 batch.sub[,"bacteria_available_from"] <- rep('not applicable',nrow(batch.sub))
-batch.sub[,"filename"] <- paste0(batch.sub[,"assembly_name"],'.tar.gz')
+batch.sub[,"filename"] <- paste0(batch.sub[,"assembly_name"],'.filtered.scaffolds.fasta')
 ### Write to file
 write.table(batch.sub,file = '../docs/apg_batchsub.tsv',row.names = FALSE,sep = '\t',col.names = TRUE)
 
