@@ -10,11 +10,12 @@ library(prism)
 library(ggplot2)
 library(raster)
 library(AntWeb)
+library(geosphere)
 
 get.prism <- FALSE
 
 ## sample information
-broad.info <- read.xls('/Volumes/ellison_lab/ap_genomes/SSF-1728_KeyforCollaborator.xlsx',2)
+broad.info <- read.xls('~/storage/ap_genomes/SSF-1728_KeyforCollaborator.xlsx',2)
 sample.info <- read.csv('../docs/colony_locations.csv')
 ant.info <- read.csv('../docs/RADseq_mastersheet_2014.csv')
 ant.info <- ant.info[ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. %in% na.omit(sample.info$spec_epithet),]
@@ -28,6 +29,8 @@ ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. <-
 ant.info <- na.omit(ant.info)
 ant.color <- ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.
 ant.factor <- factor(ant.color)
+
+
 
 ## geographic information
 geo.ctr <- split(ant.info[,c("Lon","Lat")],ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.)
@@ -57,6 +60,17 @@ apg.geo.labs <- paste0(substr(rownames(apg.geo),1,3),
                        substr(rownames(apg.geo),nchar(rownames(apg.geo)),
                               nchar(rownames(apg.geo))))
 apg.geo.labs[1] <- 'rud1'
+
+### geographic distance for samples
+apg.gd <- array(NA,dim = rep(nrow(apg.geo),2))
+rownames(apg.gd) <- colnames(apg.gd) <- rownames(apg.geo)
+for (i in 1:nrow(apg.geo)){
+    for (j in 1:nrow(apg.geo)){
+        apg.gd[i,j] <- distm (apg.geo[i,], apg.geo[j,], 
+                               fun = distHaversine)
+    }
+}
+
 
 ### 
 if (get.prism){

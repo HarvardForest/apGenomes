@@ -3,7 +3,6 @@
 ### Collect gaemr data for making tables and figures
 apgs <- dir('~/storage/ap_genomes',full = TRUE)
 apgs <- apgs[grepl('SM-',apgs)]
-
 ### overview
 df <- list()
 for (i in 1:length(apgs)){
@@ -25,7 +24,6 @@ for (i in 1:length(apgs)){
         do.call(rbind,strsplit(x,split = "\\|"))
                       )
 }
-
 stats <- lapply(df,function(x) x[[1]])
 stats <- lapply(stats,function(x) x[-1:-2,])
 stats <- lapply(stats,sub, pattern = " ",replacement = "")
@@ -43,12 +41,9 @@ rownames(stats) <- ap.lab
 colnames(stats) <- sub(' ','',colnames(stats))
 colnames(stats) <- sub(' ','',colnames(stats))
 stats.ord <- c("AssemblyGC","Contigs","MaxContig","MeanContig","ContigN50","ContigN90","TotalContigLength","TotalGapLength","CapturedGaps","MaxGap","MeanGap","GapN50","Scaffolds","MaxScaffold","MeanScaffold","ScaffoldN50","ScaffoldN90","TotalScaffoldLength")
-
 all(colnames(stats)[match(stats.ord,colnames(stats))] == stats.ord)
 stats <- stats[,match(stats.ord,colnames(stats))]
-
 ### Repeat for contaminants
-
 df <- list()
 for (i in 1:length(apgs)){
     tab <- sapply(c(
@@ -67,7 +62,6 @@ for (i in 1:length(apgs)){
     tab <- do.call(rbind,strsplit(tab,'\\|'))
     df[[i]] <- tab
 }
-
 uf.stats <- df
 uf.stats <- lapply(uf.stats,function(x) x[-1:-2,])
 uf.stats <- lapply(uf.stats,sub, pattern = " ",replacement = "")
@@ -85,12 +79,10 @@ rownames(uf.stats) <- ap.lab
 colnames(uf.stats) <- sub(' ','',colnames(uf.stats))
 colnames(uf.stats) <- sub(' ','',colnames(uf.stats))
 uf.stats.ord <- c("Contigs","MaxContig","MeanContig","ContigN50","ContigN90","TotalContigLength","TotalGapLength","CapturedGaps","MaxGap","MeanGap","GapN50","Scaffolds","MaxScaffold","MeanScaffold","ScaffoldN50","ScaffoldN90","AssemblyGC","TotalScaffoldLength")
-
 all(colnames(uf.stats)[match(uf.stats.ord,colnames(uf.stats))] == uf.stats.ord)
 uf.stats <- uf.stats[,match(uf.stats.ord,colnames(uf.stats))]
-
-
 ### table for filtered
+
 table.stats <- stats[,c(
     grep('GC',colnames(stats)),
     grep('gap',colnames(stats),ign = TRUE),
@@ -104,8 +96,6 @@ table.stats <- table.stats[,match(tab.names,colnames(table.stats))]
 colnames(table.stats) <- c("Assembly GC","Total Gap Length","Captured Gaps",
 "Contigs","Max Contig","Mean Contig","Contig N50","Contig N90","Total Contig Length",
 "Scaffolds","Max Scaffold","Mean Scaffold","Scaffold N50","Scaffold N90","Total Scaffold Length")
-
-
 ### table for UN-filtered
 table.uf.stats <- uf.stats[,c(
     grep('GC',colnames(uf.stats)),
@@ -120,26 +110,25 @@ table.uf.stats <- table.uf.stats[,match(tab.names,colnames(table.uf.stats))]
 colnames(table.uf.stats) <- c("Assembly GC","Total Gap Length","Captured Gaps",
 "Contigs","Max Contig","Mean Contig","Contig N50","Contig N90","Total Contig Length",
 "Scaffolds","Max Scaffold","Mean Scaffold","Scaffold N50","Scaffold N90","Total Scaffold Length")
-
 dif.stats <- uf.stats - stats
 pc.contam <- (dif.stats[,'TotalScaffoldLength'] / uf.stats[,'TotalScaffoldLength']) * 100
-
+pc.coverage <- (1 - (uf.stats[,'TotalGapLength'] / uf.stats[,'TotalScaffoldLength'])) * 100
 ### Add contaimant and species columns
-table.stats <- data.frame('Removed Scaffold' = pc.contam,stats)
+table.stats <- data.frame('PercentRemoved' = pc.contam,stats)
+### Convert to Mb
+table.stats[,grepl('Total',colnames(table.stats))] <- table.stats[,grepl('Total',colnames(table.stats))] / 1000000
+### ROund
+table.stats <- round(table.stats,2)
 table.stats <- data.frame('Species' = paste('A.',sample.info[match(broad.info[,'Collaborator.Sample.ID'],sample.info[,'broadID']),'spec_epithet']),table.stats)
-
-### Remove rownames
-rownames(table.stats) <- NULL
-
 ### Remove N90
 table.stats <- table.stats[,!grepl('N90',colnames(table.stats))]
 table.stats <- table.stats[,!grepl('MaxScaffold',colnames(table.stats))]
 table.stats <- table.stats[,!grepl('MaxContig',colnames(table.stats))]
 table.stats <- table.stats[,!grepl('MeanGap',colnames(table.stats))]
 table.stats <- table.stats[,!grepl('GapN50',colnames(table.stats))]
-
-### Formatting
-apg.xtab <- xtable::xtable(table.stats,
-                     align = c('>{\\itshape}l',
-                         rep('r',ncol(table.stats))))
-
+table.stats <- table.stats[,!grepl('Mean',colnames(table.stats))]
+## Add percent coverage
+table.stats <- data.frame(Species = table.stats[,1],
+                          'TotalScaffoldLength' = table.stats[,ncol(table.stats)],
+                          'PercentCoverage' = pc.coverage,
+                          table.stats[,((ncol(table.stats)-1):2)])
