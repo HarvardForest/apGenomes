@@ -5,6 +5,15 @@ library(magrittr)
 
 get.broad <- function(x = 'sample id (Broad Inst)',path = '/Volumes/ellison_lab/ap_genomes/'){
     print(x)
+    print('assembly info')
+    assembly.loc <- dir(paste0(path,x,'/gaemr/table'), full = T)[grep(
+        'assembly.basic_assembly_stats.table.txt',
+        dir(paste0(path,x,'/gaemr/table'))
+        )]
+    assembly.lines <- readLines(assembly.loc)
+    assembly.lines <- gsub('\\,','',assembly.lines)
+    assembly.lines <- gsub('\\ ','',assembly.lines)
+    assembly.tab <- do.call(rbind,strsplit(assembly.lines[-1],split = "\\|"))
     print('blasts')
     blast.loc <- dir(paste0(path,x,'/gaemr/table'), full = T)[grep(
         'blast_hit_taxonomy.table.txt',
@@ -26,7 +35,7 @@ get.broad <- function(x = 'sample id (Broad Inst)',path = '/Volumes/ellison_lab/
     pct.ants <- c('Percent.Ants',(sum(ant.hits) / length(ant.hits)) * 100)
     print('exporting')
     out <- list(
-        assembly.tab$'Basic Assembly Stats',
+        assembly.tab,
         data.frame(t(pct.ants))
         )
     for (i in 1:length(out)){
