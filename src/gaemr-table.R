@@ -2,11 +2,10 @@
 ### MKLau 20February2017
 
 library(XML)
-source('helpers.R')
-library(gdata)
+source('src/helpers.R')
 
 ## organize the results from broad
-broad.info <- read.xls('data/storage/ap_genomes/SSF-1728_KeyforCollaborator.xlsx',2)
+broad.info <- read.csv('data/storage/ap_genomes/broad_sample_key.csv')
 gaemr.tab <- lapply(as.character(broad.info$Sample.ID),get.broad,'data/storage/ap_genomes/')
 out <- do.call(rbind,gaemr.tab)
 write.csv('data/gaemr-table.csv')

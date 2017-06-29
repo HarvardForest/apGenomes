@@ -5,21 +5,6 @@ library(magrittr)
 
 get.broad <- function(x = 'sample id (Broad Inst)',path = '/Volumes/ellison_lab/ap_genomes/'){
     print(x)
-    ## Grab info from PILON
-    print('assembly')
-    assembly.tab <- readHTMLTable(
-        paste0(path,x,'/gaemr/html/assembly_stats.html')
-               )
-    print('pilon')
-    if (any(grepl('PILON',dir(paste0(path,x,'/gaemr/html/'))))){
-        pilon.tab <- readHTMLTable(
-            paste0(path,x,'/gaemr/html/PILON.html')
-            ) 
-    }else{print('PILON.html missing.')}
-    print('allpaths')
-    allpaths.tab <- readHTMLTable(
-        paste0(path,x,'/gaemr/html/GAEMR-ALLPATHS.html')
-        )
     print('blasts')
     blast.loc <- dir(paste0(path,x,'/gaemr/table'), full = T)[grep(
         'blast_hit_taxonomy.table.txt',
@@ -42,8 +27,6 @@ get.broad <- function(x = 'sample id (Broad Inst)',path = '/Volumes/ellison_lab/
     print('exporting')
     out <- list(
         assembly.tab$'Basic Assembly Stats',
-        pilon.tab$'Pilon Metrics',
-        allpaths.tab$'Kmer Stats Table',
         data.frame(t(pct.ants))
         )
     for (i in 1:length(out)){
