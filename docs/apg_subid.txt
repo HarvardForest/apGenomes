@@ -1,0 +1,10 @@
+SUBID      BioProject  BioSample    Organism                UID
+-------------------------------------------------------------------
+SUB2631470 PRJNA385595 SAMN06892352 Aphaenogaster rudis     apg0007
+SUB2631470 PRJNA385595 SAMN06892351 Aphaenogaster rudis     apg0006
+SUB2631470 PRJNA385595 SAMN06892350 Aphaenogaster picea     apg0005
+SUB2631470 PRJNA385595 SAMN06892349 Aphaenogaster miamiana  apg0004
+SUB2631470 PRJNA385595 SAMN06892348 Aphaenogaster fulva     apg0003
+SUB2631470 PRJNA385595 SAMN06892347 Aphaenogaster floridana apg0002
+SUB2631470 PRJNA385595 SAMN06892346 Aphaenogaster ashmeadi  apg0001
+

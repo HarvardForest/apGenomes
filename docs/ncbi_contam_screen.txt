@@ -1,0 +1,277 @@
+Contamination.txt_AJDMW_filtered_scaffolds.txt
+SUBID     	BioProject	BioSample	Organism
+--------------------------------------------------------
+SUB2631470	PRJNA385595		Aphaenogaster rudis
+
+[] We ran your sequences through our Contamination Screen. The screen found 
+contigs that need to be trimmed and/or excluded. Please adjust the 
+sequences appropriately and then resubmit your sequences. After you remove the 
+contamination, trim any Ns at the ends of the sequence and remove any sequences
+that are shorter than 200 nt and not part of a multi-component scaffold.
+
+Note that hits in eukaryotic genomes to mitochondrial sequences can be ignored 
+when specific criteria are met. Those criteria are explained below.
+
+Note that mismatches between the name of the adaptor/primer identified in the screen 
+and the sequencing technology used to generate the sequencing data should not be used 
+to discount the validity of the screen results as the adaptors/primers of many 
+different sequencing platforms share sequence similarity.
+
+
+[] Some of the sequences hit primers or adaptors used in Illumina or 
+454 or other sequencing strategies or platforms.  Primers at the 
+end of a sequence should be removed. However, if primers are 
+present within sequences then you should strongly consider 
+splitting the sequences at the primers because the primer sequence 
+could have been the region of overlap, causing a misassembly.
+
+Screened 41,466 sequences, 263,699,186 bp.
+Note: 5,172 sequences with runs of Ns 10 bp or longer (or those longer that 20 MB) were split before screening.
+22 sequences with locations to mask/trim
+(22 split spans with locations to mask/trim)
+
+Trim:
+Sequence name, length, span(s), apparent source
+scaffold00010	1304764	232917..232950	adaptor:NGB00843.1
+scaffold00025	1160096	37022..37055	adaptor:NGB00843.1
+scaffold00059	809255	544484..544525	adaptor:NGB00843.1
+scaffold00067	799177	700689..700722	adaptor:NGB00843.1
+scaffold00083	726051	710225..710278	adaptor:NGB00749.1
+scaffold00086	711369	323816..323852	adaptor:NGB00843.1
+scaffold00088	715242	629358..629390	adaptor:NGB00843.1
+scaffold00117	617283	514986..515050	adaptor:NGB00755.1
+scaffold00185	483109	403595..403627	adaptor:NGB00843.1
+scaffold00203	458833	300841..300860	adaptor:NGB00843.1
+scaffold00306	318814	318775..318814	adaptor:NGB00843.1
+scaffold00337	302038	279451..279479	adaptor:NGB00755.1
+scaffold00381	262486	208633..208672	adaptor:NGB00843.1
+scaffold00513	189800	85954..85987	adaptor:NGB00843.1
+scaffold00527	169375	154741..154806	adaptor:NGB00755.1
+scaffold00562	166107	44788..44831	adaptor:NGB00843.1
+scaffold00690	126741	48620..48652	adaptor:NGB00843.1
+scaffold01738	37860	37842..37860	adaptor:NGB00843.1
+scaffold02847	20330	18492..18513	adaptor:NGB00843.1
+scaffold02903	19648	1..54	adaptor:NGB00843.1
+scaffold03969	11287	1..28	adaptor:NGB00843.1
+scaffold05305	6340	1..38	adaptor:NGB00843.1
+
+
+Contamination.txt_AZXXM_filtered_scaffolds.txt
+SUBID     	BioProject	BioSample	Organism
+--------------------------------------------------------
+SUB2631470	PRJNA385595		Aphaenogaster rudis
+
+[] We ran your sequences through our Contamination Screen. The screen found 
+contigs that need to be trimmed and/or excluded. Please adjust the 
+sequences appropriately and then resubmit your sequences. After you remove the 
+contamination, trim any Ns at the ends of the sequence and remove any sequences
+that are shorter than 200 nt and not part of a multi-component scaffold.
+
+Note that hits in eukaryotic genomes to mitochondrial sequences can be ignored 
+when specific criteria are met. Those criteria are explained below.
+
+Note that mismatches between the name of the adaptor/primer identified in the screen 
+and the sequencing technology used to generate the sequencing data should not be used 
+to discount the validity of the screen results as the adaptors/primers of many 
+different sequencing platforms share sequence similarity.
+
+
+[] Some of the sequences hit primers or adaptors used in Illumina or 
+454 or other sequencing strategies or platforms.  Primers at the 
+end of a sequence should be removed. However, if primers are 
+present within sequences then you should strongly consider 
+splitting the sequences at the primers because the primer sequence 
+could have been the region of overlap, causing a misassembly.
+
+Screened 41,978 sequences, 280,952,533 bp.
+Note: 5,749 sequences with runs of Ns 10 bp or longer (or those longer that 20 MB) were split before screening.
+31 sequences with locations to mask/trim
+(31 split spans with locations to mask/trim)
+
+Trim:
+Sequence name, length, span(s), apparent source
+scaffold00005	2225571	167999..168032	adaptor:NGB00843.1
+scaffold00006	2018001	704097..704165	adaptor:NGB00749.1
+scaffold00030	1266775	211712..211745	adaptor:NGB00843.1
+scaffold00042	1100881	629517..629569	adaptor:NGB00843.1
+scaffold00058	943114	46164..46214	adaptor:NGB00843.1
+scaffold00088	791676	200390..200454	adaptor:NGB00756.1
+scaffold00091	800321	588034..588136	adaptor:NGB00756.1
+scaffold00107	735789	464178..464211	adaptor:NGB00843.1
+scaffold00111	716142	416338..416363	adaptor:NGB00843.1
+scaffold00129	638859	560569..560638	adaptor:NGB00749.1
+scaffold00161	532482	203712..203732	adaptor:NGB00843.1
+scaffold00172	537399	493052..493081	adaptor:NGB00843.1
+scaffold00189	501372	386427..386476	adaptor:NGB00756.1
+scaffold00217	416334	33832..33869	adaptor:NGB00843.1
+scaffold00223	406083	332633..332734	adaptor:NGB00756.1
+scaffold00234	386048	195823..195917	adaptor:NGB00756.1
+scaffold00297	301462	301443..301462	adaptor:NGB00843.1
+scaffold00314	268491	262087..262129	adaptor:NGB00843.1
+scaffold00322	272223	247324..247390	adaptor:multiple
+scaffold00439	185104	158718..158737	adaptor:NGB00843.1
+scaffold00500	161576	96827..96918	adaptor:NGB00756.1
+scaffold00517	155854	130073..130137	adaptor:NGB00756.1
+scaffold00686	101626	83337..83371	adaptor:NGB00843.1
+scaffold00855	88061	19571..19639	adaptor:NGB00749.1
+scaffold01106	68440	22221..22268	adaptor:NGB00843.1
+scaffold01199	63326	12903..12943	adaptor:NGB00843.1
+scaffold01857	41944	23768..23832	adaptor:NGB00756.1
+scaffold02161	35894	1409..1475	adaptor:multiple
+scaffold03308	12204	1..49	adaptor:NGB00843.1
+scaffold06723	2074	1766..1831	adaptor:multiple
+scaffold07340	1275	1240..1275	adaptor:NGB00725.1
+
+
+Contamination.txt_AZXXP_filtered_scaffolds.txt
+SUBID     	BioProject	BioSample	Organism
+--------------------------------------------------------
+SUB2631470	PRJNA385595		Aphaenogaster fulva
+
+[] We ran your sequences through our Contamination Screen. The screen found 
+contigs that need to be trimmed and/or excluded. Please adjust the 
+sequences appropriately and then resubmit your sequences. After you remove the 
+contamination, trim any Ns at the ends of the sequence and remove any sequences
+that are shorter than 200 nt and not part of a multi-component scaffold.
+
+Note that hits in eukaryotic genomes to mitochondrial sequences can be ignored 
+when specific criteria are met. Those criteria are explained below.
+
+Note that mismatches between the name of the adaptor/primer identified in the screen 
+and the sequencing technology used to generate the sequencing data should not be used 
+to discount the validity of the screen results as the adaptors/primers of many 
+different sequencing platforms share sequence similarity.
+
+
+[] Some of the sequences hit primers or adaptors used in Illumina or 
+454 or other sequencing strategies or platforms.  Primers at the 
+end of a sequence should be removed. However, if primers are 
+present within sequences then you should strongly consider 
+splitting the sequences at the primers because the primer sequence 
+could have been the region of overlap, causing a misassembly.
+
+Screened 39,913 sequences, 244,732,841 bp.
+Note: 5,028 sequences with runs of Ns 10 bp or longer (or those longer that 20 MB) were split before screening.
+13 sequences with locations to mask/trim
+(13 split spans with locations to mask/trim)
+
+Trim:
+Sequence name, length, span(s), apparent source
+scaffold00041	797793	376309..376342	adaptor:NGB00843.1
+scaffold00116	535396	38673..38701	adaptor:NGB00843.1
+scaffold00147	462787	255898..255962	adaptor:NGB00759.1
+scaffold00285	288206	127878..127942	adaptor:NGB00759.1
+scaffold00309	265295	107804..107869	adaptor:NGB00749.1
+scaffold00349	243854	220061..220096	adaptor:NGB00843.1
+scaffold00371	235271	174536..174570	adaptor:NGB00843.1
+scaffold00510	169748	45447..45481	adaptor:NGB00843.1
+scaffold01429	40675	40611..40675	adaptor:NGB00759.1
+scaffold01641	33176	25825..25874	adaptor:NGB00843.1
+scaffold01814	28913	28870..28913	adaptor:NGB00843.1
+scaffold03702	10352	2327..2388	adaptor:NGB00843.1
+scaffold05158	5269	1084..1122	adaptor:NGB00843.1
+
+
+Contamination.txt_AZXXQ_filtered_scaffolds.txt
+SUBID     	BioProject	BioSample	Organism
+--------------------------------------------------------
+SUB2631470	PRJNA385595		Aphaenogaster ashmeadi
+
+[] We ran your sequences through our Contamination Screen. The screen found 
+contigs that need to be trimmed and/or excluded. Please adjust the 
+sequences appropriately and then resubmit your sequences. After you remove the 
+contamination, trim any Ns at the ends of the sequence and remove any sequences
+that are shorter than 200 nt and not part of a multi-component scaffold.
+
+Note that hits in eukaryotic genomes to mitochondrial sequences can be ignored 
+when specific criteria are met. Those criteria are explained below.
+
+Note that mismatches between the name of the adaptor/primer identified in the screen 
+and the sequencing technology used to generate the sequencing data should not be used 
+to discount the validity of the screen results as the adaptors/primers of many 
+different sequencing platforms share sequence similarity.
+
+
+[] Some of the sequences hit primers or adaptors used in Illumina or 
+454 or other sequencing strategies or platforms.  Primers at the 
+end of a sequence should be removed. However, if primers are 
+present within sequences then you should strongly consider 
+splitting the sequences at the primers because the primer sequence 
+could have been the region of overlap, causing a misassembly.
+
+Screened 31,439 sequences, 252,640,999 bp.
+Note: 3,740 sequences with runs of Ns 10 bp or longer (or those longer that 20 MB) were split before screening.
+18 sequences with locations to mask/trim
+(18 split spans with locations to mask/trim)
+
+Trim:
+Sequence name, length, span(s), apparent source
+scaffold00003	2176650	1844074..1844097	adaptor:NGB00843.1
+scaffold00005	2069201	1586287..1586313	adaptor:NGB00870.1
+scaffold00007	1580932	550193..550262	adaptor:NGB00749.1
+scaffold00010	1380976	1051241..1051281	adaptor:NGB00843.1
+scaffold00051	837261	743736..743802	adaptor:NGB00749.1
+scaffold00089	654511	316846..316910	adaptor:NGB00760.1
+scaffold00102	622786	56659..56761	adaptor:NGB00749.1
+scaffold00135	518655	250529..250560	adaptor:NGB00843.1
+scaffold00217	351642	58214..58247	adaptor:NGB00843.1
+scaffold00261	307107	83992..84061	adaptor:NGB00749.1
+scaffold00346	221470	171090..171127	adaptor:NGB00843.1
+scaffold00584	115726	76698..76763	adaptor:multiple
+scaffold00996	49136	4490..4534	adaptor:NGB00725.1
+scaffold01253	36190	4032..4172	adaptor:multiple
+scaffold01499	27936	27244..27313	adaptor:NGB00749.1
+scaffold01820	21817	15057..15089	adaptor:NGB00843.1
+scaffold02415	14394	14357..14394	adaptor:NGB00843.1
+scaffold02477	13792	4305..4344	adaptor:NGB00843.1
+
+
+Contamination.txt_AZXXR_filtered_scaffolds.txt
+SUBID     	BioProject	BioSample	Organism
+--------------------------------------------------------
+SUB2631470	PRJNA385595		Aphaenogaster floridana
+
+[] We ran your sequences through our Contamination Screen. The screen found 
+contigs that need to be trimmed and/or excluded. Please adjust the 
+sequences appropriately and then resubmit your sequences. After you remove the 
+contamination, trim any Ns at the ends of the sequence and remove any sequences
+that are shorter than 200 nt and not part of a multi-component scaffold.
+
+Note that hits in eukaryotic genomes to mitochondrial sequences can be ignored 
+when specific criteria are met. Those criteria are explained below.
+
+Note that mismatches between the name of the adaptor/primer identified in the screen 
+and the sequencing technology used to generate the sequencing data should not be used 
+to discount the validity of the screen results as the adaptors/primers of many 
+different sequencing platforms share sequence similarity.
+
+
+[] Some of the sequences hit primers or adaptors used in Illumina or 
+454 or other sequencing strategies or platforms.  Primers at the 
+end of a sequence should be removed. However, if primers are 
+present within sequences then you should strongly consider 
+splitting the sequences at the primers because the primer sequence 
+could have been the region of overlap, causing a misassembly.
+
+Screened 37,285 sequences, 274,967,692 bp.
+Note: 4,842 sequences with runs of Ns 10 bp or longer (or those longer that 20 MB) were split before screening.
+13 sequences with locations to mask/trim
+(13 split spans with locations to mask/trim)
+
+Trim:
+Sequence name, length, span(s), apparent source
+scaffold00008	2452190	2269993..2270030	adaptor:NGB00761.1
+scaffold00027	1623887	670730..670764	adaptor:NGB00843.1
+scaffold00047	1287381	1136842..1136910	adaptor:NGB00749.1
+scaffold00165	511407	68212..68245	adaptor:NGB00843.1
+scaffold00204	387483	6045..6076	adaptor:NGB00843.1
+scaffold00251	300046	215309..215373	adaptor:NGB00761.1
+scaffold00271	274651	183374..183416	adaptor:NGB00843.1
+scaffold00445	140973	140066..140109	adaptor:NGB00725.1
+scaffold00474	133029	94294..94345	adaptor:NGB00843.1
+scaffold00496	121184	11178..11247	adaptor:NGB00749.1
+scaffold01005	56240	18902..18924	adaptor:NGB00843.1
+scaffold01862	29828	16666..16701	adaptor:NGB00843.1
+scaffold06047	1282	1..24	adaptor:NGB00725.1
+
+

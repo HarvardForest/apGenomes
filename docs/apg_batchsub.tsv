@@ -1,0 +1,8 @@
+"biosample_accession"	"sample_name"	"assembly_date"	"assembly_name"	"assembly_method"	"assembly_method_version"	"genome_coverage"	"sequencing_technology"	"reference_genome"	"update_for"	"bacteria_available_from"	"filename"
+""	"Aphaenogaster_ashmeadi_apg0001"	"2016-12-16"	"AZXXQ"	"ALLPATHS-LG"	"not applicable"	"32"	"Illumina Hi-Seq 2500"	"not applicable"	"not applicable"	"not applicable"	"AZXXQ.assembly.fasta"
+""	"Aphaenogaster_floridana_apg0002"	"2016-12-16"	"AZXXR"	"ALLPATHS-LG"	"not applicable"	"28"	"Illumina Hi-Seq 2500"	"not applicable"	"not applicable"	"not applicable"	"AZXXR.assembly.fasta"
+""	"Aphaenogaster_fulva_apg0003"	"2016-12-16"	"AZXXP"	"ALLPATHS-LG"	"not applicable"	"22"	"Illumina Hi-Seq 2500"	"not applicable"	"not applicable"	"not applicable"	"AZXXP.assembly.fasta"
+""	"Aphaenogaster_miamiana_apg0004"	"2016-12-16"	"AZXXO"	"ALLPATHS-LG"	"not applicable"	"24"	"Illumina Hi-Seq 2500"	"not applicable"	"not applicable"	"not applicable"	"AZXXO.assembly.fasta"
+""	"Aphaenogaster_picea_apg0005"	"2016-12-16"	"AZXXN"	"ALLPATHS-LG"	"not applicable"	"31"	"Illumina Hi-Seq 2500"	"not applicable"	"not applicable"	"not applicable"	"AZXXN.assembly.fasta"
+""	"Aphaenogaster_rudis_apg0006"	"2016-12-16"	"AJDMW"	"ALLPATHS-LG"	"not applicable"	"25"	"Illumina Hi-Seq 2500"	"not applicable"	"not applicable"	"not applicable"	"AJDMW.assembly.fasta"
+""	"Aphaenogaster_rudis_apg0007"	"2016-12-16"	"AZXXM"	"ALLPATHS-LG"	"not applicable"	"25"	"Illumina Hi-Seq 2500"	"not applicable"	"not applicable"	"not applicable"	"AZXXM.assembly.fasta"
