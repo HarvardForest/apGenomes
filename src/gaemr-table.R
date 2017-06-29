@@ -8,5 +8,5 @@ source('src/helpers.R')
 broad.info <- read.csv('data/storage/apg/broad_sample_key.csv')
 gaemr.tab <- lapply(as.character(broad.info$Sample.ID),get.broad,'data/storage/apg/')
 out <- do.call(rbind,gaemr.tab)
-write.csv('data/gaemr-table.csv')
+write.csv(out,'data/gaemr-table.csv')
 
