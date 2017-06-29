@@ -5,3 +5,4 @@ docs/manuscript
 *src/Sydney2016
 *.err
 *.out
+data/storage

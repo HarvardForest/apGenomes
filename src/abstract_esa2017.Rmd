@@ -1,0 +1,155 @@
+---
+title: "ABSTRACT (ESA 2017): The draft genome of *Aphaenogaster* species
+from across a biogeographic gradient"
+author: M.K. Lau, A.M. Ellison, B. DeMarco, A. Nguyen, S.H. Cahan, N.J. Sanders, R. Dunn, C. Penick, N.J. Gotelli
+output: html_document
+---
+
+
+### Abstract
+
+**Background/Question/Methods** 
+
+Climate change rates are currently on track with the worst case
+scenarios, resulting in both terrestrial and aquatic ecosystem
+responses. Ants play important roles in ecosystems, including seed
+dispersal, which is a known factor in determining the rates of shifts
+in the range of many plant species. Recent field and laboratory
+climate experiments have demonstrated that ant communities in Eastern
+Forest ecosystems are likely to respond to climate change and that
+genetically based traits involved in heat and cold tolerance are
+likely to contribute to community dynamics.  To address the need for
+detailed genetic information about the ant communities of this region,
+we conducted whole genome sequencing of six species of ants from the
+genus *Aphaenogaster*: including, *Aphaenogaster ashmeadi*,
+*A. floridana*, *A. fulva*, *A. miamiana*, *A. picea* and
+*A. rudis*. Whole colonies were collected from field sites in Eastern
+North America. Live individuals from each colony were isolated from
+debris, placed in 50 ml Falcon centrifuge tubes and immediately flash
+frozen in a -80 C freezer. DNA was extracted from each colony and
+sequenced on an Illumina HiSeq 2500 at the Broad Institute (Cambridge,
+MA). Raw sequences were processed to remove chimeric and contaminant
+sequences and assembled using ALLPATHS-LG with an additional
+post-assembly processing using Pilon, which reduced the gaps in
+coverage by 3.1% on average for an average reduction of 3.9 Mb of
+gaps.
+
+
+**Results/Conclusion** 
+
+The genomes of all six species were successfully sequenced; and both
+raw sequences and the assembled genomes are currently stored at
+Harvard Forest (Petersham, MA). Assemblies and annotation are
+currently being processed for submission to NCBI’s genome
+database. All genomes showed high assembly quality (70% fragments
+mapped). Across all species average shortest contig length at 50% of
+the genome (i.e. *N50*) was 18864 bases; average assembly GC content
+was 38.18%; and average genome size was 471 Mb. Initial analyses using
+linear regression of *N50*, GC content and genome size revealed that
+none of these genomic characters varied significantly with
+latitude. These results provide a useful resource for examining the
+contribution of genetic variation underlying the response of these
+communities to climatic factors. Further work investigating the
+variation in genomic content (e.g. gene ontology or GO terms) and
+mapping of target coding regions from from previous experimental
+transcriptomic work on *Aphaenogaster* and other ants and social
+insects could improve predictions of the response of these ecosystems
+to climate change.
+
+
+
+<!-- ```{r load-data,results = hide,cache=TRUE} -->
+<!-- ### Make sure that ellison_lab is mounted -->
+<!-- source('../src/ApG.R') -->
+
+<!-- ``` -->
+
+```{r gaemr-table}
+
+par(mfrow=c(2,2))
+plot(Assembly.GC~Lat,data=apg.dat)
+abline(lm(Assembly.GC~Lat,data=apg.dat))
+plot(Genome.size.estimate~Lat,data=apg.dat)
+abline(lm(Genome.size.estimate~Lat,data=apg.dat))
+plot(Scaffold.N50~Lat,data=apg.dat)
+abline(lm(Scaffold.N50~Lat,data=apg.dat))
+plot(SNP.rate....................~Lat,data=apg.dat)
+abline(lm(SNP.rate....................~Lat,data=apg.dat))
+
+summary(lm(Assembly.GC~Lat,data=apg.dat))
+summary(lm(Genome.size.estimate~Lat,data=apg.dat))
+summary(lm(Contig.N50~Lat,data=apg.dat))
+summary(lm(Scaffold.N50~Lat,data=apg.dat))
+summary(lm(SNP.rate....................~Lat,data=apg.dat))
+
+
+```
+
+
+
+- Conclusion:
+- Take-Home:
+
+### Methods 
+
+The complete genome of six species of Aphaenogaster were sequenced:
+Aphaenogaster ashmeadi, A. floridana, A. fulva, A. miamiana, A. picea
+and A. rudis. Whole colonies were collected from field sites in
+Eastern North America. Living individuals from each colony were
+isolated from debris, placed in 50 ml Falcon centrifuge tubes and
+immediately flash frozen in a -80 C freezer. DNA was extracted from
+each colony and sequenced on an Illumina HiSeq 2500 at the Broad
+Institute (Cambridge, MA). Raw sequences were processed to remove
+chimeric and contaminant sequences and assembled using ALLPATHS-LG
+with an additional post-assembly processing using Pilon to reduce gaps
+in coverage. The genomes of all six species were successfully
+sequenced with an average genome size of ~470 Mb. All genomes showed
+high assembly quality (70% fragments mapped). The additional Pilon
+processing of the assembly reduced the gaps in coverage by 3.1% on
+average for an average reduction of 3.9 Mb of gaps. Both raw and
+assembly data are currently housed at Harvard University on both a
+long-term storage server that is routinely backed-up and a solid state
+external hard drive stored at Harvard Forest (Petersham,
+MA). Additionally, after publication the assemblies will be submitted
+to NCBI’s genome database and linked to meta-data hosted by the
+Harvard Forest Data Archive.
+
+### Sequencing Details
+
+0. Sample locations
+1. Genetics of ants and colonies
+2. DNA extraction and quality
+3. Library perparation
+4. Genome assembly de novo (draft genome)
+5. Assembly quality assessment and validation
+6. Genome annotation (GO, KEGG, protein coding sequences)
+
+
+### Genome Annotation
+
+0. Gather target genes from other ant, insect and animal research
+1. Mask repeat regions
+2. Map target sequences
+3. Compare translated sequences
+
+Check out these software packages:
+
+MAKER
+PASA
+WebApollo
+GMOD
+
+
+
+### Analysis Outline
+
+Basic analysis of genomic similarity across species
+Basic analysis of target genes
+
+1. Heat stress response genes @Stanton-Geddes2016
+2. Cold tolerance genes @Stanton-Geddes2016
+3. Map transcripts onto genome and look for inter-specific variance @Stanton-Geddes2016
+4. Immunity @Roux2014
+5. Olfaction @Roux2014
+6. Mitochondrial function @Roux2014
+7. Social chromosome? @Brelsford2014
