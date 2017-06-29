@@ -2,7 +2,7 @@
 
 apg.dir <- tail(commandArgs(trailingOnly = TRUE),1)
 
-apg.dir <- '/Volumes/ellison_lab/ap_genomes'
+apg.dir <- 'data/storage/apg'
 
 apg.files <- dir(apg.dir)
 apg.samples <- apg.files[grepl("SM",apg.files)]

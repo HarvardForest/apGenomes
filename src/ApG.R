@@ -11,11 +11,12 @@ library(gdata)
 library(prism)
 library(ggplot2)
 library(raster)
+library(gdata)
 
 ### Analysis Outline
 
 ## sample information
-broad.info <- read.xls('data/ap_genomes/SSF-1728_KeyforCollaborator.xlsx',2)
+broad.info <- read.csv('data/storage/apg/broad_sample_key.csv')
 sample.info <- read.csv('data/colony_locations.csv')
 ant.info <- read.csv('data/RADseq_mastersheet_2014.csv')
 ant.info <- ant.info[ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. %in% na.omit(sample.info$spec_epithet),]
@@ -51,10 +52,10 @@ plot(geo.ctr,pch=19,cex=2,col=1:5,xlim = c(-85,-70), ylim = c(30,45))
 text(geo.ctr,labels = rownames(geo.ctr),pos=4)
 
 ## cross reference site-collection with location
-phyto.info <- read.xls('/Users/hermes/Dropbox/WarmAntDimensions/Phytotron\ 2013/Phytotron\ colonies\ 2013\ Transcriptome.xlsx',1)
+phyto.info <- read.csv('data/storage/apg/Phytotron\ colonies\ 2013\ Transcriptome.csv')
 
 ## gaemr info
-gaemr.tab <- read.csv('../docs/abstract_esa2017/tables/gaemr-table.csv')
+gaemr.tab <- read.csv('data/gaemr-table.csv')
 metrics <- c("Mean Total Aligned Depth","Total Contig Length","Genome size estimate","Contig N50","Scaffold N50","Assembly GC","SNP rate                   ~","Snps")
 gaemr.tab <- gaemr.tab[gaemr.tab$Metric %in% metrics,]
 gaemr.tab$Value <- sub(' bases','',gaemr.tab$Value)

@@ -1,7 +1,8 @@
 ### Load other ant genome information
+apgs <- dir('data/storage/apg',full = TRUE)
 
 ### Collect gaemr data for making tables and figures
-apgs <- dir('~/storage/ap_genomes',full = TRUE)
+apgs <- dir('data/storage/apg',full = TRUE)
 apgs <- apgs[grepl('SM-',apgs)]
 ### overview
 df <- list()
@@ -44,6 +45,8 @@ stats.ord <- c("AssemblyGC","Contigs","MaxContig","MeanContig","ContigN50","Cont
 all(colnames(stats)[match(stats.ord,colnames(stats))] == stats.ord)
 stats <- stats[,match(stats.ord,colnames(stats))]
 ### Repeat for contaminants
+apgs <- dir('data/storage/apg/20161122/',full = TRUE)
+apgs <- grep('SM-A',apgs,value = TRUE)
 df <- list()
 for (i in 1:length(apgs)){
     tab <- sapply(c(
@@ -81,8 +84,8 @@ colnames(uf.stats) <- sub(' ','',colnames(uf.stats))
 uf.stats.ord <- c("Contigs","MaxContig","MeanContig","ContigN50","ContigN90","TotalContigLength","TotalGapLength","CapturedGaps","MaxGap","MeanGap","GapN50","Scaffolds","MaxScaffold","MeanScaffold","ScaffoldN50","ScaffoldN90","AssemblyGC","TotalScaffoldLength")
 all(colnames(uf.stats)[match(uf.stats.ord,colnames(uf.stats))] == uf.stats.ord)
 uf.stats <- uf.stats[,match(uf.stats.ord,colnames(uf.stats))]
-### table for filtered
 
+### table for filtered
 table.stats <- stats[,c(
     grep('GC',colnames(stats)),
     grep('gap',colnames(stats),ign = TRUE),
@@ -127,8 +130,11 @@ table.stats <- table.stats[,!grepl('MaxContig',colnames(table.stats))]
 table.stats <- table.stats[,!grepl('MeanGap',colnames(table.stats))]
 table.stats <- table.stats[,!grepl('GapN50',colnames(table.stats))]
 table.stats <- table.stats[,!grepl('Mean',colnames(table.stats))]
+
 ## Add percent coverage
 table.stats <- data.frame(Species = table.stats[,1],
                           'TotalScaffoldLength' = table.stats[,ncol(table.stats)],
                           'PercentCoverage' = pc.coverage,
                           table.stats[,((ncol(table.stats)-1):2)])
+
+
