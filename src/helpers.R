@@ -30,13 +30,18 @@ get.broad <- function(x = 'sample id (Broad Inst)',path = '/Volumes/ellison_lab/
     colnames(blast.tab) <- blast.tab[1,]
     blast.tab <- data.frame(blast.tab[-1,])
     ant.hits <- grepl('formicidae',
-                      blast.tab$'X.BestScoringTaxonomy.',
+                      blast.tab$'X.TaxonomicString',
                       ign = T)
     pct.ants <- c('Percent.Ants',(sum(ant.hits) / length(ant.hits)) * 100)
+    aph.hits <- grepl('Aphaenogaster',
+                      blast.tab$'X.TaxonomicString',
+                      ign = T)
+    pct.aph <- c('Percent.Aphaenogaster',(sum(aph.hits) / length(aph.hits)) * 100)
     print('exporting')
     out <- list(
         assembly.tab,
-        data.frame(t(pct.ants))
+        data.frame(t(pct.ants)),
+        data.frame(t(pct.aph))
         )
     for (i in 1:length(out)){
         colnames(out[[i]]) <- c('Metric','Value')

@@ -1,5 +1,9 @@
+library(xtable)
+
 ### Load other ant genome information
 apgs <- dir('data/storage/apg',full = TRUE)
+sample.info <- read.csv('data/colony_locations.csv')
+broad.info <- read.csv('data/storage/apg/broad_sample_key.csv')
 
 ### Collect gaemr data for making tables and figures
 apgs <- dir('data/storage/apg',full = TRUE)
@@ -136,5 +140,13 @@ table.stats <- data.frame(Species = table.stats[,1],
                           'TotalScaffoldLength' = table.stats[,ncol(table.stats)],
                           'PercentCoverage' = pc.coverage,
                           table.stats[,((ncol(table.stats)-1):2)])
+
+### Write to csv
+write.csv(table.stats,'data/apg_summary.csv')
+
+### Write latex
+xtab <- xtable(table.stats, align = c("l",">{\\itshape}l",rep('l',(ncol(table.stats)-1))))
+names(xtab) <- c("Species" , "Percent Removed" , "GC Content" , "Contigs" , "ContigN50" , "Total Contig Length" , "Total Gap Length" , "Captured Gaps" , "Max Gap Length" , "Scaffolds" , "Scaffold N50" , "Total Scaffold Length")
+capture.output(xtab,file = "docs/manuscript/seq_info_tab.tex")
 
 

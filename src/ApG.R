@@ -56,7 +56,7 @@ phyto.info <- read.csv('data/storage/apg/Phytotron\ colonies\ 2013\ Transcriptom
 
 ## gaemr info
 gaemr.tab <- read.csv('data/gaemr-table.csv')
-metrics <- c("Mean Total Aligned Depth","Total Contig Length","Genome size estimate","Contig N50","Scaffold N50","Assembly GC","SNP rate                   ~","Snps")
+metrics <- c("MeanTotalAlignedDepth","TotalContigLength","Genomesizeestimate","ContigN50","ScaffoldN50","AssemblyGC","Percent.Ants","Percent.Aphaenogaster")
 gaemr.tab <- gaemr.tab[gaemr.tab$Metric %in% metrics,]
 gaemr.tab$Value <- sub(' bases','',gaemr.tab$Value)
 for (i in 1:nrow(gaemr.tab)){
@@ -65,6 +65,8 @@ for (i in 1:nrow(gaemr.tab)){
         gaemr.tab$Value[i] <- round((x[1] / x[2]), 7)
     }
 }
+
+### Mum
 mum.ld <- lapply(pos.l,function(x) sum(abs(apply(x[,1:2],1,diff))))
 mum.d <- unlist(mum.ld)
 dist.pic <- apg.geo[,'Latitude'] - apg.geo[,'Latitude']['pic1']
