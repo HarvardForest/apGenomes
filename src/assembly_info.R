@@ -1,7 +1,7 @@
 ### Load other ant genome information
 
 ### Collect gaemr data for making tables and figures
-apgs <- dir('~/storage/ap_genomes',full = TRUE)
+apgs <- dir('~/storage/apg',full = TRUE)
 apgs <- apgs[grepl('SM-',apgs)]
 ### overview
 df <- list()
