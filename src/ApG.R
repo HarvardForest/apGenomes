@@ -11,6 +11,7 @@ library(gdata)
 library(prism)
 library(ggplot2)
 library(raster)
+library(gdata)
 
 ### Analysis Outline
 
@@ -51,6 +52,7 @@ plot(geo.ctr,pch=19,cex=2,col=1:5,xlim = c(-85,-70), ylim = c(30,45))
 text(geo.ctr,labels = rownames(geo.ctr),pos=4)
 
 ## cross reference site-collection with location
+<<<<<<< HEAD
 phyto.info <- read.xls('data/Phytotron\ colonies\ 2013\ Transcriptome.xlsx',1)
 
 ## gaemr info
@@ -64,6 +66,8 @@ for (i in 1:nrow(gaemr.tab)){
         gaemr.tab$Value[i] <- round((x[1] / x[2]), 7)
     }
 }
+
+### Mum
 mum.ld <- lapply(pos.l,function(x) sum(abs(apply(x[,1:2],1,diff))))
 mum.d <- unlist(mum.ld)
 dist.pic <- apg.geo[,'Latitude'] - apg.geo[,'Latitude']['pic1']
