@@ -2,6 +2,7 @@
 
 ### use: sh mash_batch.sh <output file name> 
 
+cd $2
 touch $1
 
 for i in $(ls | grep SM); do
@@ -10,7 +11,7 @@ for i in $(ls | grep SM); do
 	then 
 	    echo $i $j
 	    say Mash starting $i $j
-	    ./Mash/mash dist $i/filtered.scaffolds.fasta.msh $j//filtered.scaffolds.fasta.msh >> $1
+	    mash dist $i/scaffolds.fasta.msh $j//scaffolds.fasta.msh >> $1
 
 	else
 	    echo Skipping $i $j
