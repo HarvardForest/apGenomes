@@ -1,5 +1,5 @@
 ### NCBI Genome Info
-source('ncbi_genome_info.R')
+source('src/ncbi_genome_info.R')
 colnames(ncbi.ant)[1] <- 'Organism'
 
 ### AntWeb Info
