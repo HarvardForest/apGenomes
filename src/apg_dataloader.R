@@ -15,12 +15,12 @@ library(geosphere)
 get.prism <- FALSE
 
 ## sample information
-broad.info <- read.xls('~/storage/ap_genomes/SSF-1728_KeyforCollaborator.xlsx',2)
-sample.info <- read.csv('../docs/colony_locations.csv')
-ant.info <- read.csv('../docs/RADseq_mastersheet_2014.csv')
+broad.info <- read.csv('data/storage/apg/SSF-1728_KeyforCollaborator.csv')
+sample.info <- read.csv('data/storage/apg/colony_locations.csv')
+ant.info <- read.csv('data/storage/apg/RADseq_mastersheet_2014.csv')
 ant.info <- ant.info[ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. %in% na.omit(sample.info$spec_epithet),]
 ant.info <- ant.info[!ant.info$State == "",]
-ant.geo <- read.csv('../docs/ant_sites.csv')
+ant.geo <- read.csv('data/storage/apg/ant_sites.csv')
 ant.geo[,c("Lon","Lat")] <- apply(ant.geo[,c("Lon","Lat")],2,as.numeric)
 ant.info <- data.frame(ant.info,
                        ant.geo[match(as.character(ant.info$Locale),ant.geo$Site),c("Lon","Lat")])
@@ -67,6 +67,15 @@ rownames(apg.gd) <- colnames(apg.gd) <- rownames(apg.geo)
 for (i in 1:nrow(apg.geo)){
     for (j in 1:nrow(apg.geo)){
         apg.gd[i,j] <- distm (apg.geo[i,], apg.geo[j,], 
+                               fun = distHaversine)
+    }
+}
+
+apg.gcd <- array(NA,dim = rep(nrow(ap.ctr),2))
+rownames(apg.gcd) <- colnames(apg.gcd) <- rownames(ap.ctr)
+for (i in 1:nrow(ap.ctr)){
+    for (j in 1:nrow(ap.ctr)){
+        apg.gcd[i,j] <- distm (ap.ctr[i,], ap.ctr[j,], 
                                fun = distHaversine)
     }
 }

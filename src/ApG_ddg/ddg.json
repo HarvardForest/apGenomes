@@ -1,0 +1,1389 @@
+{
+
+"prefix" : {
+"prov" : "http://www.w3.org/ns/prov#",
+"rdt" : "http://rdatatracker.org/"
+},
+"activity":{
+
+"p1" : {
+"rdt:name" : "ApG.R",
+"rdt:type" : "Start",
+"rdt:elapsedTime" : "420.159",
+"rdt:scriptNum" : "NA",
+"rdt:startLine" : "NA",
+"rdt:startCol" : "NA",
+"rdt:endLine" : "NA",
+"rdt:endCol" : "NA"
+} ,
+
+"p2" : {
+"rdt:name" : "pkg <- c(\"gdata\", \"prism\", \"ggplot2\", \"raster\", \"AntWeb\")",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "420.201",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "6",
+"rdt:startCol" : "1",
+"rdt:endLine" : "6",
+"rdt:endCol" : "53"
+} ,
+
+"p3" : {
+"rdt:name" : "sapply(pkg, function(pkg) if (!pkg %in% installed.packages()",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "420.397",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "7",
+"rdt:startCol" : "1",
+"rdt:endLine" : "11",
+"rdt:endCol" : "1"
+} ,
+
+"p4" : {
+"rdt:name" : "library(gdata)",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "420.584",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "13",
+"rdt:startCol" : "1",
+"rdt:endLine" : "13",
+"rdt:endCol" : "14"
+} ,
+
+"p5" : {
+"rdt:name" : "library(prism)",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "420.591",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "14",
+"rdt:startCol" : "1",
+"rdt:endLine" : "14",
+"rdt:endCol" : "14"
+} ,
+
+"p6" : {
+"rdt:name" : "library(ggplot2)",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "420.598",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "15",
+"rdt:startCol" : "1",
+"rdt:endLine" : "15",
+"rdt:endCol" : "16"
+} ,
+
+"p7" : {
+"rdt:name" : "library(raster)",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "420.606",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "16",
+"rdt:startCol" : "1",
+"rdt:endLine" : "16",
+"rdt:endCol" : "15"
+} ,
+
+"p8" : {
+"rdt:name" : "library(gdata)",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "420.613",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "17",
+"rdt:startCol" : "1",
+"rdt:endLine" : "17",
+"rdt:endCol" : "14"
+} ,
+
+"p9" : {
+"rdt:name" : "broad.info <- read.csv(\"data/storage/apg/broad_sample_key.cs",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "420.623",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "22",
+"rdt:startCol" : "1",
+"rdt:endLine" : "22",
+"rdt:endCol" : "63"
+} ,
+
+"p10" : {
+"rdt:name" : "sample.info <- read.csv(\"data/storage/apg/colony_locations.c",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "420.778",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "23",
+"rdt:startCol" : "1",
+"rdt:endLine" : "23",
+"rdt:endCol" : "64"
+} ,
+
+"p11" : {
+"rdt:name" : "ant.info <- read.csv(\"data/storage/apg/RADseq_mastersheet_20",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "420.843",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "24",
+"rdt:startCol" : "1",
+"rdt:endLine" : "24",
+"rdt:endCol" : "68"
+} ,
+
+"p12" : {
+"rdt:name" : "ant.info <- ant.info[ant.info$Species..varying.ID.sources...",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "420.876",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "25",
+"rdt:startCol" : "1",
+"rdt:endLine" : "25",
+"rdt:endCol" : "139"
+} ,
+
+"p13" : {
+"rdt:name" : "ant.info <- ant.info[!ant.info$State == \"\", ]",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "420.917",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "26",
+"rdt:startCol" : "1",
+"rdt:endLine" : "26",
+"rdt:endCol" : "44"
+} ,
+
+"p14" : {
+"rdt:name" : "ant.geo <- read.csv(\"data/storage/apg/ant_sites.csv\")",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "420.947",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "27",
+"rdt:startCol" : "1",
+"rdt:endLine" : "27",
+"rdt:endCol" : "53"
+} ,
+
+"p15" : {
+"rdt:name" : "ant.geo[, c(\"Lon\", \"Lat\")] <- apply(ant.geo[, c(\"Lon\", \"Lat\"",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "420.995",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "28",
+"rdt:startCol" : "1",
+"rdt:endLine" : "28",
+"rdt:endCol" : "72"
+} ,
+
+"p16" : {
+"rdt:name" : "ant.info <- data.frame(ant.info, ant.geo[match(as.character(",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.029",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "29",
+"rdt:startCol" : "1",
+"rdt:endLine" : "30",
+"rdt:endCol" : "97"
+} ,
+
+"p17" : {
+"rdt:name" : "ant.info$Species..varying.ID.sources...Bernice.if.different.",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.076",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "31",
+"rdt:startCol" : "1",
+"rdt:endLine" : "32",
+"rdt:endCol" : "95"
+} ,
+
+"p18" : {
+"rdt:name" : "ant.info <- na.omit(ant.info)",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.106",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "33",
+"rdt:startCol" : "1",
+"rdt:endLine" : "33",
+"rdt:endCol" : "29"
+} ,
+
+"p19" : {
+"rdt:name" : "ant.color <- ant.info$Species..varying.ID.sources...Bernice.",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.132",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "34",
+"rdt:startCol" : "1",
+"rdt:endLine" : "34",
+"rdt:endCol" : "90"
+} ,
+
+"p20" : {
+"rdt:name" : "ant.factor <- factor(ant.color)",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.153",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "35",
+"rdt:startCol" : "1",
+"rdt:endLine" : "35",
+"rdt:endCol" : "31"
+} ,
+
+"p21" : {
+"rdt:name" : "geo.ctr <- split(ant.info[, c(\"Lon\", \"Lat\")], ant.info$Speci",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.177",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "37",
+"rdt:startCol" : "1",
+"rdt:endLine" : "37",
+"rdt:endCol" : "121"
+} ,
+
+"p22" : {
+"rdt:name" : "geo.ctr <- lapply(geo.ctr, function(x) apply(x, 2, mean))",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.214",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "38",
+"rdt:startCol" : "1",
+"rdt:endLine" : "38",
+"rdt:endCol" : "54"
+} ,
+
+"p23" : {
+"rdt:name" : "geo.ctr <- do.call(rbind, geo.ctr)",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.239",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "39",
+"rdt:startCol" : "1",
+"rdt:endLine" : "39",
+"rdt:endCol" : "33"
+} ,
+
+"p24" : {
+"rdt:name" : "gaemr.tab <- read.csv(\"data/storage/apg/gaemr-table.csv\")",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.268",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "43",
+"rdt:startCol" : "1",
+"rdt:endLine" : "43",
+"rdt:endCol" : "57"
+} ,
+
+"p25" : {
+"rdt:name" : "gaemr.tab <- gaemr.tab[!grepl(\"Name\", gaemr.tab[, \"Metric\"])",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.304",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "44",
+"rdt:startCol" : "1",
+"rdt:endLine" : "44",
+"rdt:endCol" : "60"
+} ,
+
+"p26" : {
+"rdt:name" : "gaemr.tab <- gaemr.tab[!grepl(\"Assembler\", gaemr.tab[, \"Metr",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.327",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "45",
+"rdt:startCol" : "1",
+"rdt:endLine" : "45",
+"rdt:endCol" : "65"
+} ,
+
+"p27" : {
+"rdt:name" : "gaemr.tab <- split(gaemr.tab[, c(\"Metric\", \"Value\")], gaemr.",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.353",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "46",
+"rdt:startCol" : "1",
+"rdt:endLine" : "46",
+"rdt:endCol" : "68"
+} ,
+
+"p28" : {
+"rdt:name" : "gaemr.tab <- lapply(gaemr.tab, t)",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.395",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "47",
+"rdt:startCol" : "1",
+"rdt:endLine" : "47",
+"rdt:endCol" : "32"
+} ,
+
+"p29" : {
+"rdt:name" : "metrics <- gaemr.tab[[1]][\"Metric\", ]",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.422",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "48",
+"rdt:startCol" : "1",
+"rdt:endLine" : "48",
+"rdt:endCol" : "36"
+} ,
+
+"p30" : {
+"rdt:name" : "gaemr.tab <- do.call(rbind, lapply(gaemr.tab, function(x) as",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.451",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "49",
+"rdt:startCol" : "1",
+"rdt:endLine" : "49",
+"rdt:endCol" : "81"
+} ,
+
+"p31" : {
+"rdt:name" : "colnames(gaemr.tab) <- metrics",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.478",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "50",
+"rdt:startCol" : "1",
+"rdt:endLine" : "50",
+"rdt:endCol" : "30"
+} ,
+
+"p32" : {
+"rdt:name" : "ref.sizes <- c(as.numeric(ncbi.ant[, \"Size (Mb)\"]), ant.gen.",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.503",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "55",
+"rdt:startCol" : "1",
+"rdt:endLine" : "55",
+"rdt:endCol" : "87"
+} ,
+
+"p33" : {
+"rdt:name" : "ncbi.xtab <- ncbi.ant[, c(\"BioProject Accession\", \"Release D",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.546",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "58",
+"rdt:startCol" : "1",
+"rdt:endLine" : "58",
+"rdt:endCol" : "64"
+} ,
+
+"p34" : {
+"rdt:name" : "rownames(ncbi.xtab) <- ncbi.ant[, 1]",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.568",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "59",
+"rdt:startCol" : "1",
+"rdt:endLine" : "59",
+"rdt:endCol" : "35"
+} ,
+
+"p35" : {
+"rdt:name" : "ncbi.xtab <- xtable::xtable(ncbi.xtab)",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.634",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "60",
+"rdt:startCol" : "1",
+"rdt:endLine" : "60",
+"rdt:endCol" : "38"
+} ,
+
+"p36" : {
+"rdt:name" : "print(ncbi.xtab, type = \"latex\", file = \"../docs/manuscript/",
+"rdt:type" : "Operation",
+"rdt:elapsedTime" : "421.668",
+"rdt:scriptNum" : "0",
+"rdt:startLine" : "63",
+"rdt:startCol" : "1",
+"rdt:endLine" : "69",
+"rdt:endCol" : "7"
+} ,
+
+"environment" : {
+"rdt:name" : "environment",
+"rdt:architecture" : "x86_64",
+"rdt:operatingSystem" : "unix",
+"rdt:language" : "R",
+"rdt:rVersion" : "R version 3.4.0 (2017-04-21)",
+"rdt:script" : "/Users/hermes/Labs/HF/projects/apGenomes/src/ApG.R",
+"rdt:sourcedScripts" : ""
+,
+"rdt:scriptTimeStamp" : "2017-08-07T23.55.45PDT",
+"rdt:workingDirectory" : "/Users/hermes/Labs/HF/projects/apGenomes",
+"rdt:ddgDirectory" : "src/ApG_ddg",
+"rdt:ddgTimeStamp" : "2017-08-07T23.57.00PDT",
+"rdt:rdatatrackerVersion" : "2.27.0",
+"rdt:installedPackages" : [
+	{"package" : "AntWeb", "version" : "0.7"},
+	{"package" : "base", "version" : "3.4.0"},
+	{"package" : "bitops", "version" : "1.0-6"},
+	{"package" : "datasets", "version" : "3.4.0"},
+	{"package" : "devtools", "version" : "1.13.3"},
+	{"package" : "gdata", "version" : "2.18.0"},
+	{"package" : "geosphere", "version" : "1.5-5"},
+	{"package" : "ggplot2", "version" : "2.2.1"},
+	{"package" : "graphics", "version" : "3.4.0"},
+	{"package" : "grDevices", "version" : "3.4.0"},
+	{"package" : "grid", "version" : "3.4.0"},
+	{"package" : "lattice", "version" : "0.20-35"},
+	{"package" : "methods", "version" : "3.4.0"},
+	{"package" : "permute", "version" : "0.9-4"},
+	{"package" : "prism", "version" : "0.0.7"},
+	{"package" : "raster", "version" : "2.5-8"},
+	{"package" : "RCurl", "version" : "1.95-4.8"},
+	{"package" : "RDataTracker", "version" : "2.27.0"},
+	{"package" : "rentrez", "version" : "1.1.0"},
+	{"package" : "rlist", "version" : "0.4.6.1"},
+	{"package" : "sp", "version" : "1.2-5"},
+	{"package" : "stats", "version" : "3.4.0"},
+	{"package" : "utils", "version" : "3.4.0"},
+	{"package" : "vegan", "version" : "2.4-3"},
+	{"package" : "XML", "version" : "3.98-1.9"}]
+}},
+"entity":{
+
+"d1" : {
+"rdt:name" : "pkg",
+"rdt:value" : "data/1-pkg.csv",
+"rdt:valType" : {"container":"vector", "dimension":[5], "type":["character"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : ""
+} ,
+
+"d2" : {
+"rdt:name" : "broad_sample_key.csv",
+"rdt:value" : "data/2-broad_sample_key.csv",
+"rdt:valType" : {"container":"vector", "dimension":[1], "type":["character"]},
+"rdt:type" : "File",
+"rdt:scope" : "undefined",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "NA",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : "/Users/hermes/Documents/apg/broad_sample_key.csv"
+} ,
+
+"d3" : {
+"rdt:name" : "broad.info",
+"rdt:value" : "data/3-broad.info.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[7,3], "type":["factor","factor","factor"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : ""
+} ,
+
+"d4" : {
+"rdt:name" : "colony_locations.csv",
+"rdt:value" : "data/4-colony_locations.csv",
+"rdt:valType" : {"container":"vector", "dimension":[1], "type":["character"]},
+"rdt:type" : "File",
+"rdt:scope" : "undefined",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "NA",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : "/Users/hermes/Documents/apg/colony_locations.csv"
+} ,
+
+"d5" : {
+"rdt:name" : "sample.info",
+"rdt:value" : "data/5-sample.info-PARTIAL.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[7,17], "type":["factor","factor","factor","factor","integer","factor","factor","factor","factor","factor","factor","factor","factor","numeric","numeric","factor","integer"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : ""
+} ,
+
+"d6" : {
+"rdt:name" : "RADseq_mastersheet_2014.csv",
+"rdt:value" : "data/6-RADseq_mastersheet_2014.csv",
+"rdt:valType" : {"container":"vector", "dimension":[1], "type":["character"]},
+"rdt:type" : "File",
+"rdt:scope" : "undefined",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "NA",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : "/Users/hermes/Documents/apg/RADseq_mastersheet_2014.csv"
+} ,
+
+"d7" : {
+"rdt:name" : "ant.info",
+"rdt:value" : "data/7-ant.info-PARTIAL.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[418,15], "type":["factor","factor","factor","factor","factor","factor","factor","factor","factor","factor","factor","numeric","numeric","factor","integer"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : ""
+} ,
+
+"d8" : {
+"rdt:name" : "ant.info",
+"rdt:value" : "data/8-ant.info-PARTIAL.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[154,15], "type":["factor","factor","factor","factor","factor","factor","factor","factor","factor","factor","factor","numeric","numeric","factor","integer"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : ""
+} ,
+
+"d9" : {
+"rdt:name" : "ant.info",
+"rdt:value" : "data/9-ant.info-PARTIAL.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[152,15], "type":["factor","factor","factor","factor","factor","factor","factor","factor","factor","factor","factor","numeric","numeric","factor","integer"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : ""
+} ,
+
+"d10" : {
+"rdt:name" : "ant_sites.csv",
+"rdt:value" : "data/10-ant_sites.csv",
+"rdt:valType" : {"container":"vector", "dimension":[1], "type":["character"]},
+"rdt:type" : "File",
+"rdt:scope" : "undefined",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "NA",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : "/Users/hermes/Documents/apg/ant_sites.csv"
+} ,
+
+"d11" : {
+"rdt:name" : "ant.geo",
+"rdt:value" : "data/11-ant.geo-PARTIAL.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[57,4], "type":["factor","factor","factor","numeric"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : ""
+} ,
+
+"d12" : {
+"rdt:name" : "warning.msg",
+"rdt:value" : "\"In  apply(ant.geo[, c(\"Lon\", \"Lat\")], 2, as.numeric) :  NAs introduced by coercion\"",
+"rdt:valType" : {"container":"vector", "dimension":[1], "type":["character"]},
+"rdt:type" : "Exception",
+"rdt:scope" : "ddg.library",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "",
+"rdt:location" : ""
+} ,
+
+"d13" : {
+"rdt:name" : "ant.geo",
+"rdt:value" : "data/13-ant.geo.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[57,4], "type":["factor","factor","numeric","numeric"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : ""
+} ,
+
+"d14" : {
+"rdt:name" : "ant.info",
+"rdt:value" : "data/14-ant.info-PARTIAL.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[152,17], "type":["factor","factor","factor","factor","factor","factor","factor","factor","factor","factor","factor","numeric","numeric","factor","integer","numeric","numeric"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : ""
+} ,
+
+"d15" : {
+"rdt:name" : "ant.info",
+"rdt:value" : "data/15-ant.info-PARTIAL.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[152,17], "type":["factor","factor","factor","factor","character","factor","factor","factor","factor","factor","factor","numeric","numeric","factor","integer","numeric","numeric"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : ""
+} ,
+
+"d16" : {
+"rdt:name" : "ant.info",
+"rdt:value" : "data/16-ant.info-PARTIAL.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[60,17], "type":["factor","factor","factor","factor","character","factor","factor","factor","factor","factor","factor","numeric","numeric","factor","integer","numeric","numeric"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : ""
+} ,
+
+"d17" : {
+"rdt:name" : "ant.color",
+"rdt:value" : "data/17-ant.color.csv",
+"rdt:valType" : {"container":"vector", "dimension":[60], "type":["character"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : ""
+} ,
+
+"d18" : {
+"rdt:name" : "ant.factor",
+"rdt:value" : "data/18-ant.factor.txt",
+"rdt:valType" : "object",
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.02PDT",
+"rdt:location" : ""
+} ,
+
+"d19" : {
+"rdt:name" : "geo.ctr",
+"rdt:value" : "data/19-geo.ctr.txt",
+"rdt:valType" : {"container":"vector", "dimension":[6], "type":["list"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d20" : {
+"rdt:name" : "geo.ctr",
+"rdt:value" : "data/20-geo.ctr.txt",
+"rdt:valType" : {"container":"vector", "dimension":[6], "type":["list"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d21" : {
+"rdt:name" : "geo.ctr",
+"rdt:value" : "data/21-geo.ctr.csv",
+"rdt:valType" : {"container":"matrix", "dimension":[6,2], "type":["numeric"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d22" : {
+"rdt:name" : "gaemr-table.csv",
+"rdt:value" : "data/22-gaemr-table.csv",
+"rdt:valType" : {"container":"vector", "dimension":[1], "type":["character"]},
+"rdt:type" : "File",
+"rdt:scope" : "undefined",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "NA",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : "/Users/hermes/Documents/apg/gaemr-table.csv"
+} ,
+
+"d23" : {
+"rdt:name" : "gaemr.tab",
+"rdt:value" : "data/23-gaemr.tab-PARTIAL.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[154,3], "type":["factor","factor","factor"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d24" : {
+"rdt:name" : "gaemr.tab",
+"rdt:value" : "data/24-gaemr.tab-PARTIAL.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[147,3], "type":["factor","factor","factor"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d25" : {
+"rdt:name" : "gaemr.tab",
+"rdt:value" : "data/25-gaemr.tab-PARTIAL.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[140,3], "type":["factor","factor","factor"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d26" : {
+"rdt:name" : "gaemr.tab",
+"rdt:value" : "data/26-gaemr.tab-PARTIAL.txt",
+"rdt:valType" : {"container":"vector", "dimension":[7], "type":["list"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d27" : {
+"rdt:name" : "gaemr.tab",
+"rdt:value" : "data/27-gaemr.tab-PARTIAL.txt",
+"rdt:valType" : {"container":"vector", "dimension":[7], "type":["list"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d28" : {
+"rdt:name" : "metrics",
+"rdt:value" : "data/28-metrics.csv",
+"rdt:valType" : {"container":"vector", "dimension":[20], "type":["character"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d29" : {
+"rdt:name" : "gaemr.tab",
+"rdt:value" : "data/29-gaemr.tab.csv",
+"rdt:valType" : {"container":"matrix", "dimension":[7,20], "type":["numeric"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d30" : {
+"rdt:name" : "gaemr.tab",
+"rdt:value" : "data/30-gaemr.tab.csv",
+"rdt:valType" : {"container":"matrix", "dimension":[7,20], "type":["numeric"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d31" : {
+"rdt:name" : "ncbi.ant [ENV]",
+"rdt:value" : "data/31-ncbi.ant-PARTIAL.csv",
+"rdt:valType" : {"container":"matrix", "dimension":[19,19], "type":["character"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "TRUE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d32" : {
+"rdt:name" : "ant.gen.size [ENV]",
+"rdt:value" : "data/32-ant.gen.size-PARTIAL.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[41,6], "type":["factor","factor","numeric","factor","factor","factor"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "TRUE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d33" : {
+"rdt:name" : "ref.sizes",
+"rdt:value" : "data/33-ref.sizes.csv",
+"rdt:valType" : {"container":"vector", "dimension":[60], "type":["numeric"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d34" : {
+"rdt:name" : "ncbi.xtab",
+"rdt:value" : "data/34-ncbi.xtab.csv",
+"rdt:valType" : {"container":"matrix", "dimension":[19,2], "type":["character"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d35" : {
+"rdt:name" : "ncbi.xtab",
+"rdt:value" : "data/35-ncbi.xtab.csv",
+"rdt:valType" : {"container":"matrix", "dimension":[19,2], "type":["character"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d36" : {
+"rdt:name" : "ncbi.xtab",
+"rdt:value" : "data/36-ncbi.xtab.csv",
+"rdt:valType" : {"container":"data_frame", "dimension":[19,2], "type":["factor","factor"]},
+"rdt:type" : "Snapshot",
+"rdt:scope" : "R_GlobalEnv",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "2017-08-07T23.57.03PDT",
+"rdt:location" : ""
+} ,
+
+"d37" : {
+"rdt:name" : "error.msg",
+"rdt:value" : "\"Error in print.xtable(ncbi.xtab, type = \"latex\", file = \"../docs/manuscript/ncbi_ants.tex\", : object 'italic' not found \"",
+"rdt:valType" : {"container":"vector", "dimension":[1], "type":["character"]},
+"rdt:type" : "Exception",
+"rdt:scope" : "ddg.library",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "",
+"rdt:location" : ""
+}},
+"wasInformedBy":{
+
+"e1" : {
+"prov:informant" : "p1",
+"prov:informed" : "p2"
+} ,
+
+"e3" : {
+"prov:informant" : "p2",
+"prov:informed" : "p3"
+} ,
+
+"e5" : {
+"prov:informant" : "p3",
+"prov:informed" : "p4"
+} ,
+
+"e6" : {
+"prov:informant" : "p4",
+"prov:informed" : "p5"
+} ,
+
+"e7" : {
+"prov:informant" : "p5",
+"prov:informed" : "p6"
+} ,
+
+"e8" : {
+"prov:informant" : "p6",
+"prov:informed" : "p7"
+} ,
+
+"e9" : {
+"prov:informant" : "p7",
+"prov:informed" : "p8"
+} ,
+
+"e10" : {
+"prov:informant" : "p8",
+"prov:informed" : "p9"
+} ,
+
+"e13" : {
+"prov:informant" : "p9",
+"prov:informed" : "p10"
+} ,
+
+"e16" : {
+"prov:informant" : "p10",
+"prov:informed" : "p11"
+} ,
+
+"e19" : {
+"prov:informant" : "p11",
+"prov:informed" : "p12"
+} ,
+
+"e23" : {
+"prov:informant" : "p12",
+"prov:informed" : "p13"
+} ,
+
+"e26" : {
+"prov:informant" : "p13",
+"prov:informed" : "p14"
+} ,
+
+"e29" : {
+"prov:informant" : "p14",
+"prov:informed" : "p15"
+} ,
+
+"e33" : {
+"prov:informant" : "p15",
+"prov:informed" : "p16"
+} ,
+
+"e37" : {
+"prov:informant" : "p16",
+"prov:informed" : "p17"
+} ,
+
+"e40" : {
+"prov:informant" : "p17",
+"prov:informed" : "p18"
+} ,
+
+"e43" : {
+"prov:informant" : "p18",
+"prov:informed" : "p19"
+} ,
+
+"e46" : {
+"prov:informant" : "p19",
+"prov:informed" : "p20"
+} ,
+
+"e49" : {
+"prov:informant" : "p20",
+"prov:informed" : "p21"
+} ,
+
+"e52" : {
+"prov:informant" : "p21",
+"prov:informed" : "p22"
+} ,
+
+"e55" : {
+"prov:informant" : "p22",
+"prov:informed" : "p23"
+} ,
+
+"e58" : {
+"prov:informant" : "p23",
+"prov:informed" : "p24"
+} ,
+
+"e61" : {
+"prov:informant" : "p24",
+"prov:informed" : "p25"
+} ,
+
+"e64" : {
+"prov:informant" : "p25",
+"prov:informed" : "p26"
+} ,
+
+"e67" : {
+"prov:informant" : "p26",
+"prov:informed" : "p27"
+} ,
+
+"e70" : {
+"prov:informant" : "p27",
+"prov:informed" : "p28"
+} ,
+
+"e73" : {
+"prov:informant" : "p28",
+"prov:informed" : "p29"
+} ,
+
+"e76" : {
+"prov:informant" : "p29",
+"prov:informed" : "p30"
+} ,
+
+"e79" : {
+"prov:informant" : "p30",
+"prov:informed" : "p31"
+} ,
+
+"e83" : {
+"prov:informant" : "p31",
+"prov:informed" : "p32"
+} ,
+
+"e87" : {
+"prov:informant" : "p32",
+"prov:informed" : "p33"
+} ,
+
+"e90" : {
+"prov:informant" : "p33",
+"prov:informed" : "p34"
+} ,
+
+"e94" : {
+"prov:informant" : "p34",
+"prov:informed" : "p35"
+} ,
+
+"e97" : {
+"prov:informant" : "p35",
+"prov:informed" : "p36"
+}},
+"wasGeneratedBy":{
+
+"e2" : {
+"prov:entity" : "d1",
+"prov:activity" : "p2"
+} ,
+
+"e12" : {
+"prov:entity" : "d3",
+"prov:activity" : "p9"
+} ,
+
+"e15" : {
+"prov:entity" : "d5",
+"prov:activity" : "p10"
+} ,
+
+"e18" : {
+"prov:entity" : "d7",
+"prov:activity" : "p11"
+} ,
+
+"e22" : {
+"prov:entity" : "d8",
+"prov:activity" : "p12"
+} ,
+
+"e25" : {
+"prov:entity" : "d9",
+"prov:activity" : "p13"
+} ,
+
+"e28" : {
+"prov:entity" : "d11",
+"prov:activity" : "p14"
+} ,
+
+"e30" : {
+"prov:entity" : "d12",
+"prov:activity" : "p15"
+} ,
+
+"e32" : {
+"prov:entity" : "d13",
+"prov:activity" : "p15"
+} ,
+
+"e36" : {
+"prov:entity" : "d14",
+"prov:activity" : "p16"
+} ,
+
+"e39" : {
+"prov:entity" : "d15",
+"prov:activity" : "p17"
+} ,
+
+"e42" : {
+"prov:entity" : "d16",
+"prov:activity" : "p18"
+} ,
+
+"e45" : {
+"prov:entity" : "d17",
+"prov:activity" : "p19"
+} ,
+
+"e48" : {
+"prov:entity" : "d18",
+"prov:activity" : "p20"
+} ,
+
+"e51" : {
+"prov:entity" : "d19",
+"prov:activity" : "p21"
+} ,
+
+"e54" : {
+"prov:entity" : "d20",
+"prov:activity" : "p22"
+} ,
+
+"e57" : {
+"prov:entity" : "d21",
+"prov:activity" : "p23"
+} ,
+
+"e60" : {
+"prov:entity" : "d23",
+"prov:activity" : "p24"
+} ,
+
+"e63" : {
+"prov:entity" : "d24",
+"prov:activity" : "p25"
+} ,
+
+"e66" : {
+"prov:entity" : "d25",
+"prov:activity" : "p26"
+} ,
+
+"e69" : {
+"prov:entity" : "d26",
+"prov:activity" : "p27"
+} ,
+
+"e72" : {
+"prov:entity" : "d27",
+"prov:activity" : "p28"
+} ,
+
+"e75" : {
+"prov:entity" : "d28",
+"prov:activity" : "p29"
+} ,
+
+"e78" : {
+"prov:entity" : "d29",
+"prov:activity" : "p30"
+} ,
+
+"e82" : {
+"prov:entity" : "d30",
+"prov:activity" : "p31"
+} ,
+
+"e86" : {
+"prov:entity" : "d33",
+"prov:activity" : "p32"
+} ,
+
+"e89" : {
+"prov:entity" : "d34",
+"prov:activity" : "p33"
+} ,
+
+"e93" : {
+"prov:entity" : "d35",
+"prov:activity" : "p34"
+} ,
+
+"e96" : {
+"prov:entity" : "d36",
+"prov:activity" : "p35"
+} ,
+
+"e99" : {
+"prov:entity" : "d37",
+"prov:activity" : "p36"
+}},
+"used":{
+
+"e4" : {
+"prov:activity" : "p3",
+"prov:entity" : "d1"
+} ,
+
+"e11" : {
+"prov:activity" : "p9",
+"prov:entity" : "d2"
+} ,
+
+"e14" : {
+"prov:activity" : "p10",
+"prov:entity" : "d4"
+} ,
+
+"e17" : {
+"prov:activity" : "p11",
+"prov:entity" : "d6"
+} ,
+
+"e20" : {
+"prov:activity" : "p12",
+"prov:entity" : "d7"
+} ,
+
+"e21" : {
+"prov:activity" : "p12",
+"prov:entity" : "d5"
+} ,
+
+"e24" : {
+"prov:activity" : "p13",
+"prov:entity" : "d8"
+} ,
+
+"e27" : {
+"prov:activity" : "p14",
+"prov:entity" : "d10"
+} ,
+
+"e31" : {
+"prov:activity" : "p15",
+"prov:entity" : "d11"
+} ,
+
+"e34" : {
+"prov:activity" : "p16",
+"prov:entity" : "d9"
+} ,
+
+"e35" : {
+"prov:activity" : "p16",
+"prov:entity" : "d13"
+} ,
+
+"e38" : {
+"prov:activity" : "p17",
+"prov:entity" : "d14"
+} ,
+
+"e41" : {
+"prov:activity" : "p18",
+"prov:entity" : "d15"
+} ,
+
+"e44" : {
+"prov:activity" : "p19",
+"prov:entity" : "d16"
+} ,
+
+"e47" : {
+"prov:activity" : "p20",
+"prov:entity" : "d17"
+} ,
+
+"e50" : {
+"prov:activity" : "p21",
+"prov:entity" : "d16"
+} ,
+
+"e53" : {
+"prov:activity" : "p22",
+"prov:entity" : "d19"
+} ,
+
+"e56" : {
+"prov:activity" : "p23",
+"prov:entity" : "d20"
+} ,
+
+"e59" : {
+"prov:activity" : "p24",
+"prov:entity" : "d22"
+} ,
+
+"e62" : {
+"prov:activity" : "p25",
+"prov:entity" : "d23"
+} ,
+
+"e65" : {
+"prov:activity" : "p26",
+"prov:entity" : "d24"
+} ,
+
+"e68" : {
+"prov:activity" : "p27",
+"prov:entity" : "d25"
+} ,
+
+"e71" : {
+"prov:activity" : "p28",
+"prov:entity" : "d26"
+} ,
+
+"e74" : {
+"prov:activity" : "p29",
+"prov:entity" : "d27"
+} ,
+
+"e77" : {
+"prov:activity" : "p30",
+"prov:entity" : "d27"
+} ,
+
+"e80" : {
+"prov:activity" : "p31",
+"prov:entity" : "d29"
+} ,
+
+"e81" : {
+"prov:activity" : "p31",
+"prov:entity" : "d28"
+} ,
+
+"e84" : {
+"prov:activity" : "p32",
+"prov:entity" : "d31"
+} ,
+
+"e85" : {
+"prov:activity" : "p32",
+"prov:entity" : "d32"
+} ,
+
+"e88" : {
+"prov:activity" : "p33",
+"prov:entity" : "d31"
+} ,
+
+"e91" : {
+"prov:activity" : "p34",
+"prov:entity" : "d34"
+} ,
+
+"e92" : {
+"prov:activity" : "p34",
+"prov:entity" : "d31"
+} ,
+
+"e95" : {
+"prov:activity" : "p35",
+"prov:entity" : "d35"
+} ,
+
+"e98" : {
+"prov:activity" : "p36",
+"prov:entity" : "d36"
+}}
+}

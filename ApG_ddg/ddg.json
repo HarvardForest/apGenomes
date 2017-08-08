@@ -1,0 +1,73 @@
+{
+
+"prefix" : {
+"prov" : "http://www.w3.org/ns/prov#",
+"rdt" : "http://rdatatracker.org/"
+},
+"activity":{
+
+"environment" : {
+"rdt:name" : "environment",
+"rdt:architecture" : "x86_64",
+"rdt:operatingSystem" : "unix",
+"rdt:language" : "R",
+"rdt:rVersion" : "R version 3.4.0 (2017-04-21)",
+"rdt:script" : "ApG.R",
+"rdt:sourcedScripts" : ""
+,
+"rdt:scriptTimeStamp" : "NA",
+"rdt:workingDirectory" : "/Users/hermes/Labs/HF/projects/apGenomes",
+"rdt:ddgDirectory" : "./ApG_ddg",
+"rdt:ddgTimeStamp" : "2017-08-07T23.56.48PDT",
+"rdt:rdatatrackerVersion" : "2.27.0",
+"rdt:installedPackages" : [
+	{"package" : "AntWeb", "version" : "0.7"},
+	{"package" : "base", "version" : "3.4.0"},
+	{"package" : "bitops", "version" : "1.0-6"},
+	{"package" : "datasets", "version" : "3.4.0"},
+	{"package" : "devtools", "version" : "1.13.3"},
+	{"package" : "gdata", "version" : "2.18.0"},
+	{"package" : "geosphere", "version" : "1.5-5"},
+	{"package" : "ggplot2", "version" : "2.2.1"},
+	{"package" : "graphics", "version" : "3.4.0"},
+	{"package" : "grDevices", "version" : "3.4.0"},
+	{"package" : "grid", "version" : "3.4.0"},
+	{"package" : "lattice", "version" : "0.20-35"},
+	{"package" : "methods", "version" : "3.4.0"},
+	{"package" : "permute", "version" : "0.9-4"},
+	{"package" : "prism", "version" : "0.0.7"},
+	{"package" : "raster", "version" : "2.5-8"},
+	{"package" : "RCurl", "version" : "1.95-4.8"},
+	{"package" : "RDataTracker", "version" : "2.27.0"},
+	{"package" : "rentrez", "version" : "1.1.0"},
+	{"package" : "rlist", "version" : "0.4.6.1"},
+	{"package" : "sp", "version" : "1.2-5"},
+	{"package" : "stats", "version" : "3.4.0"},
+	{"package" : "utils", "version" : "3.4.0"},
+	{"package" : "vegan", "version" : "2.4-3"},
+	{"package" : "XML", "version" : "3.98-1.9"}]
+}},
+"entity":{
+
+"d1" : {
+"rdt:name" : "error.msg",
+"rdt:value" : "\"No binding for .ddg.dev.number . DDG may be incorrect!\"",
+"rdt:valType" : {"container":"vector", "dimension":[1], "type":["character"]},
+"rdt:type" : "Exception",
+"rdt:scope" : "ddg.library",
+"rdt:fromEnv" : "FALSE",
+"rdt:MD5hash" : "",
+"rdt:timestamp" : "",
+"rdt:location" : ""
+}},
+"wasInformedBy":{
+},
+"wasGeneratedBy":{
+
+"e1" : {
+"prov:entity" : "d1",
+"prov:activity" : "p0"
+}},
+"used":{
+}
+}
