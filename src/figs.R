@@ -37,7 +37,7 @@ dev.off()
 png("results/ScaffoldN50.png",width = 700, height = 700)
 ggplot(gaga, aes(Scaffold.N50.length.kb.)) + 
     geom_histogram(binwidth = 1200) + 
-        geom_vline(xintercept = gaemr.tab[,"ScaffoldN50"] / 1000) + 
+        geom_vline(xintercept = gaemr.tab[,"ScaffoldN50"] / 100) + 
             xlab("Scaffold N50") + ylab("Frequency") +
             theme(axis.text=element_text(size=12),
                   axis.title=element_text(size=20,face="bold"))
