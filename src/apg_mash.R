@@ -1,5 +1,4 @@
 ### Analyze the mash distnaces
-
 source("src/mash_helpers.R")
 
 mash <- read.table("data/storage/apg/mash_dist.txt",sep = "\t")

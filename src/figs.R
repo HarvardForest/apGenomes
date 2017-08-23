@@ -1,6 +1,7 @@
-source("src/ApG.R")
 source("src/ant_genome_size.R")
-
+source("src/ApG.R")
+source("src/apg_dataloader.R")
+source("src/apg_mash.R")
 
 ### Ant genomes previously sequenced
 png("results/gaga_world.png",width = 700, height = 700)
@@ -126,6 +127,7 @@ ggplot(df,aes(geo,mash)) + geom_point() +
 dev.off()
 
 ### By species
+stats.mash.spp <- list()
 png("results/geoVmashXspp.png")
 
 i <- 1
@@ -134,9 +136,11 @@ mash.spp <- mash[i,-i]
 df <- data.frame(geo = gcd.spp, 
                  mash = mash.spp,
                  rep(rownames(apg.gcd)[i],length(gcd.spp)))
+stats.mash.spp[[i]] <- cor.test(gcd.spp,mash.spp^2)
 for (i in 2:nrow(apg.gcd)){
 gcd.spp <- apg.gcd[i,-i]
 mash.spp <- mash[i,-i]
+stats.mash.spp[[i]] <- cor.test(gcd.spp,mash.spp^2)
 df <- rbind(df,data.frame(geo = gcd.spp, 
                  mash = mash.spp,
                  rep(rownames(apg.gcd)[i],length(gcd.spp))))
@@ -154,3 +158,17 @@ ggplot(df) +
 dev.off()
 
 system("cp results/*.png docs/esa2017")
+
+do.call(rbind,lapply(stats.mash.spp,unlist))
+
+mash.pc <- princomp(as.dist(mash))
+
+geo.var <- ap.ctr
+rownames(geo.var)[rownames(geo.var) == "rud6"] <- "rud2"
+geo.var <- geo.var[match(rownames(mash.pc$scores),rownames(geo.var)),]
+mash.ve <- envfit(mash.pc$scores, geo.var)
+
+plot(mash.pc$scores[,1:2], pch = "")
+text(mash.pc$scores[,1:2],labels = colnames(mash))
+plot(mash.ve,col = "black")
+
