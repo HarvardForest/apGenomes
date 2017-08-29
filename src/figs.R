@@ -1,7 +1,10 @@
+if (grepl("apGenomes/src",getwd())){setwd("..")}
+
 source("src/ant_genome_size.R")
 source("src/ApG.R")
 source("src/apg_dataloader.R")
 source("src/apg_mash.R")
+source("src/apg_prism.R")
 
 ### Ant genomes previously sequenced
 png("results/gaga_world.png",width = 700, height = 700)

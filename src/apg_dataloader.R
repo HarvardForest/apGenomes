@@ -11,8 +11,9 @@ library(ggplot2)
 library(raster)
 library(AntWeb)
 library(geosphere)
+library(rnoaa)
 
-get.prism <- FALSE
+get.prism <- TRUE
 
 ## sample information
 broad.info <- read.csv('data/storage/apg/SSF-1728_KeyforCollaborator.csv')
@@ -85,9 +86,9 @@ for (i in 1:nrow(ap.ctr)){
 if (get.prism){
     options(prism.path = "~/prismtmp")
     if (!'jnorm' %in% ls()){
-        get_prism_monthlys(type="tmin", year = 2000:2016, mon = 7, keepZip=F)
-        get_prism_normals(type = "tmin",mon = 1,res = '4km',keepZip = F)
-        get_prism_normals(type = "tmax",mon = 7,res = '4km',keepZip = F)
+        get_prism_monthlys(type="ppt", year = 2000:2016, mon = 1:12, keepZip=T)
+        get_prism_monthlys(type="tmax", year = 2000:2016, mon = 1:12, keepZip=T)
+        get_prism_monthlys(type="tmin", year = 2000:2016, mon = 1:12, keepZip=T)
     }
     abs.path <- ls_prism_data(absPath = T)[,2]
     
