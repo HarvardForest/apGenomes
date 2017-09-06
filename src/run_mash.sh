@@ -23,17 +23,9 @@ say "Hey, Mash sketiching just finished!"
 
 for i in $(ls | grep SM); do
     for j in $(ls | grep SM); do 
-	if [ "$i" != "$j" ] 
-	then 
 	    echo $i $j
 	    say Mash starting $i $j
-	    ./Mash/mash dist $i/filtered.scaffolds.fasta.msh $j//filtered.scaffolds.fasta.msh >> $1
-
-	else
-	    echo Skipping $i $j
-	    say Skipping $i $j
-	fi
-    done
+	    ./Mash/mash dist $i/filtered.scaffolds.fasta.msh $j/filtered.scaffolds.fasta.msh >> $1
 done
 
 say "Hey, Mash is finally done!"

@@ -1,23 +1,15 @@
 #!/bin/bash
 
-### use: sh mash_batch.sh <output file name> 
+### use: sh mash_batch.sh <sketch directory> <output file name> 
 
-cd $2
-touch $1
+cd $1
+touch $2
 
 for i in $(ls | grep SM); do
     for j in $(ls | grep SM); do 
-	if [ "$i" != "$j" ] 
-	then 
 	    echo $i $j
 	    say Mash starting $i $j
-	    mash dist $i/scaffolds.fasta.msh $j//scaffolds.fasta.msh >> $1
-
-	else
-	    echo Skipping $i $j
-	    say Skipping $i $j
-	fi
-    done
+	    mash dist $i/scaffolds.fasta.msh $j/scaffolds.fasta.msh >> $2
 done
 
-say "Hey, Mash is finally done!"
+say "Mash just finished"
