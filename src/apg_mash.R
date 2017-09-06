@@ -1,16 +1,16 @@
 ### Analyze the mash distnaces
 source("src/mash_helpers.R")
+broad.info <- read.csv("data/storage/apg/broad_sample_key.csv")
+broad.info[,"Collaborator.Sample.ID"] <- as.character(broad.info[,"Collaborator.Sample.ID"])
+broad.info[broad.info[,"Collaborator.Sample.ID"] == "arudis1","Collaborator.Sample.ID"] <- "rud1"
+broad.info[broad.info[,"Collaborator.Sample.ID"] == "rud6","Collaborator.Sample.ID"] <- "rud2"
 
-mash <- read.table("data/storage/apg/mash_dist.txt",sep = "\t")
-mash <- as.mashdist(mash)
-rownames(mash) <- colnames(mash) <- c("rud1",
-                                      "rud2",
-                                      "pic1",
-                                      "mia1",
-                                      "ful1",
-                                      "ash1",
-                                      "flo1")
-diag(mash) <- 0
+## mash organziation
+mash.txt <- read.table("data/storage/apg/mash_dist.txt",sep = "\t")
+mash <- as.mashdist(mash.txt)
+rownames(mash) <- colnames(mash) <- broad.info[,"Collaborator.Sample.ID"]
+
+## distances
 mash.d <- as.dist(mash)
 geo.d <- as.dist(apg.gd)
 geo.cd <- as.dist(apg.gcd)
