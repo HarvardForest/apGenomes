@@ -100,7 +100,7 @@ dev.off()
 
 
 ### Distance analyses
-png("results/geoVmash.png")
+png("results/geoVmash.png",width = 700, height = 700)
 df <- data.frame(geo = apg.gcd[lower.tri(apg.gcd)] / 1000, 
                  mash = mash[lower.tri(mash)])
 fit <- lm(mash~geo,data = df)
@@ -115,7 +115,7 @@ ggplot(df,aes(geo,mash)) + geom_point() +
 dev.off()
 
 ### Latitude analysis
-png("results/latVmash.png")
+png("results/latVmash.png",width = 700, height = 700)
 df <- data.frame(geo = lat.d[lower.tri(lat.d)] / 1000, 
                  mash = mash[lower.tri(mash)])
 fit <- lm(mash~geo,data = df)
@@ -129,10 +129,22 @@ ggplot(df,aes(geo,mash)) + geom_point() +
                   axis.text.x = element_text(angle = 0, hjust = 1))
 dev.off()
 
+
+## Heatmap
+png("results/ncbi_heat.png",width = 1200, height = 800, pointsize = 25)
+heatmap(ncbi.gen, 
+        RowSideColors=rainbow(nlevels(geno.info[,"subfamily"]))[as.numeric(geno.info[,"subfamily"])],
+        symm = T, margins = c(1,10),labCol = "")
+dev.off()
+png("results/apg_heat.png",width = 1200, height = 800, pointsize = 25)
+heatmap(mash, 
+        symm = T, margins = c(1,10),labCol = "")
+dev.off()
+
+
 ### By species
 stats.mash.spp <- list()
 png("results/geoVmashXspp.png")
-
 i <- 1
 gcd.spp <- apg.gcd[i,-i]
 mash.spp <- mash[i,-i]

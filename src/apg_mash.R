@@ -6,9 +6,15 @@ broad.info[broad.info[,"Collaborator.Sample.ID"] == "arudis1","Collaborator.Samp
 broad.info[broad.info[,"Collaborator.Sample.ID"] == "rud6","Collaborator.Sample.ID"] <- "rud2"
 
 ## mash organziation
+geno.info <- read.csv("data/storage/apg/gen_seq_info.csv")
 mash.txt <- read.table("data/storage/apg/mash_dist.txt",sep = "\t")
-mash <- as.mashdist(mash.txt)
-rownames(mash) <- colnames(mash) <- broad.info[,"Collaborator.Sample.ID"]
+mash <- as.mashdist(mash.txt) 
+rownames(mash) <- colnames(mash) <- as.character(geno.info[sapply(geno.info[,1],grep,x = rownames(mash)),2])
+ncbi.gen <- mash
+ncbi.rv <- c(11,19,14,15,9,5,7,10,6,4,8,12,1,2,24,3,22,23,20,25,26,18,21,16,13,17)
+mash <- mash[grep("Aphaenogaster",rownames(mash)),grep("Aphaenogaster",rownames(mash))]
+
+
 
 ## distances
 mash.d <- as.dist(mash)
