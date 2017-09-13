@@ -172,18 +172,7 @@ ggplot(df) +
 
 dev.off()
 
+### Update figures in presentations and manuscripts
 system("cp results/*.png docs/esa2017")
-
-do.call(rbind,lapply(stats.mash.spp,unlist))
-
-mash.pc <- princomp(as.dist(mash))
-
-geo.var <- ap.ctr
-rownames(geo.var)[rownames(geo.var) == "rud6"] <- "rud2"
-geo.var <- geo.var[match(rownames(mash.pc$scores),rownames(geo.var)),]
-mash.ve <- envfit(mash.pc$scores, geo.var)
-
-plot(mash.pc$scores[,1:2], pch = "")
-text(mash.pc$scores[,1:2],labels = colnames(mash))
-plot(mash.ve,col = "black")
+system("cp results/*.png docs/manuscript")
 

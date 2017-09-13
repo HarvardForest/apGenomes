@@ -7,3 +7,4 @@ docs/manuscript
 *.err
 *.out
 data/storage
+*.DS_Store
