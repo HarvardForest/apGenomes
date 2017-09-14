@@ -14,6 +14,7 @@ library(gdata)
 library(prism)
 library(ggplot2)
 library(raster)
+library(vegan)
 library(gdata)
 
 ### Analysis Outline
@@ -79,4 +80,14 @@ if (!'ant.gen.size' %in% ls()){source('src/ant_genome_size.R')}
 
 
 
+
+### Tests of climate variable correlations
+
+cor.test(clim.data[,"tmax"],clim.data[,"tmin"])
+cor.test(clim.data[,"ppt"],clim.data[,"tmin"])
+
+## Mantel of MASH
+mantel(clim.d,as.dist(mash),method = "p", perm = 10000)
+mantel(temp.d,as.dist(mash),method = "p", perm = 10000)
+mantel(ppt.d,as.dist(mash),method = "p", perm = 10000)
 

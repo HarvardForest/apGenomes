@@ -20,7 +20,7 @@ geo.d <- as.dist(apg.gd)
 geo.cd <- as.dist(apg.gcd)
 geod.pic <- apg.gcd[rownames(apg.gcd) != "pic1","pic1"]
 dist.pic <- apg.geo[,'Latitude'] - apg.geo[,'Latitude']['pic1']
-mash.dpic <- mash[rownames(mash) != "pic1","pic1"]
+mash.dpic <- mash[rownames(mash) != "Aphaenogaster picea","Aphaenogaster picea"]
 
 mash <- mash[order(apg.gcd[,"pic1"],decreasing = F),
              order(apg.gcd[,"pic1"], decreasing = F)]
