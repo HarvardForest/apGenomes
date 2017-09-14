@@ -13,7 +13,7 @@ library(AntWeb)
 library(geosphere)
 library(rnoaa)
 
-get.prism <- TRUE
+get.prism <- FALSE
 
 ## sample information
 broad.info <- read.csv('data/storage/apg/SSF-1728_KeyforCollaborator.csv')

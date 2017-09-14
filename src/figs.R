@@ -1,8 +1,9 @@
 if (grepl("apGenomes/src",getwd())){setwd("..")}
 
 source("src/ant_genome_size.R")
-source("src/ApG.R")
+source("src/ncbi_genome_info.R")
 source("src/apg_dataloader.R")
+source("src/ApG.R")
 source("src/apg_mash.R")
 source("src/apg_prism.R")
 
@@ -142,7 +143,10 @@ heatmap(mash,
 dev.off()
 
 
+### BioGeographic plots
 ### By species
+
+### Geographic distance
 stats.mash.spp <- list()
 png("results/geoVmashXspp.png")
 i <- 1
@@ -171,6 +175,97 @@ ggplot(df) +
                   axis.text.x = element_text(angle = 0))
 
 dev.off()
+
+### Climate distance
+rm(df)
+stats.mash.spp <- list()
+png("results/climVmashXspp.png")
+i <- 1
+clim.spp <- as.matrix(clim.d)[i,-i]
+mash.spp <- mash[i,-i]
+df <- data.frame(clim = clim.spp, 
+                 mash = mash.spp,
+                 rep(rownames(as.matrix(clim.d))[i],length(clim.spp)))
+colnames(df) <- c("clim","mash","Species")
+stats.mash.spp[[i]] <- cor.test(clim.spp,mash.spp^2)
+for (i in 2:nrow(as.matrix(clim.d))){
+    clim.spp <- as.matrix(clim.d)[i,-i]
+    mash.spp <- mash[i,-i]
+    stats.mash.spp[[i]] <- cor.test(clim.spp,mash.spp^2)
+    df <- rbind(df,data.frame(clim = clim.spp, 
+                              mash = mash.spp,
+                              Species = rep(rownames(as.matrix(clim.d))[i],length(clim.spp))))
+}
+ggplot(df) +
+    geom_jitter(aes(clim,mash, colour = Species),) + geom_smooth(aes(clim,mash, colour = Species), method = lm, se = FALSE) +
+        facet_wrap(~Species, scales="free_x") + scale_colour_discrete(guide = FALSE) + 
+              labs(x = "Climate Distance", y = "Genomic Distance (MASH)") +
+            theme(axis.text=element_text(size=10),
+                  axis.title=element_text(size=20,face="bold"),
+                  axis.text.x = element_text(angle = 0))
+dev.off()
+
+
+### Precip distance
+rm(df)
+stats.mash.spp <- list()
+png("results/pptVmashXspp.png")
+i <- 1
+ppt.spp <- as.matrix(ppt.d)[i,-i]
+mash.spp <- mash[i,-i]
+df <- data.frame(ppt = ppt.spp, 
+                 mash = mash.spp,
+                 rep(rownames(as.matrix(ppt.d))[i],length(ppt.spp)))
+colnames(df) <- c("ppt","mash","Species")
+stats.mash.spp[[i]] <- cor.test(ppt.spp,mash.spp^2)
+for (i in 2:nrow(as.matrix(ppt.d))){
+    ppt.spp <- as.matrix(ppt.d)[i,-i]
+    mash.spp <- mash[i,-i]
+    stats.mash.spp[[i]] <- cor.test(ppt.spp,mash.spp^2)
+    df <- rbind(df,data.frame(ppt = ppt.spp, 
+                              mash = mash.spp,
+                              Species = rep(rownames(as.matrix(ppt.d))[i],length(ppt.spp))))
+}
+ggplot(df) +
+    geom_jitter(aes(ppt,mash, colour = Species),) + geom_smooth(aes(ppt,mash, colour = Species), method = lm, se = FALSE) +
+        facet_wrap(~Species, scales="free_x") + scale_colour_discrete(guide = FALSE) + 
+              labs(x = "Precipitation Distance", y = "Genomic Distance (MASH)") +
+            theme(axis.text=element_text(size=10),
+                  axis.title=element_text(size=20,face="bold"),
+                  axis.text.x = element_text(angle = 0))
+dev.off()
+
+### Temp distance
+rm(df)
+stats.mash.spp <- list()
+png("results/tempVmashXspp.png")
+i <- 1
+temp.spp <- as.matrix(temp.d)[i,-i]
+mash.spp <- mash[i,-i]
+df <- data.frame(temp = temp.spp, 
+                 mash = mash.spp,
+                 rep(rownames(as.matrix(temp.d))[i],length(temp.spp)))
+colnames(df) <- c("temp","mash","Species")
+stats.mash.spp[[i]] <- cor.test(temp.spp,mash.spp^2)
+for (i in 2:nrow(as.matrix(temp.d))){
+    temp.spp <- as.matrix(temp.d)[i,-i]
+    mash.spp <- mash[i,-i]
+    stats.mash.spp[[i]] <- cor.test(temp.spp,mash.spp^2)
+    df <- rbind(df,data.frame(temp = temp.spp, 
+                              mash = mash.spp,
+                              Species = rep(rownames(as.matrix(temp.d))[i],length(temp.spp))))
+}
+ggplot(df) +
+    geom_jitter(aes(temp,mash, colour = Species),) + geom_smooth(aes(temp,mash, colour = Species), method = lm, se = FALSE) +
+        facet_wrap(~Species, scales="free_x") + scale_colour_discrete(guide = FALSE) + 
+              labs(x = "Temperature Distance", y = "Genomic Distance (MASH)") +
+            theme(axis.text=element_text(size=10),
+                  axis.title=element_text(size=20,face="bold"),
+                  axis.text.x = element_text(angle = 0))
+dev.off()
+
+## Ordination
+
 
 ### Update figures in presentations and manuscripts
 system("cp results/*.png docs/esa2017")
