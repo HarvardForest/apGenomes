@@ -18,6 +18,25 @@ source("src/helpers.R")
 ### rebuild the stats tables
 make.stats.table <- FALSE
 
+broad.info <- read.csv('data/storage/apg/broad_sample_key.csv')
+sample.info <- read.csv('data/storage/apg/colony_locations.csv')
+ant.info <- read.csv('data/storage/apg/RADseq_mastersheet_2014.csv')
+ant.info <- ant.info[ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. %in% na.omit(sample.info$spec_epithet),]
+ant.info <- ant.info[!ant.info$State == "",]
+ant.geo <- read.csv('data/storage/apg/ant_sites.csv')
+ant.geo[,c("Lon","Lat")] <- apply(ant.geo[,c("Lon","Lat")],2,as.numeric)
+ant.info <- data.frame(ant.info,
+                       ant.geo[match(as.character(ant.info$Locale),ant.geo$Site),c("Lon","Lat")])
+ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. <- 
+    as.character(ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.)
+ant.info <- na.omit(ant.info)
+ant.color <- ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.
+ant.factor <- factor(ant.color)
+
+geo.ctr <- split(ant.info[,c("Lon","Lat")],ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.)
+geo.ctr <- lapply(geo.ctr,function(x) apply(x,2,mean))
+geo.ctr <- do.call(rbind,geo.ctr)
+
 ## source("src/ant_genome_size.R")
 ### https://bmcevolbiol.biomedcentral.com/articles/10.1186/1471-2148-8-64
 ### Genome sizes were analyzed by flow cytometry
@@ -81,6 +100,56 @@ ncbi.rv <- c(11,19,14,15,9,5,7,10,6,4,8,12,1,2,24,3,22,23,20,25,26,18,21,16,13,1
 mash <- mash[grep("Aphaenogaster",rownames(mash)),grep("Aphaenogaster",rownames(mash))]
 
 ## distances
+## geographic information
+geo.ctr <- split(ant.info[,c("Lon","Lat")],ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.)
+geo.ctr <- lapply(geo.ctr,function(x) apply(x,2,mean))
+geo.ctr <- do.call(rbind,geo.ctr)
+
+ap.ctr <- do.call(rbind,list(rud1 = geo.ctr[6,],
+                             rud6 = geo.ctr[6,],
+                             pic1 = geo.ctr[5,],
+                             mia1 = geo.ctr[4,],
+                             ful1 = geo.ctr[3,],
+                             ash1 = geo.ctr[1,],
+                             flo1 = geo.ctr[2,]))
+
+### apg sample geographic info
+### arudis and picea are from google earth
+### All other coords are from ant_sites.csv
+apg.geo  <- do.call(rbind,list('arudis1' = c(-78.9830464,36.0200847),
+                 'rud6' = c(-78.9830464,36.0200847),
+                 'pic1' = c(-72.5847494,42.6004513),
+                 'mia1' = c(-82.301773,29.657955),
+                 'ful1' = c(-82.514575,32.692384),
+                 'ash1' = c(-82.031176,29.785325),
+                 'flo1' = c(-82.031176,29.785325)))
+colnames(apg.geo) <- c('Longitude','Latitude')
+apg.geo.labs <- paste0(substr(rownames(apg.geo),1,3),
+                       substr(rownames(apg.geo),nchar(rownames(apg.geo)),
+                              nchar(rownames(apg.geo))))
+apg.geo.labs[1] <- 'rud1'
+
+### geographic distance for samples
+apg.gd <- array(NA,dim = rep(nrow(apg.geo),2))
+rownames(apg.gd) <- colnames(apg.gd) <- rownames(apg.geo)
+for (i in 1:nrow(apg.geo)){
+    for (j in 1:nrow(apg.geo)){
+        apg.gd[i,j] <- distm (apg.geo[i,], apg.geo[j,], 
+                               fun = distHaversine)
+    }
+}
+
+apg.gcd <- array(NA,dim = rep(nrow(ap.ctr),2))
+rownames(apg.gcd) <- colnames(apg.gcd) <- rownames(ap.ctr)
+for (i in 1:nrow(ap.ctr)){
+    for (j in 1:nrow(ap.ctr)){
+        apg.gcd[i,j] <- distm (ap.ctr[i,], ap.ctr[j,], 
+                               fun = distHaversine)
+    }
+}
+
+
+
 mash.d <- as.dist(mash)
 geo.d <- as.dist(apg.gd)
 geo.cd <- as.dist(apg.gcd)
@@ -184,24 +253,6 @@ tmin.d <- as.dist(tmin.d)
 
 ### Analysis Outline
 ## sample information
-broad.info <- read.csv('data/storage/apg/broad_sample_key.csv')
-sample.info <- read.csv('data/storage/apg/colony_locations.csv')
-ant.info <- read.csv('data/storage/apg/RADseq_mastersheet_2014.csv')
-ant.info <- ant.info[ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. %in% na.omit(sample.info$spec_epithet),]
-ant.info <- ant.info[!ant.info$State == "",]
-ant.geo <- read.csv('data/storage/apg/ant_sites.csv')
-ant.geo[,c("Lon","Lat")] <- apply(ant.geo[,c("Lon","Lat")],2,as.numeric)
-ant.info <- data.frame(ant.info,
-                       ant.geo[match(as.character(ant.info$Locale),ant.geo$Site),c("Lon","Lat")])
-ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. <- 
-    as.character(ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.)
-ant.info <- na.omit(ant.info)
-ant.color <- ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.
-ant.factor <- factor(ant.color)
-
-geo.ctr <- split(ant.info[,c("Lon","Lat")],ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.)
-geo.ctr <- lapply(geo.ctr,function(x) apply(x,2,mean))
-geo.ctr <- do.call(rbind,geo.ctr)
 
 ### Compare to other ant genomes and bees
 ## This is the data to make the genome to gene/contig fig
