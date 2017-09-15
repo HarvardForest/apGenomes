@@ -13,7 +13,35 @@ unlist(sapply(pkg,function(pkg)
 
 ### Load packages and user defined functions
 unlist(lapply(pkg, require, character.only = TRUE))
-source("src/helpers.R")
+
+### user defined functions
+### source("src/helpers.R")
+as.mashdist <- function(x){
+    lab <- unique(as.character(unlist(x[,1:2])))
+    mat <- array(NA,dim = rep(length(lab),2))
+    for (i in 1:nrow(x)){
+        mat[lab == x[i,1],lab == x[i,2]] <- x[i,3]
+    }
+    rownames(mat) <- colnames(mat) <- lab
+    mat
+}
+
+### https://cran.r-project.org/web/packages/xtable/vignettes/xtableGallery.pdf
+italic <- function(x){paste0('{\\emph{',x,'}}')}
+
+### Example.
+## mtcars$cyl <- factor(mtcars$cyl, levels = c("four","six","eight"),
+##                      labels = c("four",italic("six"),"eight"))
+## tbl <- ftable(mtcars$cyl, mtcars$vs, mtcars$am, mtcars$gear,
+##               row.vars = c(2, 4),
+##               dnn = c("Cylinders", "V/S", "Transmission", "Gears"))
+## xftbl <- xtableFtable(tbl, method = "row.compact")
+## print.xtableFtable(xftbl,
+##                    sanitize.rownames.function = large,
+##                    sanitize.colnames.function = bold,
+##                    rotate.colnames = TRUE,
+##                    rotate.rownames = TRUE)
+
 
 ### rebuild the stats tables
 make.stats.table <- FALSE
