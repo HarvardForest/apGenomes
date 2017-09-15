@@ -188,32 +188,26 @@ lat.d <- as.matrix(dist(as.matrix(geo.lat)))
 
 ## SEE: https://github.com/ropensci/prism
 ## Get PRISM data
-if (2 > 3){system("rm -rf ~/prismtmp")}
-options(prism.path = "~/prismtmp")
+options(prism.path = "~/prismtmpnormals")
 get_prism_normals(type="ppt", "800m", annual = TRUE)
 get_prism_normals(type="tmin", "800m", annual = TRUE)
 get_prism_normals(type="tmax", "800m", annual = TRUE)
 
 ## Stack files
 mystack <- ls_prism_data() %>%  prism_stack()  
-
 ## Get proj from raster stack
 mycrs <- mystack@crs@projargs
-
 ## My points
 mypoints <- data.frame(id = rownames(apg.geo),
                        lat = apg.geo[,"Latitude"],
                        long = apg.geo[,"Longitude"]
 )
-
 ## Convert points to spatial points data frame
 coordinates(mypoints) <- c('long', 'lat')
 proj4string(mypoints) <- CRS(mycrs)
-
 ## Extract data from raster
 data <- data.frame(coordinates(mypoints), mypoints$id,
                    extract(mystack, mypoints))
-
 ## Rename column headers
 colnames(data)[4:6] <- do.call(rbind,strsplit(colnames(data)[4:6],"_"))[,2]
 rownames(data)[rownames(data) == "arudis1"] <- "rud1"
@@ -221,30 +215,25 @@ data[,"mypoints.id"] <- as.character(data[,"mypoints.id"])
 data[rownames(data) == "rud1","mypoints.id"] <- "rud1"
 
 ## Rename object
-clim.data <- data[match(c("pic1", "rud1", "rud6", "ful1", "flo1", "mia1", "ash1"),rownames(data)),]
+clim.data <- data
 
 ## create a climate and distance objects
 ## Climate distances
 clim.d <- dist(apply(clim.data[,c("ppt","tmax","tmin")],2,function(x) (x - mean(x)) / sd(x)))
-clim.d <- as.matrix(clim.d)
-clim.d <- clim.d[reorder,reorder]
 ## Temperature distances
 temp.d <- dist(apply(clim.data[,c("tmax","tmin")],2,function(x) (x - mean(x)) / sd(x)))
-temp.d <- as.matrix(temp.d)
-temp.d <- as.dist(temp.d)
 ### Precip distances
 ppt.d <- as.matrix(dist(clim.data[,c("ppt")]))
-ppt.d <- ppt.d[reorder,reorder]
+rownames(ppt.d) <- colnames(ppt.d) <- rownames(as.matrix(clim.d))
 ppt.d <- as.dist(ppt.d)
 ### Tmax distances
 tmax.d <- as.matrix(dist(clim.data[,c("tmax")]))
-tmax.d <- tmax.d[reorder,reorder]
+rownames(tmax.d) <- colnames(tmax.d) <- rownames(as.matrix(clim.d))
 tmax.d <- as.dist(tmax.d)
 ### Tmin distances
 tmin.d <- as.matrix(dist(clim.data[,c("tmin")]))
-tmin.d <- tmin.d[reorder,reorder]
+rownames(tmin.d) <- colnames(tmin.d) <- rownames(as.matrix(clim.d))
 tmin.d <- as.dist(tmin.d)
-
 
 ### Analysis Outline
 ## sample information
@@ -464,9 +453,9 @@ cor.test(clim.data[,"tmax"],clim.data[,"tmin"])
 cor.test(clim.data[,"ppt"],clim.data[,"tmin"])
 
 ## Mantel of MASH
-mantel(clim.d,as.dist(mash),method = "p", perm = 10000)
-mantel(temp.d,as.dist(mash),method = "p", perm = 10000)
-mantel(ppt.d,as.dist(mash),method = "p", perm = 10000)
+mantel(clim.d,mash.d,method = "p", perm = 10000)
+mantel(temp.d,mash.d,method = "p", perm = 10000)
+mantel(ppt.d,mash.d,method = "p", perm = 10000)
 
 ### Figures
 if (grepl("apGenomes/src",getwd())){setwd("..")}
