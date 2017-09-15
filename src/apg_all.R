@@ -227,27 +227,22 @@ clim.data <- data[match(c("pic1", "rud1", "rud6", "ful1", "flo1", "mia1", "ash1"
 ## Climate distances
 clim.d <- dist(apply(clim.data[,c("ppt","tmax","tmin")],2,function(x) (x - mean(x)) / sd(x)))
 clim.d <- as.matrix(clim.d)
-reorder <- match(c("rud1", "rud6", "pic1", "mia1", "ful1", "ash1", "flo1"),rownames(clim.d))
 clim.d <- clim.d[reorder,reorder]
 ## Temperature distances
 temp.d <- dist(apply(clim.data[,c("tmax","tmin")],2,function(x) (x - mean(x)) / sd(x)))
 temp.d <- as.matrix(temp.d)
-temp.d <- temp.d[reorder,reorder]
 temp.d <- as.dist(temp.d)
 ### Precip distances
 ppt.d <- as.matrix(dist(clim.data[,c("ppt")]))
 ppt.d <- ppt.d[reorder,reorder]
-rownames(ppt.d) <- colnames(ppt.d) <- rownames(as.matrix(clim.d))
 ppt.d <- as.dist(ppt.d)
 ### Tmax distances
 tmax.d <- as.matrix(dist(clim.data[,c("tmax")]))
 tmax.d <- tmax.d[reorder,reorder]
-rownames(tmax.d) <- colnames(tmax.d) <- rownames(as.matrix(clim.d))
 tmax.d <- as.dist(tmax.d)
 ### Tmin distances
 tmin.d <- as.matrix(dist(clim.data[,c("tmin")]))
 tmin.d <- tmin.d[reorder,reorder]
-rownames(tmin.d) <- colnames(tmin.d) <- rownames(as.matrix(clim.d))
 tmin.d <- as.dist(tmin.d)
 
 
