@@ -263,23 +263,26 @@ if (!any(grepl("ncbi_ant.csv", dir("data/storage/apg")))){
 ncbi.ant <- read.csv("data/storage/apg/ncbi_ant.csv")
 colnames(ncbi.ant)[1] <- 'Organism'
 
+### Parse the reference sizes
+ref.sizes <- c(as.numeric(ncbi.ant[,'Size..Mb.']),ant.gen.size[,'1C Genome Size (Mb)'])
+
 ### AntWeb Info
-aw.apg <- list()
-for (i in 1:nrow(sample.info)){
-    aw.apg[[i]] <- aw_data(
-        scientific_name = 
-            paste('Aphaenogaster',
-                  sample.info[i,'spec_epithet']),
-        georeferenced = TRUE)
-}
-### ant web info for ncbi
-aw.ncbi <- list()
-for (i in 1:nrow(sample.info)){
-    aw.ncbi[[i]] <- aw_data(
-        scientific_name = 
-            as.character(ncbi.ant[i,2]),
-        georeferenced = TRUE)
-}
+## aw.apg <- list()
+## for (i in 1:nrow(sample.info)){
+##     aw.apg[[i]] <- aw_data(
+##         scientific_name = 
+##             paste('Aphaenogaster',
+##                   sample.info[i,'spec_epithet']),
+##         georeferenced = TRUE)
+## }
+## ### ant web info for ncbi
+## aw.ncbi <- list()
+## for (i in 1:nrow(sample.info)){
+##     aw.ncbi[[i]] <- aw_data(
+##         scientific_name = 
+##             as.character(ncbi.ant[i,2]),
+##         georeferenced = TRUE)
+## }
 
 ### Inter-species comparisons
 ### Load other ant genome information
@@ -438,13 +441,13 @@ if (make.stats.table){
     capture.output(xtab,file = "docs/manuscript/seq_info_tab.tex")
     size.xlim <- range(as.numeric(c((
         stats[,'TotalScaffoldLength'] / (1000000)),
-                                    ncbi.ant[,'Size (Mb)'])))
+                                    ncbi.ant[,'Size..Mb.)'])))
     size.xlim <- c(floor(size.xlim[1]),ceiling(size.xlim[2]))
     gc.xlim <- range(as.numeric(c(
         stats[,'AssemblyGC'],
         ncbi.ant[,'GC%'])))
     gc.xlim <- c(floor(gc.xlim[1]),ceiling(gc.xlim[2]))
-    ref.sizes <- c(as.numeric(ncbi.ant[,'Size (Mb)']),
+    ref.sizes <- c(as.numeric(ncbi.ant[,'Size..Mb.)']),
                    ant.gen.size[,'1C Genome Size (Mb)'])
     ## NCBI ant information
     ncbi.xtab <- ncbi.ant[,c('BioProject Accession','Release Date')]
