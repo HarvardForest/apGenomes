@@ -167,6 +167,7 @@ diag(apg.gcd) <- NA
 
 ### Reorg geo.ctr for latitude
 geo.lat <- geo.ctr[c(6,6,5,4,3,1,2),"Lat"]
+names(geo.lat) <- c("rudis1","rudis6","picea","miamiana","fulva","ashmeadi","floridana")
 
 ### Size similarity
 size.d <- as.matrix(dist(as.matrix(gaemr.tab[,"TotalScaffoldLength"])))
@@ -177,9 +178,9 @@ gc.d <- as.matrix(dist(as.matrix(gaemr.tab[,"AssemblyGC"])))
 gc.dpic <- size.d[rownames(mash) == "pic1",rownames(mash) != "pic1"]
 
 ### Lat distance
-
 lat.d <- as.matrix(dist(as.matrix(geo.lat)))
-
+lat.d.reorder <- match(c("picea","rudis1","rudis6","fulva","floridana","miamiana","ashmeadi"),rownames(lat.d))
+lat.d <- lat.d[lat.d.reorder,lat.d.reorder]
 
 ## source("src/apg_prism.R")
 ### Get prism data for coordinates
@@ -458,8 +459,6 @@ mantel(temp.d,mash.d,method = "p", perm = 10000)
 mantel(ppt.d,mash.d,method = "p", perm = 10000)
 
 ### Figures
-if (grepl("apGenomes/src",getwd())){setwd("..")}
-
 ### Ant genomes previously sequenced
 png("results/gaga_world.png",width = 700, height = 700)
 ggplot(gaga.loc, aes(Country)) + 
@@ -551,8 +550,6 @@ ggplot(data.frame(gaemr.tab,names = rownames(mash)),
 dev.off()
 
 
-
-
 ### Distance analyses
 png("results/geoVmash.png",width = 700, height = 700)
 df <- data.frame(geo = apg.gcd[lower.tri(apg.gcd)] / 1000, 
@@ -583,7 +580,6 @@ ggplot(df,aes(geo,mash)) + geom_point() +
                   axis.text.x = element_text(angle = 0, hjust = 1))
 dev.off()
 
-
 ## Heatmap
 png("results/ncbi_heat.png",width = 1200, height = 800, pointsize = 25)
 heatmap(ncbi.gen, 
@@ -594,7 +590,6 @@ png("results/apg_heat.png",width = 1200, height = 800, pointsize = 25)
 heatmap(mash, 
         symm = T, margins = c(1,10),labCol = "")
 dev.off()
-
 
 ### BioGeographic plots
 ### By species
@@ -626,7 +621,6 @@ ggplot(df) +
             theme(axis.text=element_text(size=10),
                   axis.title=element_text(size=20,face="bold"),
                   axis.text.x = element_text(angle = 0))
-
 dev.off()
 
 ### Climate distance
@@ -635,7 +629,7 @@ stats.mash.spp <- list()
 png("results/climVmashXspp.png")
 i <- 1
 clim.spp <- as.matrix(clim.d)[i,-i]
-mash.spp <- mash[i,-i]
+mash.spp <- as.matrix(mash.d)[i,-i]
 df <- data.frame(clim = clim.spp, 
                  mash = mash.spp,
                  rep(rownames(as.matrix(clim.d))[i],length(clim.spp)))
@@ -643,7 +637,7 @@ colnames(df) <- c("clim","mash","Species")
 stats.mash.spp[[i]] <- cor.test(clim.spp,mash.spp^2)
 for (i in 2:nrow(as.matrix(clim.d))){
     clim.spp <- as.matrix(clim.d)[i,-i]
-    mash.spp <- mash[i,-i]
+    mash.spp <- as.matrix(mash.d)[i,-i]
     stats.mash.spp[[i]] <- cor.test(clim.spp,mash.spp^2)
     df <- rbind(df,data.frame(clim = clim.spp, 
                               mash = mash.spp,
@@ -658,14 +652,13 @@ ggplot(df) +
                   axis.text.x = element_text(angle = 0))
 dev.off()
 
-
 ### Precip distance
 rm(df)
 stats.mash.spp <- list()
 png("results/pptVmashXspp.png")
 i <- 1
 ppt.spp <- as.matrix(ppt.d)[i,-i]
-mash.spp <- mash[i,-i]
+mash.spp <- as.matrix(mash.d)[i,-i]
 df <- data.frame(ppt = ppt.spp, 
                  mash = mash.spp,
                  rep(rownames(as.matrix(ppt.d))[i],length(ppt.spp)))
@@ -673,7 +666,7 @@ colnames(df) <- c("ppt","mash","Species")
 stats.mash.spp[[i]] <- cor.test(ppt.spp,mash.spp^2)
 for (i in 2:nrow(as.matrix(ppt.d))){
     ppt.spp <- as.matrix(ppt.d)[i,-i]
-    mash.spp <- mash[i,-i]
+    mash.spp <- as.matrix(mash.d)[i,-i]
     stats.mash.spp[[i]] <- cor.test(ppt.spp,mash.spp^2)
     df <- rbind(df,data.frame(ppt = ppt.spp, 
                               mash = mash.spp,
@@ -694,7 +687,7 @@ stats.mash.spp <- list()
 png("results/tempVmashXspp.png")
 i <- 1
 temp.spp <- as.matrix(temp.d)[i,-i]
-mash.spp <- mash[i,-i]
+mash.spp <- as.matrix(mash.d)[i,-i]
 df <- data.frame(temp = temp.spp, 
                  mash = mash.spp,
                  rep(rownames(as.matrix(temp.d))[i],length(temp.spp)))
@@ -702,7 +695,7 @@ colnames(df) <- c("temp","mash","Species")
 stats.mash.spp[[i]] <- cor.test(temp.spp,mash.spp^2)
 for (i in 2:nrow(as.matrix(temp.d))){
     temp.spp <- as.matrix(temp.d)[i,-i]
-    mash.spp <- mash[i,-i]
+    mash.spp <- as.matrix(mash.d)[i,-i]
     stats.mash.spp[[i]] <- cor.test(temp.spp,mash.spp^2)
     df <- rbind(df,data.frame(temp = temp.spp, 
                               mash = mash.spp,
