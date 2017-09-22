@@ -4,15 +4,18 @@ if (substr(getwd(),(nchar(getwd()) - 2),nchar(getwd())) == "src"){setwd("..")}
 pkg <- c("gdata", "prism", "ggplot2", "raster", "AntWeb", "geosphere",
          "rnoaa", "gdata", "prism", "ggplot2", "raster", "vegan", "gdata",
          "tidyr", "stringr", "prism", "raster", "magrittr", "XML", "RCurl",
-         "rlist", "rentrez","xtable")
-unlist(sapply(pkg,function(pkg) 
-    if(!pkg %in% installed.packages()[,1]){
-        install.packages(pkg)
-    }
-))
+         "rlist", "rentrez","xtable","broom","ecodist","tibble")
+## 
+if (any(!pkg %in% installed.packages()[,1])){
+    unlist(sapply(pkg,function(pkg) 
+        if(!pkg %in% installed.packages()[,1]){
+            install.packages(pkg)
+        }
+                  ))
+}
 
 ### Load packages and user defined functions
-unlist(lapply(pkg, require, character.only = TRUE))
+all(unlist(lapply(pkg, require, character.only = TRUE)))
 
 ### user defined functions
 ### source("src/helpers.R")
@@ -478,14 +481,31 @@ if (make.stats.table){
 
 ### Genomic biogeography = lat/lon, distance, climate = temperature, climatic similarities
 ### Tests of climate variable correlations
-cor.test(clim.data[,"tmax"],clim.data[,"tmin"])
-cor.test(clim.data[,"ppt"],clim.data[,"tmin"])
+cor.tminmax <- cor.test(clim.data[,"tmax"],clim.data[,"tmin"])
+cor.ppttmin <- cor.test(clim.data[,"ppt"],clim.data[,"tmin"])
+clim.cor <- do.call(rbind,lapply(lst(cor.tminmax,cor.ppttmin),tidy))
+write.csv(clim.cor,"results/clim_cor.csv")
 
 ## Mantel of MASH
-mantel(clim.d,mash.d,method = "p", perm = 10000)
-mantel(temp.d,mash.d,method = "p", perm = 10000)
-mantel(ppt.d,mash.d,method = "p", perm = 10000)
+mantel.tab <- lst(clim.geog = ecodist::mantel(clim.d~geo.cd, nperm = 10000),
+                  geog = ecodist::mantel(mash.d~geo.cd, nperm = 10000),
+                  clim = ecodist::mantel(mash.d~clim.d, nperm = 10000),
+                  temp = ecodist::mantel(mash.d~temp.d, nperm = 10000),
+                  ppt = ecodist::mantel(mash.d~ppt.d, nperm = 10000))
+mantel.tab <- do.call(rbind,mantel.tab)
+write.csv(mantel.tab,"results/mantel_tab.csv")
 
+mantel.xtab <- xtable::xtable(mantel.tab)
+## Table: create ncbi_ants 
+print(mantel.xtab,
+      type = "latex",
+      file = "results/mantel_tab.tex",
+      include.rownames = TRUE,
+      include.colnames = TRUE
+      )
+
+## Geography and climate
+mantel.geog <- ecodist::mantel(clim.d~geo.cd, nperm = 10000)
 ### Figures
 ### Ant genomes previously sequenced
 png("results/gaga_world.png",width = 700, height = 700)
