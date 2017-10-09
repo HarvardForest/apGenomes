@@ -88,17 +88,21 @@ ags.u <- data.frame(region = names(ags.u),count = as.numeric(ags.u))
 
 
 ### From the GAGA group
+onlyAz <- function(x){
+    paste(strsplit(x, split = "")[[1]][
+        strsplit(x, split = "")[[1]] %in% 
+            c(LETTERS,letters)], collapse = "")
+}
+
 gaga <- na.omit(read.csv("data/gaga_genome_info.csv"))
 gaga[,"Scaffold.N50.length.kb."] <- as.numeric(gsub(",","",as.character(
     gaga[,"Scaffold.N50.length.kb."])))
 gaga[,"Contig.N50.length.kb."] <- as.numeric(gsub(",","",as.character(
     gaga[,"Contig.N50.length.kb."])))
 gaga.loc <- do.call(rbind,strsplit(as.character(gaga[,"Location"]),","))
-gaga.loc <- apply(gaga.loc,2,gsub,pattern = "\001",replacement = "")
-gaga.loc <- apply(gaga.loc,2,gsub,pattern = " ",replacement = "")
+gaga.loc <- apply(gaga.loc,2,function(x) sapply(x, onlyAz))
 colnames(gaga.loc) <- c("City","State","Country")
 gaga.loc <- data.frame(gaga.loc)
-
 
 ## source("src/apg_mash.R")
 ### Analyze the mash distnaces
@@ -478,13 +482,20 @@ if (make.stats.table){
 
 ### Genomic biogeography = lat/lon, distance, climate = temperature, climatic similarities
 ### Tests of climate variable correlations
+colnames(gaemr.tab)
+summary(lm(gaemr.tab[,"AssemblyGC"]~apg.geo[,"Latitude"]))
+summary(lm(gaemr.tab[,"TotalScaffoldLength"]~apg.geo[,"Latitude"]))
+summary(lm(gaemr.tab[,"AssemblyGC"]~clim.data[,"ppt"]))
+summary(lm(gaemr.tab[,"TotalScaffoldLength"]~clim.data[,"ppt"]))
 cor.test(clim.data[,"tmax"],clim.data[,"tmin"])
 cor.test(clim.data[,"ppt"],clim.data[,"tmin"])
 
 ## Mantel of MASH
 mantel(clim.d,mash.d,method = "p", perm = 10000)
+mantel(clim.d,mash.d,method = "p", perm = 10000)
 mantel(temp.d,mash.d,method = "p", perm = 10000)
 mantel(ppt.d,mash.d,method = "p", perm = 10000)
+
 
 ### Figures
 ### Ant genomes previously sequenced
