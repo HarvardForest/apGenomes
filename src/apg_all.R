@@ -19,6 +19,11 @@ all(unlist(lapply(pkg, require, character.only = TRUE)))
 
 ### user defined functions
 ### source("src/helpers.R")
+get.spp <- function(x){
+    x <- grep("species", strsplit(x,split = ";")[[1]], value = T)
+    return(gsub("species=","",x))
+}
+
 as.mashdist <- function(x){
     lab <- unique(as.character(unlist(x[,1:2])))
     mat <- array(NA,dim = rep(length(lab),2))
@@ -320,8 +325,9 @@ if (make.stats.table){
         x <- apgs[i]
         tab <- lapply(paste0(x,'/gaemr/table/',
                              c("assembly.basic_assembly_stats.table.txt"
+                                        ,
+                                         "assembly.blast_hit_taxonomy.table.txt"
                                         #,
-                                        # "assembly.blast_hit_taxonomy.table.txt",
                                         # "assembly.contig_detail.table.txt",
                                         # "assembly.gap_analysis.table.txt",
                                         # "assembly.kmer_copy_number.table.txt",
