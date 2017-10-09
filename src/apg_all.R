@@ -497,6 +497,29 @@ clim.cor <- do.call(rbind,lapply(lst(cor.tminmax,cor.ppttmin),tidy))
 write.csv(clim.cor,"results/clim_cor.csv")
 
 ## Mantel of MASH
+clim.d <- as.matrix(clim.d)
+#clim.d <- as.dist(clim.d[-2,-2])
+clim.d <- as.dist(clim.d)
+
+mash.d <- as.dist(mash)
+mash.d <- as.matrix(mash.d)
+mash.d <- mash.d[c(1,2,7,5,3,6,4),c(1,2,7,5,3,6,4)]
+#mash.d <- as.dist(mash.d[-2,-2])
+mash.d <- as.dist(mash.d)
+
+temp.d <- as.matrix(temp.d)
+#temp.d <- as.dist(temp.d[-2,-2])
+temp.d <- as.dist(temp.d)
+
+ppt.d <- as.matrix(ppt.d)
+#ppt.d <- as.dist(ppt.d[-2,-2])
+ppt.d <- as.dist(ppt.d)
+
+geo.cd <- as.matrix(geo.cd)
+geo.cd <- geo.cd[c(1,2,7,5,3,6,4),c(1,2,7,5,3,6,4)]
+#geo.cd <- as.dist(geo.cd[-2,-2])
+geo.cd <- as.dist(geo.cd)
+
 mantel.tab <- lst(clim.geog = ecodist::mantel(clim.d~geo.cd, nperm = 10000),
                   geog = ecodist::mantel(mash.d~geo.cd, nperm = 10000),
                   clim = ecodist::mantel(mash.d~clim.d, nperm = 10000),
