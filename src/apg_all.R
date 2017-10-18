@@ -492,9 +492,20 @@ if (make.stats.table){
 ### Genomic biogeography = lat/lon, distance, climate = temperature, climatic similarities
 ### Tests of climate variable correlations
 cor.tminmax <- cor.test(clim.data[,"tmax"],clim.data[,"tmin"])
+cor.ppttmax <- cor.test(clim.data[,"ppt"],clim.data[,"tmax"])
 cor.ppttmin <- cor.test(clim.data[,"ppt"],clim.data[,"tmin"])
-clim.cor <- do.call(rbind,lapply(lst(cor.tminmax,cor.ppttmin),tidy))
+clim.cor <- do.call(rbind,lapply(lst(cor.tminmax,cor.ppttmax,cor.ppttmin),tidy))
 write.csv(clim.cor,"results/clim_cor.csv")
+
+## Table: create mantel
+climcor.xtab <- xtable::xtable(clim.cor, digits = 5)
+print(climcor.xtab,
+      type = "latex",
+      file = "results/clim_cor.tex",
+      include.rownames = TRUE,
+      include.colnames = TRUE
+      )
+
 
 ## Mantel of MASH
 clim.d <- as.matrix(clim.d)
@@ -528,8 +539,8 @@ mantel.tab <- lst(clim.geog = ecodist::mantel(clim.d~geo.cd, nperm = 10000),
 mantel.tab <- do.call(rbind,mantel.tab)
 write.csv(mantel.tab,"results/mantel_tab.csv")
 
-mantel.xtab <- xtable::xtable(mantel.tab)
-## Table: create ncbi_ants 
+mantel.xtab <- xtable::xtable(mantel.tab, digits = 5)
+## Table: create mantel
 print(mantel.xtab,
       type = "latex",
       file = "results/mantel_tab.tex",
@@ -539,6 +550,19 @@ print(mantel.xtab,
 
 ## Geography and climate
 mantel.geog <- ecodist::mantel(clim.d~geo.cd, nperm = 10000)
+
+
+### gaemr correlations
+gc.dat <- data.frame(GC = gaemr.tab[,"AssemblyGC"], 
+                     Latitude = apg.geo[,"Latitude"], 
+                     Precipitation = clim.data[,"ppt"])
+size.dat <- data.frame(GenomeSize = gaemr.tab[,"TotalScaffoldLength"], 
+                     Latitude = apg.geo[,"Latitude"], 
+                     Precipitation = clim.data[,"ppt"])
+
+(summary(lm(GC~Latitude*Precipitation, data = gc.dat)))
+(summary(lm(GenomeSize~Latitude*Precipitation, data = size.dat)))
+
 
 ### Figures
 ### Ant genomes previously sequenced

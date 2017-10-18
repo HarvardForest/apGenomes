@@ -1,3 +1,4 @@
 "","estimate","statistic","p.value","parameter","conf.low","conf.high","method","alternative"
 "cor.tminmax",0.996797981803722,27.8748917724909,1.11241784571048e-06,5,0.977488461963586,0.999548331264989,"Pearson's product-moment correlation","two.sided"
+"cor.ppttmax",0.573305857638914,1.56461129465971,0.178444807258704,5,-0.316316332261557,0.926404793479381,"Pearson's product-moment correlation","two.sided"
 "cor.ppttmin",0.613421171919748,1.73680417785282,0.142932463791529,5,-0.259520130582034,0.934701567825343,"Pearson's product-moment correlation","two.sided"
