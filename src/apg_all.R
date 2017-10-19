@@ -531,7 +531,7 @@ geo.cd <- geo.cd[c(1,2,7,5,3,6,4),c(1,2,7,5,3,6,4)]
 #geo.cd <- as.dist(geo.cd[-2,-2])
 geo.cd <- as.dist(geo.cd)
 
-mantel.tab <- lst(clim.geog = ecodist::mantel(clim.d~geo.cd, nperm = 10000),
+mantel.tab <- list(clim.geog = ecodist::mantel(clim.d~geo.cd, nperm = 10000),
                   geog = ecodist::mantel(mash.d~geo.cd, nperm = 10000),
                   clim = ecodist::mantel(mash.d~clim.d, nperm = 10000),
                   temp = ecodist::mantel(mash.d~temp.d, nperm = 10000),
