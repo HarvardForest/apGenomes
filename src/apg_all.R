@@ -53,7 +53,6 @@ italic <- function(x){paste0('{\\emph{',x,'}}')}
 
 ### rebuild the stats tables
 make.stats.table <- FALSE
-
 broad.info <- read.csv('data/storage/apg/broad_sample_key.csv')
 sample.info <- read.csv('data/storage/apg/colony_locations.csv')
 ant.info <- read.csv('data/storage/apg/RADseq_mastersheet_2014.csv')
@@ -497,7 +496,7 @@ cor.ppttmin <- cor.test(clim.data[,"ppt"],clim.data[,"tmin"])
 clim.cor <- do.call(rbind,lapply(lst(cor.tminmax,cor.ppttmax,cor.ppttmin),tidy))
 write.csv(clim.cor,"results/clim_cor.csv")
 
-## Table: create mantel
+## Table: create climate correlation table
 climcor.xtab <- xtable::xtable(clim.cor, digits = 5)
 print(climcor.xtab,
       type = "latex",
@@ -508,28 +507,22 @@ print(climcor.xtab,
 
 
 ## Mantel of MASH
-clim.d <- as.matrix(clim.d)
-#clim.d <- as.dist(clim.d[-2,-2])
-clim.d <- as.dist(clim.d)
-
-mash.d <- as.dist(mash)
-mash.d <- as.matrix(mash.d)
-mash.d <- mash.d[c(1,2,7,5,3,6,4),c(1,2,7,5,3,6,4)]
-#mash.d <- as.dist(mash.d[-2,-2])
-mash.d <- as.dist(mash.d)
-
-temp.d <- as.matrix(temp.d)
-#temp.d <- as.dist(temp.d[-2,-2])
-temp.d <- as.dist(temp.d)
-
-ppt.d <- as.matrix(ppt.d)
-#ppt.d <- as.dist(ppt.d[-2,-2])
-ppt.d <- as.dist(ppt.d)
-
-geo.cd <- as.matrix(geo.cd)
-geo.cd <- geo.cd[c(1,2,7,5,3,6,4),c(1,2,7,5,3,6,4)]
-#geo.cd <- as.dist(geo.cd[-2,-2])
-geo.cd <- as.dist(geo.cd)
+## check ordering 
+if (!all(
+    colnames(as.matrix(mash.d)) == c("Aphaenogaster rudis1", 
+                "Aphaenogaster rudis2", 
+                "Aphaenogaster picea",
+                "Aphaenogaster miamiana",
+                "Aphaenogaster fulva",
+                "Aphaenogaster ashmeadi", 
+                "Aphaenogaster floridana")) & 
+    all(colnames(as.matrix(temp.d)) == c(
+                    "rud1", "rud6", "pic1", "mia1", "ful1", "ash1", "flo1")) & 
+    (all(colnames(as.matrix(temp.d)) == colnames(as.matrix(clim.d))) & 
+         all(colnames(as.matrix(clim.d)) == colnames(as.matrix(geo.cd))) & 
+             all(colnames(as.matrix(clim.d)) == colnames(as.matrix(ppt.d))))){
+    warning("Distance matrix ordering incorrect!")
+}
 
 mantel.tab <- list(clim.geog = ecodist::mantel(clim.d~geo.cd, nperm = 10000),
                   geog = ecodist::mantel(mash.d~geo.cd, nperm = 10000),
