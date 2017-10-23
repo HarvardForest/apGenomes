@@ -18,7 +18,10 @@ if (any(!pkg %in% installed.packages()[,1])){
 all(unlist(lapply(pkg, require, character.only = TRUE)))
 
 ### user defined functions
-### source("src/helpers.R")
+reorder_size <- function(x) {
+    factor(x, levels = names(sort(table(x))))
+}
+
 get.spp <- function(x){
     x <- grep("species", strsplit(x,split = ";")[[1]], value = T)
     return(gsub("species=","",x))
@@ -109,7 +112,10 @@ gaga[,"Contig.N50.length.kb."] <- as.numeric(gsub(",","",as.character(
 gaga.loc <- do.call(rbind,strsplit(as.character(gaga[,"Location"]),","))
 gaga.loc <- apply(gaga.loc,2,function(x) sapply(x, onlyAz))
 colnames(gaga.loc) <- c("City","State","Country")
+## Change ordering
 gaga.loc <- data.frame(gaga.loc)
+
+
 
 ## source("src/apg_mash.R")
 ### Analyze the mash distnaces
@@ -560,7 +566,7 @@ size.dat <- data.frame(GenomeSize = gaemr.tab[,"TotalScaffoldLength"],
 ### Figures
 ### Ant genomes previously sequenced
 png("results/gaga_world.png",width = 700, height = 700)
-ggplot(gaga.loc, aes(Country)) + 
+ggplot(gaga.loc, aes(reorder_size(Country))) + 
     geom_bar(stat = "count") + 
         xlab("") + ylab("Frequency") +
             theme(axis.text=element_text(size=12),
@@ -774,7 +780,7 @@ for (i in 2:nrow(as.matrix(ppt.d))){
 ggplot(df) +
     geom_jitter(aes(ppt,mash, colour = Species),) + geom_smooth(aes(ppt,mash, colour = Species), method = lm, se = FALSE) +
         facet_wrap(~Species, scales="free_x") + scale_colour_discrete(guide = FALSE) + 
-              labs(x = "Precipitation Distance", y = "Genomic Distance (MASH)") +
+              labs(x = "Precipitation Difference", y = "Genomic Distance (MASH)") +
             theme(axis.text=element_text(size=10),
                   axis.title=element_text(size=20,face="bold"),
                   axis.text.x = element_text(angle = 0))
