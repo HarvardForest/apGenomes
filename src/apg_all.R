@@ -18,8 +18,8 @@ if (any(!pkg %in% installed.packages()[,1])){
 all(unlist(lapply(pkg, require, character.only = TRUE)))
 
 ### user defined functions
-reorder_size <- function(x) {
-    factor(x, levels = names(sort(table(x))))
+reorder_size <- function(x,decreasing = TRUE) {
+    factor(x, levels = names(sort(table(x), decreasing = decreasing)))
 }
 
 get.spp <- function(x){
