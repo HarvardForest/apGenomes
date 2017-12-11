@@ -94,8 +94,10 @@ ags.w <- ant.gs.world[order(ant.gs.world,decreasing = TRUE)]
 ags.w <- data.frame(region = names(ags.w),count = as.numeric(ags.w))
 ags.u <- ant.gs.usa[order(ant.gs.usa,decreasing = TRUE)]
 ags.u <- data.frame(region = names(ags.u),count = as.numeric(ags.u))
-
-
+ant.count.spp <- strsplit(as.character(ant.gen.size[,"Species"],1,4), split = " ")
+ant.count.spp <- lapply(ant.count.spp, function(x) paste(x[1], x[2]))
+ant.spp <- unique(unlist(ant.count.spp))
+ant.count.gen <- table(do.call(rbind, strsplit(unique(unlist(ant.count.spp)), split = " "))[,1])
 
 ### From the GAGA group
 onlyAz <- function(x){
@@ -234,10 +236,12 @@ lat.d <- lat.d[lat.d.reorder,lat.d.reorder]
 
 ## SEE: https://github.com/ropensci/prism
 ## Get PRISM data
-options(prism.path = "~/prismtmpnormals")
-get_prism_normals(type="ppt", "800m", annual = TRUE)
-get_prism_normals(type="tmin", "800m", annual = TRUE)
-get_prism_normals(type="tmax", "800m", annual = TRUE)
+if (!dir.exists("~/prismtmpnormals/")){
+    options(prism.path = "~/prismtmpnormals")
+    get_prism_normals(type="ppt", "800m", annual = TRUE)
+    get_prism_normals(type="tmin", "800m", annual = TRUE)
+    get_prism_normals(type="tmax", "800m", annual = TRUE)
+}
 
 ## Stack files
 mystack <- ls_prism_data() %>%  prism_stack()  
