@@ -1,0 +1,7 @@
+Hi Matt,
+
+Terry was able to whip this up quickly.   Attached are the methods and some instructions for the tools we use.   Also, we've provided a list of commands in our workflow, with some notes, and an example log file from our assembly process (just the ALLPATHS component).   Just warning again, that ALLPATHs is a difficult tool to install and get running and it is currently unsupported.  Additionally, it takes a good deal of compute and memory.  There are some other tools we use that are currently not released publicly, but part of our internal systems (including the tool we use to modify assembly to remove contamination.)
+
+If you have any questions, please let me know!
+
+~Sarah

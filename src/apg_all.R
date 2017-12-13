@@ -485,15 +485,16 @@ if (make.stats.table){
     ref.sizes <- c(as.numeric(ncbi.ant[,'Size..Mb.)']),
                    ant.gen.size[,'1C Genome Size (Mb)'])
     ## NCBI ant information
-    ncbi.xtab <- ncbi.ant[,c('BioProject Accession','Release Date')]
+    ncbi.xtab <- ncbi.ant[,c('X.Organism.Name','BioProject.Accession','BioSample.Accession')]
+    colnames(ncbi.xtab) <- c('Ant Species','BioProject Accession','BioSample Accession')
     rownames(ncbi.xtab) <- ncbi.ant[,1]
-    ncbi.xtab <- xtable::xtable(ncbi.xtab)
+    ncbi.xtabff <- xtable::xtable(ncbi.xtab, caption = "NCBI genome database accession information for the previously sequenced ant genomes.")
     ## Table: create ncbi_ants 
     print(ncbi.xtab,
           type = "latex",
           file = "results/ncbi_ants.tex",
           sanitize.rownames.function = italic,
-          include.rownames = TRUE,
+          include.rownames = FALSE,
           include.colnames = TRUE
           )
 }
@@ -821,6 +822,6 @@ dev.off()
 
 ### Update figures in presentations and manuscripts
 ## system("cp results/*.png docs/esa2017")
-system("cp results/*.png docs/manuscript")
+# system("cp results/*.png docs/manuscript")
 
 print("Done!")
