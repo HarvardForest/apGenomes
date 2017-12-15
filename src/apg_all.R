@@ -4,7 +4,7 @@ if (substr(getwd(),(nchar(getwd()) - 2),nchar(getwd())) == "src"){setwd("..")}
 pkg <- c("gdata", "prism", "ggplot2", "raster", "AntWeb", "geosphere",
          "rnoaa", "gdata", "prism", "ggplot2", "raster", "vegan", "gdata",
          "tidyr", "stringr", "prism", "raster", "magrittr", "XML", "RCurl",
-         "rlist", "rentrez","xtable","broom","ecodist","tibble")
+         "rlist", "rentrez","xtable","broom","ecodist","tibble","igraph","Rgraphviz")
 ## 
 if (any(!pkg %in% installed.packages()[,1])){
     unlist(sapply(pkg,function(pkg) 
@@ -105,10 +105,11 @@ onlyAz <- function(x){
 }
 
 gaga <- na.omit(read.csv("data/gaga_genome_info.csv"))
+gaga <- gaga[gaga[,"Contig.N50.length.kb."] != "No data ", ]
 gaga[,"Scaffold.N50.length.kb."] <- as.numeric(gsub(",","",as.character(
     gaga[,"Scaffold.N50.length.kb."])))
 gaga[,"Contig.N50.length.kb."] <- as.numeric(gsub(",","",as.character(
-    gaga[,"Contig.N50.length.kb."])))
+    gaga[,"Contig.N50.length.kb."])), warn = FALSE)
 gaga.loc <- do.call(rbind,strsplit(as.character(gaga[,"Location"]),","))
 gaga.loc <- apply(gaga.loc,2,function(x) sapply(x, onlyAz))
 colnames(gaga.loc) <- c("City","State","Country")
@@ -815,8 +816,142 @@ ggplot(df) +
                   axis.text.x = element_text(angle = 0))
 dev.off()
 
+### Ordination
+
+nms <- nmds(mash.d)
+ord <- nmds.min(nms)
+vec <- envfit(ord, clim.data[,c("long", "lat", "ppt", "tmax", "tmin")])
+
+png("results/apg_ord.png")
+plot(ord, xlab = "NMDS 1", ylab = "NMDS 2", pch = "")
+text(ord, labels = clim.data[,"mypoints.id"], col = "black")
+plot(vec, col = "darkgrey")
+dev.off()
+
+### Parsing the impact of geography + climate on MASH
+### Simple correlation vs mantel
+summary(lm(ppt~tmax,data = clim.data))
+summary(lm(ppt~tmin,data = clim.data))
+summary(lm(ppt~tmin*tmax,data = clim.data))
+mantel(ppt.d~temp.d, nperm = 10000)
+
+### Parsing a structural model using mantel
+### geo.centroidd -> temp.D 
+###        |           |    \_-->  MASH
+###        |           V    _--->   D
+###         \------> ppt.D /        ^
+###                                 |  
+###                               unkown
+### geo -> climate 
+set.seed(12345)
+clim.d_geo.cd <- ecodist::mantel(clim.d~geo.cd)
+temp.d_geo.cd <- ecodist::mantel(temp.d ~ geo.cd, nperm = 10000)
+ppt.d_geo.cd <- ecodist::mantel(ppt.d ~ geo.cd, nperm = 10000)
+mash.d_geo.cd_temp.d_ppt.d <- ecodist::mantel(
+    mash.d ~ geo.cd + 
+        temp.d + 
+            ppt.d, 
+    nperm = 10000) # unkown
+### geo -> MASH
+mash.d_geo.cd <- ecodist::mantel(mash.d ~ geo.cd, nperm = 10000)
+### temp -> ppt
+ppt.d_temp.d_geo.cd <- ecodist::mantel(ppt.d ~ temp.d + geo.cd, nperm = 10000)
+###  ppt -> temp
+temp.d_ppt.d_geo.cd <- ecodist::mantel(temp.d ~ ppt.d + geo.cd, nperm = 10000)
+### clim -> MASH
+mash.d_clim.d_geo.cd <- ecodist::mantel(mash.d ~ clim.d + geo.cd, nperm = 10000)
+### temp.d -> MASH
+mash.d_temp.d_ppt.d_geo.cd <- ecodist::mantel(
+    mash.d ~ temp.d + ppt.d + geo.cd, nperm = 10000)
+### ppt.d -> MASH
+mash.d_ppt.d_temp.d_geo.cd <- ecodist::mantel(mash.d ~ ppt.d + temp.d + geo.cd, nperm = 10000)
+mantel.path <- list(clim.d_geo.cd = clim.d_geo.cd, 
+                    temp.d_geo.cd = temp.d_geo.cd, 
+                    ppt.d_geo.cd = ppt.d_geo.cd, 
+                    mash.d_geo.cd_temp.d_ppt.d = mash.d_geo.cd_temp.d_ppt.d, 
+                    mash.d_geo.cd = mash.d_geo.cd, 
+                    ppt.d_temp.d_geo.cd = ppt.d_temp.d_geo.cd, 
+                    temp.d_ppt.d_geo.cd = temp.d_ppt.d_geo.cd, 
+                    mash.d_clim.d_geo.cd = mash.d_clim.d_geo.cd, 
+                    mash.d_temp.d_ppt.d_geo.cd = mash.d_temp.d_ppt.d_geo.cd, 
+                    mash.d_ppt.d_temp.d_geo.cd = mash.d_ppt.d_temp.d_geo.cd)
+mantel.path <- do.call(rbind,mantel.path)[,c(1,2)]
+mash.path <- list(r = matrix(NA, nrow = 4, ncol = 4),
+                  p = matrix(NA, nrow = 4, ncol = 4))
+rownames(mash.path[[1]]) <- colnames(mash.path[[1]]) <- 
+    rownames(mash.path[[2]]) <- colnames(mash.path[[2]]) <- c("Geographic Distance", 
+                                                "Temperature Difference",
+                                                "Precipitation Difference",
+                                                "Genomic Distance (MASH)")
+mash.path[["r"]]["Geographic Distance","Temperature Difference"] <- mantel.path["temp.d_geo.cd","mantelr"]
+mash.path[["r"]]["Geographic Distance","Precipitation Difference"] <- mantel.path["ppt.d_geo.cd","mantelr"]
+mash.path[["r"]]["Temperature Difference","Precipitation Difference"] <- mantel.path["ppt.d_temp.d_geo.cd",
+                                                                                     "mantelr"]
+mash.path[["r"]]["Temperature Difference","Genomic Distance (MASH)"] <- mantel.path["mash.d_temp.d_ppt.d_geo.cd",
+                                                                                     "mantelr"]
+mash.path[["r"]]["Precipitation Difference","Temperature Difference"] <- mantel.path["temp.d_ppt.d_geo.cd",
+                                                                                     "mantelr"]
+mash.path[["r"]]["Precipitation Difference","Genomic Distance (MASH)"] <- mantel.path["mash.d_ppt.d_temp.d_geo.cd",
+                                                                                     "mantelr"]
+mash.path[["p"]]["Geographic Distance","Temperature Difference"] <- mantel.path["temp.d_geo.cd","pval1"]
+mash.path[["p"]]["Geographic Distance","Precipitation Difference"] <- mantel.path["ppt.d_geo.cd","pval1"]
+mash.path[["p"]]["Precipitation Difference","Genomic Distance (MASH)"] <- mantel.path["mash.d_temp.d_ppt.d_geo.cd",
+                                                                                     "pval1"]
+mash.path[["p"]]["Temperature Difference","Precipitation Difference"] <- mantel.path["ppt.d_temp.d_geo.cd",
+                                                                                     "pval1"]
+mash.path[["p"]]["Precipitation Difference","Temperature Difference"] <- mantel.path["temp.d_ppt.d_geo.cd",
+                                                                                     "pval1"]
+mash.path[["p"]]["Precipitation Difference","Genomic Distance (MASH)"] <- mantel.path["mash.d_ppt.d_temp.d_geo.cd",
+                                                                                     "pval1"]
+path.ig <- mash.path
+mash.path <- lapply(mash.path, round, digits = 3)
+for (i in 1:nrow(mash.path[["r"]])){
+    for (j in 1:ncol(mash.path[["r"]])){
+        if (is.na(mash.path[["r"]][i,j])){mash.path[["r"]][i,j] <- ""}else{
+            mash.path[["r"]][i,j] <- paste0(mash.path[["r"]][i,j],", ",mash.path[["p"]][i,j])
+        }
+    }
+}
+
+mash.path.xtab <- xtable::xtable(mash.path[["r"]])
+
+## Table: create mash mantel path analysis
+print(mash.path.xtab,
+      type = "latex",
+      file = "results/mash_path.tex",
+      include.rownames = TRUE,
+      include.colnames = TRUE
+      )
+
+
+## Path diagram
+mash.A <- round(path.ig[["r"]],3)
+mash.A[is.na(mash.A)] <- 0
+mash.Ap <- round(path.ig[["p"]],3)
+mash.Ap[is.na(mash.Ap)] <- 0
+ig <- graph_from_adjacency_matrix(mash.A, weighted = TRUE)
+ig <- igraph.to.graphNEL(ig)
+ig.p <- graph_from_adjacency_matrix(mash.Ap, weighted = TRUE)
+ig.p <- igraph.to.graphNEL(ig.p)
+attr <- list(node = list(shape = "box"))
+ew.r <- as.character(unlist(edgeWeights(ig)))
+ew.r <- ew.r[setdiff(seq(along = ew.r), removedEdges(ig))]
+ec.p <- unlist(edgeWeights(ig.p))
+ec.p[unlist(edgeWeights(ig.p)) < 0.1] <- "black"
+ec.p[unlist(edgeWeights(ig.p)) >= 0.1] <- "grey"
+ec.p <- as.character(ec.p)
+names(ec.p) <- names(ew.p) <- edgeNames(ig)
+attr.e <- list(label = ew.p, color = ec.p)
+
+pdf("results/mash_path.pdf",height = 5, width = 5)
+plot(ig, attrs = attr, edgeAttrs = attr.e)
+dev.off()
+
+
+
 ### Update figures in presentations and manuscripts
 ## system("cp results/*.png docs/esa2017")
 system("cp results/*.png docs/manuscript")
-
+system("cp results/*.pdf docs/manuscript")
+system("cp results/*.tex docs/manuscript")
 print("Done!")
