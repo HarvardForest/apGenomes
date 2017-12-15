@@ -489,7 +489,8 @@ if (make.stats.table){
     ncbi.xtab <- ncbi.ant[,c('X.Organism.Name','BioProject.Accession','BioSample.Accession')]
     colnames(ncbi.xtab) <- c('Ant Species','BioProject Accession','BioSample Accession')
     rownames(ncbi.xtab) <- ncbi.ant[,1]
-    ncbi.xtabff <- xtable::xtable(ncbi.xtab, caption = "NCBI genome database accession information for the previously sequenced ant genomes.")
+    ncbi.xtab <- ncbi.xtab[order(ncbi.xtab[,1]),]
+    ncbi.xtab <- xtable::xtable(ncbi.xtab, caption = "NCBI genome database accession information for the previously sequenced ant genomes.")
     ## Table: create ncbi_ants 
     print(ncbi.xtab,
           type = "latex",
@@ -889,26 +890,30 @@ rownames(mash.path[[1]]) <- colnames(mash.path[[1]]) <-
                                                 "Temperature Difference",
                                                 "Precipitation Difference",
                                                 "Genomic Distance (MASH)")
-mash.path[["r"]]["Geographic Distance","Temperature Difference"] <- mantel.path["temp.d_geo.cd","mantelr"]
-mash.path[["r"]]["Geographic Distance","Precipitation Difference"] <- mantel.path["ppt.d_geo.cd","mantelr"]
-mash.path[["r"]]["Temperature Difference","Precipitation Difference"] <- mantel.path["ppt.d_temp.d_geo.cd",
-                                                                                     "mantelr"]
-mash.path[["r"]]["Temperature Difference","Genomic Distance (MASH)"] <- mantel.path["mash.d_temp.d_ppt.d_geo.cd",
-                                                                                     "mantelr"]
-mash.path[["r"]]["Precipitation Difference","Temperature Difference"] <- mantel.path["temp.d_ppt.d_geo.cd",
-                                                                                     "mantelr"]
-mash.path[["r"]]["Precipitation Difference","Genomic Distance (MASH)"] <- mantel.path["mash.d_ppt.d_temp.d_geo.cd",
-                                                                                     "mantelr"]
-mash.path[["p"]]["Geographic Distance","Temperature Difference"] <- mantel.path["temp.d_geo.cd","pval1"]
-mash.path[["p"]]["Geographic Distance","Precipitation Difference"] <- mantel.path["ppt.d_geo.cd","pval1"]
-mash.path[["p"]]["Precipitation Difference","Genomic Distance (MASH)"] <- mantel.path["mash.d_temp.d_ppt.d_geo.cd",
-                                                                                     "pval1"]
-mash.path[["p"]]["Temperature Difference","Precipitation Difference"] <- mantel.path["ppt.d_temp.d_geo.cd",
-                                                                                     "pval1"]
-mash.path[["p"]]["Precipitation Difference","Temperature Difference"] <- mantel.path["temp.d_ppt.d_geo.cd",
-                                                                                     "pval1"]
-mash.path[["p"]]["Precipitation Difference","Genomic Distance (MASH)"] <- mantel.path["mash.d_ppt.d_temp.d_geo.cd",
-                                                                                     "pval1"]
+mash.path[["r"]]["Geographic Distance",
+                 "Temperature Difference"] <- mantel.path["temp.d_geo.cd","mantelr"]
+mash.path[["r"]]["Geographic Distance",
+                 "Precipitation Difference"] <- mantel.path["ppt.d_geo.cd","mantelr"]
+mash.path[["r"]]["Temperature Difference",
+                 "Precipitation Difference"] <- mantel.path["ppt.d_temp.d_geo.cd","mantelr"]
+mash.path[["r"]]["Temperature Difference",
+                 "Genomic Distance (MASH)"] <- mantel.path["mash.d_temp.d_ppt.d_geo.cd","mantelr"]
+mash.path[["r"]]["Precipitation Difference",
+                 "Temperature Difference"] <- mantel.path["temp.d_ppt.d_geo.cd","mantelr"]
+mash.path[["r"]]["Precipitation Difference",
+                 "Genomic Distance (MASH)"] <- mantel.path["mash.d_ppt.d_temp.d_geo.cd","mantelr"]
+mash.path[["p"]]["Geographic Distance",
+                 "Temperature Difference"] <- mantel.path["temp.d_geo.cd","pval1"]
+mash.path[["p"]]["Geographic Distance",
+                 "Precipitation Difference"] <- mantel.path["ppt.d_geo.cd","pval1"]
+mash.path[["p"]]["Precipitation Difference",
+                 "Genomic Distance (MASH)"] <- mantel.path["mash.d_temp.d_ppt.d_geo.cd","pval1"]
+mash.path[["p"]]["Temperature Difference",
+                 "Precipitation Difference"] <- mantel.path["ppt.d_temp.d_geo.cd","pval1"]
+mash.path[["p"]]["Precipitation Difference",
+                 "Temperature Difference"] <- mantel.path["temp.d_ppt.d_geo.cd","pval1"]
+mash.path[["p"]]["Precipitation Difference",
+                 "Genomic Distance (MASH)"] <- mantel.path["mash.d_ppt.d_temp.d_geo.cd","pval1"]
 path.ig <- mash.path
 mash.path <- lapply(mash.path, round, digits = 3)
 for (i in 1:nrow(mash.path[["r"]])){
@@ -918,7 +923,6 @@ for (i in 1:nrow(mash.path[["r"]])){
         }
     }
 }
-
 mash.path.xtab <- xtable::xtable(mash.path[["r"]])
 
 ## Table: create mash mantel path analysis
