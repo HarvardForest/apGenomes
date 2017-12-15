@@ -537,12 +537,21 @@ if (!all(
     warning("Distance matrix ordering incorrect!")
 }
 
-mantel.tab <- list(clim.geog = ecodist::mantel(clim.d~geo.cd, nperm = 10000),
-                  geog = ecodist::mantel(mash.d~geo.cd, nperm = 10000),
-                  clim = ecodist::mantel(mash.d~clim.d, nperm = 10000),
-                  temp = ecodist::mantel(mash.d~temp.d, nperm = 10000),
-                  ppt = ecodist::mantel(mash.d~ppt.d, nperm = 10000))
+set.seed(1649)
+mantel.tab <- list(clim.geo = ecodist::mantel(clim.d~geo.d, nperm = 10000),
+                  mash.clim = ecodist::mantel(mash.d~clim.d, nperm = 10000),
+                  mash.temp = ecodist::mantel(mash.d~temp.d, nperm = 10000),
+                  temp.geo = ecodist::mantel(temp.d~geo.d, nperm = 10000),
+                  mash.temp_geo = ecodist::mantel(mash.d~temp.d + geo.d, nperm = 10000),
+                  mash.tmin_geo = ecodist::mantel(mash.d~tmin.d+geo.d, nperm = 10000),
+                  mash.tmax_geo = ecodist::mantel(mash.d~tmax.d+geo.d, nperm = 10000),
+                  ppt = ecodist::mantel(mash.d~ppt.d, nperm = 10000),
+                  ppt.geo = ecodist::mantel(ppt.d~geo.d, nperm = 10000),
+                  mash.ppt_geo = ecodist::mantel(mash.d~ppt.d+geo.d, nperm = 10000)
+)
 mantel.tab <- do.call(rbind,mantel.tab)
+mantel.tab <- mantel.tab[,c(1,2)]
+mantel.tab
 write.csv(mantel.tab,"results/mantel_tab.csv")
 mantel.xtab <- xtable::xtable(mantel.tab, digits = 5)
 ## Table: create mantel
@@ -555,8 +564,6 @@ print(mantel.xtab,
 
 ## Geography and climate
 mantel.geog <- ecodist::mantel(clim.d~geo.cd, nperm = 10000)
-
-
 
 ### gaemr correlations
 gc.dat <- data.frame(GC = gaemr.tab[,"AssemblyGC"], 
