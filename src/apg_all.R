@@ -198,7 +198,6 @@ for (i in 1:nrow(ap.ctr)){
 }
 
 
-
 mash.d <- as.dist(mash)
 geo.d <- as.dist(apg.gd)
 geo.cd <- as.dist(apg.gcd)
