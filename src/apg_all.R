@@ -94,8 +94,10 @@ ags.w <- ant.gs.world[order(ant.gs.world,decreasing = TRUE)]
 ags.w <- data.frame(region = names(ags.w),count = as.numeric(ags.w))
 ags.u <- ant.gs.usa[order(ant.gs.usa,decreasing = TRUE)]
 ags.u <- data.frame(region = names(ags.u),count = as.numeric(ags.u))
-
-
+ant.count.spp <- strsplit(as.character(ant.gen.size[,"Species"],1,4), split = " ")
+ant.count.spp <- lapply(ant.count.spp, function(x) paste(x[1], x[2]))
+ant.spp <- unique(unlist(ant.count.spp))
+ant.count.gen <- table(do.call(rbind, strsplit(unique(unlist(ant.count.spp)), split = " "))[,1])
 
 ### From the GAGA group
 onlyAz <- function(x){
@@ -235,10 +237,12 @@ lat.d <- lat.d[lat.d.reorder,lat.d.reorder]
 
 ## SEE: https://github.com/ropensci/prism
 ## Get PRISM data
-options(prism.path = "~/prismtmpnormals")
-get_prism_normals(type="ppt", "800m", annual = TRUE)
-get_prism_normals(type="tmin", "800m", annual = TRUE)
-get_prism_normals(type="tmax", "800m", annual = TRUE)
+if (!dir.exists("~/prismtmpnormals/")){
+    options(prism.path = "~/prismtmpnormals")
+    get_prism_normals(type="ppt", "800m", annual = TRUE)
+    get_prism_normals(type="tmin", "800m", annual = TRUE)
+    get_prism_normals(type="tmax", "800m", annual = TRUE)
+}
 
 ## Stack files
 mystack <- ls_prism_data() %>%  prism_stack()  
@@ -482,15 +486,16 @@ if (make.stats.table){
     ref.sizes <- c(as.numeric(ncbi.ant[,'Size..Mb.)']),
                    ant.gen.size[,'1C Genome Size (Mb)'])
     ## NCBI ant information
-    ncbi.xtab <- ncbi.ant[,c('BioProject Accession','Release Date')]
+    ncbi.xtab <- ncbi.ant[,c('X.Organism.Name','BioProject.Accession','BioSample.Accession')]
+    colnames(ncbi.xtab) <- c('Ant Species','BioProject Accession','BioSample Accession')
     rownames(ncbi.xtab) <- ncbi.ant[,1]
-    ncbi.xtab <- xtable::xtable(ncbi.xtab)
+    ncbi.xtabff <- xtable::xtable(ncbi.xtab, caption = "NCBI genome database accession information for the previously sequenced ant genomes.")
     ## Table: create ncbi_ants 
     print(ncbi.xtab,
           type = "latex",
           file = "results/ncbi_ants.tex",
           sanitize.rownames.function = italic,
-          include.rownames = TRUE,
+          include.rownames = FALSE,
           include.colnames = TRUE
           )
 }
@@ -951,7 +956,6 @@ dev.off()
 
 ### Update figures in presentations and manuscripts
 ## system("cp results/*.png docs/esa2017")
-system("cp results/*.png docs/manuscript")
-system("cp results/*.pdf docs/manuscript")
-system("cp results/*.tex docs/manuscript")
+# system("cp results/*.png docs/manuscript")
+
 print("Done!")
