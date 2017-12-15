@@ -83,7 +83,8 @@ tables <- readHTMLTable(theurl)
 tables <- list.clean(tables, fun = is.null, recursive = FALSE)
 ant.gen.size <- tables[[1]]
 ant.gen.size <- ant.gen.size[!apply(ant.gen.size,1,function(x) any(grepl('MEAN',x))),]
-ant.gen.size <- ant.gen.size[ant.gen.size[,1] == '',]
+
+ant.gen.size <- ant.gen.size[ant.gen.size[,1] != '',]
 ant.gen.size[,'1C Genome Size (Mb)'] <- as.numeric(as.character(ant.gen.size[,'1C Genome Size (Mb)']))
 
 ### Genome Size by Location
@@ -543,7 +544,6 @@ mantel.tab <- list(clim.geog = ecodist::mantel(clim.d~geo.cd, nperm = 10000),
                   ppt = ecodist::mantel(mash.d~ppt.d, nperm = 10000))
 mantel.tab <- do.call(rbind,mantel.tab)
 write.csv(mantel.tab,"results/mantel_tab.csv")
-
 mantel.xtab <- xtable::xtable(mantel.tab, digits = 5)
 ## Table: create mantel
 print(mantel.xtab,
@@ -870,6 +870,38 @@ mash.d_clim.d_geo.cd <- ecodist::mantel(mash.d ~ clim.d + geo.cd, nperm = 10000)
 mash.d_temp.d_ppt.d_geo.cd <- ecodist::mantel(
     mash.d ~ temp.d + ppt.d + geo.cd, nperm = 10000)
 ### ppt.d -> MASH
+
+### rm rudis1
+## backup <- FALSE
+## if (backup){
+##     mash.d.. <- mash.d
+##     ppt.d.. <- ppt.d
+##     temp.d.. <- temp.d
+##     geo.cd.. <- geo.cd
+## }
+
+
+## mash.d <- mash.d..
+## ppt.d <-ppt.d..
+## temp.d <- temp.d..
+## geo.cd <-geo.cd..
+
+## rm.rud1 <- TRUE
+## if (rm.rud1){
+##     mash.d <- as.matrix(mash.d)
+##     mash.d <- mash.d[rownames(mash.d) != 'Aphaenogaster rudis2',colnames(mash.d) != 'Aphaenogaster rudis2']
+##     mash.d <- as.dist(mash.d)
+##     ppt.d <- as.matrix(ppt.d)
+##     ppt.d <- ppt.d[rownames(ppt.d) != 'rud6',colnames(ppt.d) != 'rud6']
+##     ppt.d <- as.dist(ppt.d)
+##     temp.d <- as.matrix(temp.d)
+##     temp.d <- temp.d[rownames(temp.d) != 'rud6',colnames(temp.d) != 'rud6']
+##     temp.d <- as.dist(temp.d)
+##     geo.cd <- as.matrix(geo.cd)
+##     geo.cd <- geo.cd[rownames(geo.cd) != 'rud6',colnames(geo.cd) != 'rud6']
+##     geo.cd <- as.dist(geo.cd)
+## }
+
 mash.d_ppt.d_temp.d_geo.cd <- ecodist::mantel(mash.d ~ ppt.d + temp.d + geo.cd, nperm = 10000)
 mantel.path <- list(clim.d_geo.cd = clim.d_geo.cd, 
                     temp.d_geo.cd = temp.d_geo.cd, 
@@ -881,7 +913,7 @@ mantel.path <- list(clim.d_geo.cd = clim.d_geo.cd,
                     mash.d_clim.d_geo.cd = mash.d_clim.d_geo.cd, 
                     mash.d_temp.d_ppt.d_geo.cd = mash.d_temp.d_ppt.d_geo.cd, 
                     mash.d_ppt.d_temp.d_geo.cd = mash.d_ppt.d_temp.d_geo.cd)
-mantel.path <- do.call(rbind,mantel.path)[,c(1,2)]
+mantel.path <- do.call(rbind,mantel.path)[,1:4]
 mash.path <- list(r = matrix(NA, nrow = 4, ncol = 4),
                   p = matrix(NA, nrow = 4, ncol = 4))
 rownames(mash.path[[1]]) <- colnames(mash.path[[1]]) <- 
@@ -893,22 +925,22 @@ mash.path[["r"]]["Geographic Distance","Temperature Difference"] <- mantel.path[
 mash.path[["r"]]["Geographic Distance","Precipitation Difference"] <- mantel.path["ppt.d_geo.cd","mantelr"]
 mash.path[["r"]]["Temperature Difference","Precipitation Difference"] <- mantel.path["ppt.d_temp.d_geo.cd",
                                                                                      "mantelr"]
-mash.path[["r"]]["Temperature Difference","Genomic Distance (MASH)"] <- mantel.path["mash.d_temp.d_ppt.d_geo.cd",
-                                                                                     "mantelr"]
 mash.path[["r"]]["Precipitation Difference","Temperature Difference"] <- mantel.path["temp.d_ppt.d_geo.cd",
                                                                                      "mantelr"]
 mash.path[["r"]]["Precipitation Difference","Genomic Distance (MASH)"] <- mantel.path["mash.d_ppt.d_temp.d_geo.cd",
                                                                                      "mantelr"]
-mash.path[["p"]]["Geographic Distance","Temperature Difference"] <- mantel.path["temp.d_geo.cd","pval1"]
-mash.path[["p"]]["Geographic Distance","Precipitation Difference"] <- mantel.path["ppt.d_geo.cd","pval1"]
-mash.path[["p"]]["Precipitation Difference","Genomic Distance (MASH)"] <- mantel.path["mash.d_temp.d_ppt.d_geo.cd",
-                                                                                     "pval1"]
+mash.path[["r"]]["Temperature Difference","Genomic Distance (MASH)"] <- mantel.path["mash.d_temp.d_ppt.d_geo.cd",
+                                                                                     "mantelr"]
+mash.path[["p"]]["Geographic Distance","Temperature Difference"] <- mantel.path["temp.d_geo.cd","pval3"]
+mash.path[["p"]]["Geographic Distance","Precipitation Difference"] <- mantel.path["ppt.d_geo.cd","pval3"]
 mash.path[["p"]]["Temperature Difference","Precipitation Difference"] <- mantel.path["ppt.d_temp.d_geo.cd",
-                                                                                     "pval1"]
+                                                                                     "pval3"]
 mash.path[["p"]]["Precipitation Difference","Temperature Difference"] <- mantel.path["temp.d_ppt.d_geo.cd",
-                                                                                     "pval1"]
+                                                                                     "pval3"]
 mash.path[["p"]]["Precipitation Difference","Genomic Distance (MASH)"] <- mantel.path["mash.d_ppt.d_temp.d_geo.cd",
-                                                                                     "pval1"]
+                                                                                     "pval3"]
+mash.path[["p"]]["Temperature Difference","Genomic Distance (MASH)"] <- mantel.path["mash.d_temp.d_ppt.d_geo.cd",
+                                                                                     "pval3"]
 path.ig <- mash.path
 mash.path <- lapply(mash.path, round, digits = 3)
 for (i in 1:nrow(mash.path[["r"]])){
@@ -918,9 +950,7 @@ for (i in 1:nrow(mash.path[["r"]])){
         }
     }
 }
-
 mash.path.xtab <- xtable::xtable(mash.path[["r"]])
-
 ## Table: create mash mantel path analysis
 print(mash.path.xtab,
       type = "latex",
@@ -946,13 +976,14 @@ ec.p <- unlist(edgeWeights(ig.p))
 ec.p[unlist(edgeWeights(ig.p)) < 0.1] <- "black"
 ec.p[unlist(edgeWeights(ig.p)) >= 0.1] <- "grey"
 ec.p <- as.character(ec.p)
-names(ec.p) <- names(ew.p) <- edgeNames(ig)
-attr.e <- list(label = ew.p, color = ec.p)
+names(ec.p) <- names(ew.r) <- edgeNames(ig)
+attr.e <- list(label = ew.r, color = ec.p)
 
 pdf("results/mash_path.pdf",height = 5, width = 5)
 plot(ig, attrs = attr, edgeAttrs = attr.e)
 dev.off()
 
+### system("scp results/mash_path.pdf matthewklau@fas.harvard.edu:public_html")
 
 
 ### Update figures in presentations and manuscripts
