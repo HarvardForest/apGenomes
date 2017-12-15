@@ -557,6 +557,7 @@ print(mantel.xtab,
 mantel.geog <- ecodist::mantel(clim.d~geo.cd, nperm = 10000)
 
 
+
 ### gaemr correlations
 gc.dat <- data.frame(GC = gaemr.tab[,"AssemblyGC"], 
                      Latitude = apg.geo[,"Latitude"], 
