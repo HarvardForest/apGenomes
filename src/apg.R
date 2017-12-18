@@ -37,6 +37,13 @@ as.mashdist <- function(x){
     mat
 }
 
+### Restrict strings to letters
+onlyAz <- function(x){
+    paste(strsplit(x, split = "")[[1]][
+        strsplit(x, split = "")[[1]] %in% 
+            c(LETTERS,letters)], collapse = "")
+}
+
 ### https://cran.r-project.org/web/packages/xtable/vignettes/xtableGallery.pdf
 italic <- function(x){paste0('{\\emph{',x,'}}')}
 
@@ -101,12 +108,6 @@ ant.spp <- unique(unlist(ant.count.spp))
 ant.count.gen <- table(do.call(rbind, strsplit(unique(unlist(ant.count.spp)), split = " "))[,1])
 
 ### From the GAGA group
-onlyAz <- function(x){
-    paste(strsplit(x, split = "")[[1]][
-        strsplit(x, split = "")[[1]] %in% 
-            c(LETTERS,letters)], collapse = "")
-}
-
 gaga <- na.omit(read.csv("data/gaga_genome_info.csv"))
 gaga <- gaga[gaga[,"Contig.N50.length.kb."] != "No data ", ]
 gaga[,"Scaffold.N50.length.kb."] <- as.numeric(gsub(",","",as.character(
@@ -833,7 +834,7 @@ dev.off()
 
 nms <- nmds(mash.d)
 ord <- nmds.min(nms)
-vec <- envfit(ord, clim.data[,c("long", "lat", "ppt", "tmax", "tmin")])
+vec <- envfit(ord, clim.data[,c("ppt", "tmax", "tmin")])
 
 png("results/apg_ord.png")
 plot(ord, xlab = "NMDS 1", ylab = "NMDS 2", pch = "")
