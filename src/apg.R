@@ -238,13 +238,14 @@ lat.d <- lat.d[lat.d.reorder,lat.d.reorder]
 
 ## SEE: https://github.com/ropensci/prism
 ## Get PRISM data
-if (!dir.exists("~/prismtmpnormals/")){
+if (!dir.exists("~/prismtmpnormals")){
     options(prism.path = "~/prismtmpnormals")
     get_prism_normals(type="ppt", "800m", annual = TRUE)
-    get_prism_normals(type="tmin", "800m", annual = TRUE)
-    get_prism_normals(type="tmax", "800m", annual = TRUE)
+    get_prism_normals(type="tmin", "800m", mon = 1, annual = TRUE)
+    get_prism_normals(type="tmax", "800m", mon = 7, annual = TRUE)
 }
 
+options(prism.path = "~/prismtmpnormals")
 ## Stack files
 mystack <- ls_prism_data() %>%  prism_stack()  
 ## Get proj from raster stack
@@ -831,10 +832,10 @@ ggplot(df) +
 dev.off()
 
 ### Ordination
-
 nms <- nmds(mash.d)
 ord <- nmds.min(nms)
-vec <- envfit(ord, clim.data[,c("ppt", "tmax", "tmin")])
+vec <- envfit(ord, clim.data[,c("long","lat", "tmax", "tmin", "ppt")])
+clim.data[clim.data[,"mypoints.id"] == "rud6" , "mypoints.id"] <- "rud2"
 
 png("results/apg_ord.png")
 plot(ord, xlab = "NMDS 1", ylab = "NMDS 2", pch = "")
