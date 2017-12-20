@@ -490,15 +490,16 @@ if (make.stats.table){
     ## NCBI ant information
     ncbi.xtab <- ncbi.ant[,c('X.Organism.Name','BioProject.Accession','BioSample.Accession')]
     colnames(ncbi.xtab) <- c('Ant Species','BioProject Accession','BioSample Accession')
-    rownames(ncbi.xtab) <- ncbi.ant[,1]
-    ncbi.xtab <- ncbi.xtab[order(ncbi.xtab[,1]),]
+    rownames(ncbi.xtab) <- ncbi.xtab[,"Ant Species"]
+    ncbi.xtab <- ncbi.xtab[,-1]
+    ncbi.xtab <- ncbi.xtab[order(rownames(ncbi.xtab)),]
     ncbi.xtab <- xtable::xtable(ncbi.xtab, caption = "NCBI genome database accession information for the previously sequenced ant genomes.")
     ## Table: create ncbi_ants 
     print(ncbi.xtab,
           type = "latex",
           file = "results/ncbi_ants.tex",
           sanitize.rownames.function = italic,
-          include.rownames = FALSE,
+          include.rownames = TRUE,
           include.colnames = TRUE
           )
 }
@@ -991,6 +992,24 @@ attr.e <- list(label = ew.r, color = ec.p)
 pdf("results/mash_path.pdf",height = 5, width = 5)
 plot(ig, attrs = attr, edgeAttrs = attr.e)
 dev.off()
+
+### Climate table
+clim.tab <- clim.data
+rownames(clim.tab) <- clim.tab[,"mypoints.id"] <- rownames(as.matrix(mash.d))
+clim.tab <- clim.tab[order(clim.tab[,"mypoints.id"]),]
+clim.tab <- clim.tab[,c(2,1,6,5,4)]
+colnames(clim.tab) <- c("Lat","Lon","Tmin (C)","Tmax (C)","Precip (mm)")
+
+clim.xtab <- xtable::xtable(clim.tab, caption =
+"Climate variables for colony sample sites. Climate are 30 year normal values (1976-2016) for January minimum temperature (Tmin), July maximum temperature (Tmax) and total precipitation (Precip).")
+print(clim.xtab,
+      type = "latex",
+      file = "results/climate.tex",
+      sanitize.rownames.function = italic,
+      include.rownames = TRUE,
+      include.colnames = TRUE
+      )
+
 
 ### system("scp results/mash_path.pdf matthewklau@fas.harvard.edu:public_html")
 
