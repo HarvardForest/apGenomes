@@ -152,6 +152,7 @@ broad.info[broad.info[,"Collaborator.Sample.ID"] == "arudis1","Collaborator.Samp
 broad.info[broad.info[,"Collaborator.Sample.ID"] == "rud6","Collaborator.Sample.ID"] <- "rud2"
 
 ## mash organziation
+## MASH scripts are located in apGenomes/bin
 geno.info <- read.csv("data/storage/apg/gen_seq_info.csv")
 mash.txt <- read.table("data/storage/apg/mash_dist.txt",sep = "\t")
 mash <- as.mashdist(mash.txt) 
@@ -215,7 +216,6 @@ for (i in 1:nrow(ap.ctr)){
                                fun = distHaversine)
     }
 }
-
 
 mash.d <- as.dist(mash)
 geo.d <- as.dist(apg.gd)
