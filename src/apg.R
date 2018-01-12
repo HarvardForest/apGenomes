@@ -37,6 +37,17 @@ as.mashdist <- function(x){
     mat
 }
 
+get.mash.p <- function(x){
+    lab <- unique(as.character(unlist(x[,1:2])))
+    mat <- array(NA,dim = rep(length(lab),2))
+    for (i in 1:nrow(x)){
+        mat[lab == x[i,1],lab == x[i,2]] <- x[i,4]
+    }
+    rownames(mat) <- colnames(mat) <- lab
+    mat
+}
+
+
 ### Restrict strings to letters
 onlyAz <- function(x){
     paste(strsplit(x, split = "")[[1]][
@@ -141,6 +152,7 @@ broad.info[broad.info[,"Collaborator.Sample.ID"] == "arudis1","Collaborator.Samp
 broad.info[broad.info[,"Collaborator.Sample.ID"] == "rud6","Collaborator.Sample.ID"] <- "rud2"
 
 ## mash organziation
+## MASH scripts are located in apGenomes/bin
 geno.info <- read.csv("data/storage/apg/gen_seq_info.csv")
 mash.txt <- read.table("data/storage/apg/mash_dist.txt",sep = "\t")
 mash <- as.mashdist(mash.txt) 
@@ -148,6 +160,13 @@ rownames(mash) <- colnames(mash) <- paste0(as.character(geno.info[sapply(geno.in
 ncbi.gen <- mash
 ncbi.rv <- c(11,19,14,15,9,5,7,10,6,4,8,12,1,2,24,3,22,23,20,25,26,18,21,16,13,17)
 mash <- mash[grep("Aphaenogaster",rownames(mash)),grep("Aphaenogaster",rownames(mash))]
+
+## mash network for ants
+mashP.ncbi <- get.mash.p(mash.txt) 
+mashD.ncbi <- as.mashdist(mash.txt) 
+mash.net <- mashD.ncbi
+mash.net[ mashD.ncbi > 0.05] <- 0
+gplot(mash.net)
 
 ## distances
 ## geographic information
@@ -197,7 +216,6 @@ for (i in 1:nrow(ap.ctr)){
                                fun = distHaversine)
     }
 }
-
 
 mash.d <- as.dist(mash)
 geo.d <- as.dist(apg.gd)
