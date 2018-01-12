@@ -166,7 +166,7 @@ mashP.ncbi <- get.mash.p(mash.txt)
 mashD.ncbi <- as.mashdist(mash.txt) 
 mash.net <- mashD.ncbi
 mash.net[ mashD.ncbi > 0.05] <- 0
-gplot(mash.net)
+## gplot(mash.net)
 
 ## distances
 ## geographic information
@@ -229,8 +229,8 @@ mash <- mash[order(apg.gcd[,"pic1"],decreasing = F),
 gcd.pic <- apg.gcd["pic1",rownames(apg.gcd) != "pic1"]
 apg.gcd <- apg.gcd[order(apg.gcd[,"pic1"]),order(apg.gcd[,"pic1"])]
 
-diag(mash) <- NA
-diag(apg.gcd) <- NA
+## diag(mash) <- NA
+## diag(apg.gcd) <- NA
 
 ### Reorg geo.ctr for latitude
 geo.lat <- geo.ctr[c(6,6,5,4,3,1,2),"Lat"]
