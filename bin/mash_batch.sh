@@ -9,7 +9,7 @@ for i in $(ls | grep SM); do
     for j in $(ls | grep SM); do 
 	echo $i $j
 	say Mash starting $i $j
-	mash dist $i/scaffolds.fasta.msh $j/scaffolds.fasta.msh >> $2
+	../bin/mash dist $i/scaffolds.fasta.msh $j/scaffolds.fasta.msh >> $2
     done
 done
 
