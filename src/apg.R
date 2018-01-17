@@ -166,7 +166,7 @@ mashP.ncbi <- get.mash.p(mash.txt)
 mashD.ncbi <- as.mashdist(mash.txt) 
 mash.net <- mashD.ncbi
 mash.net[ mashD.ncbi > 0.05] <- 0
-gplot(mash.net)
+
 
 ## distances
 ## geographic information
