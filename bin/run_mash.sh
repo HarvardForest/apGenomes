@@ -13,6 +13,7 @@ cd $1
 
 ### Run the sketch first to save time
 
+### Compare to reference 
 for i in $(ls | grep SM); do
     ./Mash/mash sketch $i/filtered.scaffolds.fasta 
 done
