@@ -311,6 +311,12 @@ tmin.d <- as.dist(tmin.d)
 ### Compare to other ant genomes and bees
 ## This is the data to make the genome to gene/contig fig
 ### NCBI Genome Info
+
+## ncbi.db <- read.csv("ftp://ftp.ncbi.nlm.nih.gov/genomes/GENOME_REPORTS/eukaryotes.txt", sep = "\t")
+## hymenopteragenome.org/hymenopteramine/dataCategories.do
+## hymenopteragenome.org
+## rspatial.org/sdm/
+
 if (!any(grepl("ncbi_ant.csv", dir("data/storage/apg")))){
     source('src/ncbi_genome_info.R')
 }
