@@ -1,6 +1,8 @@
 library(raster)
 library(sp)
 
+"data/gaga_genome_info.csv"
+
 r <- getData("worldclim",var="bio",res=2.5)
 wc <- r 
 names(wc) <- c("MAT", "MDR", "Iso", "TS", "Tmax", "Tmin", "ATR", "MTWeQ", "MTDQ","MTWaQ", "MTCQ", "PA", "PWM", "PDM", "PS", "PWeQ", "PDQ", "PWaQ", "PCQ")
