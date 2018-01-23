@@ -861,6 +861,12 @@ text(ord, labels = clim.data[,"mypoints.id"], col = "black")
 plot(vec, col = "darkgrey")
 dev.off()
 
+par(mfrow=c(1,2))
+plot(hclust(mash.d))
+plot(ord[,1:2], xlab = "NMDS 1", ylab = "NMDS 2", pch = "")
+text(ord[,1:2], labels = , substr(rownames(as.matrix(mash.d)),15,20),col = "black")
+
+
 ### Parsing the impact of geography + climate on MASH
 ### Simple correlation vs mantel
 summary(lm(ppt~tmax,data = clim.data))
