@@ -1,7 +1,6 @@
 library(raster)
 library(sp)
-
-"data/gaga_genome_info.csv"
+library(ggmap)
 
 r <- getData("worldclim",var="bio",res=2.5)
 wc <- r 
@@ -36,18 +35,42 @@ rownames(df) <- rownames(clim.data)
 ### They just multiply by 10, so we divide to get the true temps
 df[,grep("T",colnames(df))] <- df[,grep("T",colnames(df))] / 10
 
-txtplot(clim.data[,"tmax"],df[,"Tmax"])
-clim.data[,"tmax"] - df[,"Tmax"]
-
-range(cor(cbind(clim.data[,-3],df)))
-range(abs(cor(cbind(clim.data[,-3],df))))
+values <- extract(r,points)
+df <- cbind.data.frame(coordinates(points),values)
 
 pdf(file = "tmp.pdf")
 heatmap(abs(cor(cbind(clim.data[,-3],df))))
 dev.off()
 system("scp tmp.pdf matthewklau@fas.harvard.edu:public_html")
 
-bc.d <- dist((df[,-1:-2]))
-mantel(bc.d~geo.d)
-mantel(mash.d~bc.d)
-mantel(mash.d~geo.d)
+
+### Get locations for gaga_genome_info.csv
+ncbi_info <- read.csv("../data/gaga_genome_info.csv")
+locs <- ncbi_info[,"Location"]
+locs <- sapply(as.character(locs),function(x) 
+    paste(strsplit(x,",")[[1]][c(1,3)], collapse = ","))
+ncbi_gps <- list()
+for (i in 1:length(locs)){
+    ncbi_gps[[i]] <- geocode(locs[i])
+}
+for (i in 1:length(locs)){
+    if (any(is.na(ncbi_gps[[i]]))){
+        ncbi_gps[[i]] <- geocode(locs[i])
+    }
+}
+ncbi_gps <- do.call(rbind,ncbi_gps)
+ncbi_gps[grepl("Unkown",rownames(ncbi_gps)),] <- c(NA,NA)
+out <- data.frame(ncbi_info,ncbi_gps)
+write.csv(out,"../data/gaga_genome_info_test.csv", row.names = FALSE)
+
+ncbi.spc <- SpatialPoints(ncbi_gps, proj4string = r@crs)
+ncbi.df <- cbind.data.frame(coordinates(ncbi_gps),ncbi.spc)
+
+pdf(file = "tmp.pdf")
+plot(r[[1]])
+plot(ncbi.spc, add = TRUE, pch = "")
+text(ncbi.spc, cex = 0.5, labels = substr(
+                   gsub(",, ", " ", 
+                        gsub("Unknown", "", rownames(ncbi_gps))),1,15))
+dev.off()
+system("scp tmp.pdf matthewklau@fas.harvard.edu:public_html")
