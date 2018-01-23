@@ -19,3 +19,9 @@ plot(points, add = TRUE, pch = ".")
 dev.off()
 
 system("scp tmp.pdf matthewklau@fas.harvard.edu:public_html")
+
+
+### Get locations for gaga_genome_info.csv
+library(ggmap)
+ncbi_info <- read.csv("../data/gaga_genome_info.csv")
+geocode("Boston, MA")
