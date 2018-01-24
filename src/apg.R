@@ -158,6 +158,8 @@ mash.txt <- read.table("data/storage/apg/mash_dist.txt",sep = "\t")
 mash <- as.mashdist(mash.txt) 
 rownames(mash) <- colnames(mash) <- paste0(as.character(geno.info[sapply(geno.info[,1],grep,x = rownames(mash)),2]),c("","","",1,2,rep("",nrow(geno.info) - 5)))
 ncbi.gen <- mash
+rownames(ncbi.gen)[rownames(ncbi.gen) == "Cerapachys biroi"] <- "Ooceraea biroi"
+colnames(ncbi.gen)[colnames(ncbi.gen) == "Cerapachys biroi"] <- "Ooceraea biroi"
 ncbi.rv <- c(11,19,14,15,9,5,7,10,6,4,8,12,1,2,24,3,22,23,20,25,26,18,21,16,13,17)
 mash <- mash[grep("Aphaenogaster",rownames(mash)),grep("Aphaenogaster",rownames(mash))]
 
