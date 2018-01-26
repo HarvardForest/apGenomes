@@ -399,14 +399,14 @@ df[,grep("T",colnames(df))] <- df[,grep("T",colnames(df))] / 10
 apg.bio <- df[grep("Aphaenogaster",rownames(df)),]
 apg.mash <- ncbi.gen[grep("Aphaenogaster",rownames(df)),grep("Aphaenogaster",rownames(df))]
 all(rownames(apg.bio) == rownames(apg.mash))
-if (file.exists("data/storage/apg/nmds_all.csv"){
+if (!(file.exists("data/storage/apg/nmds_all.csv"))){
         ord <- nmds(as.dist(all.mash),3,3, nits = 500)
         nms.cap <- capture.output(nms <- nmds.min(ord,3))
         nms.cap <- c("500 inits and 3D",nms.cap)
         write.csv(nms, "data/storage/apg/nmds_all.csv", row.names = FALSE)
         write.table(nms.cap, file = "results/nmds_all_details.txt", col.names = FALSE)
     }else{nms <- read.csv("data/storage/apg/nmds_all.csv")}
-if (file.exists("data/storage/apg/nmds_apg.csv")){
+if (!(file.exists("data/storage/apg/nmds_apg.csv"))){
         apg.ord <- nmds(as.dist(apg.mash),2,2, nits = 500)
         nms.apg.cap <- capture.output(apg.nms <- nmds.min(apg.ord, 2))
         nms.apg.cap <- c("500 inits and 2D",nms.apg.cap)
@@ -441,14 +441,19 @@ system("scp results/worldmap_bioc_i.pdf matthewklau@fas.harvard.edu:public_html/
 ## Write vector results table to results
 ## Only writing out those that are less than p<=0.05
 vec.tab <- vec.out[order(vec.out[,"p"]),]
-vec.tab[vec.tab[,"p"] <= 0.10,]
 apg.vec.tab <- apg.vec.out[order(apg.vec.out[,"p"]),]
 
-vec.xtab <- xtable(vec.tab[vec.tab[,"p"] <= 0.10,], caption = "Results of the NMS ordination vector analysis.")
-
+vec.xtab <- xtable(vec.tab, caption = "Results of the NMS ordination vector analysis.", digits = 3)
 print(vec.xtab,
       type = "latex",
       file = "results/worldclim_vectors.tex",
+      include.rownames = TRUE,
+      include.colnames = TRUE
+)
+apg.vec.xtab <- xtable(apg.vec.tab, caption = "Results of the NMS ordination vector analysis for only Aphaenogaster spp.", digits = 3)
+print(apg.vec.xtab,
+      type = "latex",
+      file = "results/worldclim_apg_vectors.tex",
       include.rownames = TRUE,
       include.colnames = TRUE
 )
