@@ -755,6 +755,33 @@ size.dat <- data.frame(GenomeSize = gaemr.tab[,"TotalScaffoldLength"],
 (summary(lm(GC~Latitude*Precipitation, data = gc.dat)))
 (summary(lm(GenomeSize~Latitude*Precipitation, data = size.dat)))
 
+### Size correlation analysis
+ncbi.size <- ncbi.ant[,c("X.Organism.Name","Size..Mb.")]
+colnames(ncbi.size) <- c("species", "size")
+ncbi.size[,"species"] <- as.character(ncbi.size[,"species"])
+apg.size <- data.frame(species = broad.info[,"Collaborator.Sample.ID"], 
+                       size = gaemr.tab[,"TotalScaffoldLength"] / 10^6)
+apg.size[,"species"] <- as.character(na.omit(all.geo[match(apg.size[,"species"],
+                                                           rownames(all.geo)),"Species.name"]))
+all.size <- rbind(ncbi.size, apg.size)
+all.size <- all.size[match(all.geo[,"Species.name"],all.size[,"species"]),]
+if (!(all(all.geo[,1] == all.size[,1]))){print("Danger Will Robinson!!!")}
+all.sizegeo <- data.frame(all.geo,size = all.size[,"size"])
+all.sizegeo <- data.frame(all.sizegeo,apply(all.sizegeo[,c("lon","lat")],2,function(x) (x + abs(min(x)))^2))
+colnames(all.sizegeo)[colnames(all.sizegeo) == c("lon.1","lat.1")] <- c("lon2","lat2")
+
+lm_sizegeo <- lm(size ~ lon * lat, data = all.sizegeo)
+cap_lmsizegeo <- capture.output(summary(lm_sizegeo))[28:30]
+write.table(capture.output(shapiro.test(residuals(lm_sizegeo))), 
+            file = "results/cap_shapiro.txt", 
+            col.names = FALSE, row.names = FALSE, quote = FALSE)
+write.table(cap_lmsizegeo, file = "results/cap_lmsizegeo.txt", col.names = FALSE, row.names = FALSE, quote = FALSE)
+print(xtable(lm_sizegeo),
+      type = "latex",
+      file = "results/lm_sizegeo.tex",
+      include.rownames = TRUE,
+      include.colnames = TRUE
+      )
 
 ### Figures
 ### Ant genomes previously sequenced
