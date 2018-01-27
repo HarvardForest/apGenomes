@@ -782,7 +782,7 @@ cap_lmsizegeo <- capture.output(summary(lm_sizegeo))
 write.table(capture.output(shapiro.test(residuals(lm_sizegeo))), 
             file = "results/cap_shapiro.txt", 
             col.names = FALSE, row.names = FALSE, quote = FALSE)
-write.table(cap_lmsizegeo, file = "results/cap_lmsizegeo.txt", col.names = FALSE, row.names = FALSE, quote = FALSE)
+write.table(cap_lmsizegeo, file = "results/cap_lmsizegeo.txt", col.names = FALSE, row.names = FALSE, quote = FALSE, label = "tab:sizegeo", caption = "F-table for the regression of genome size and geographic position showing the additive and interactive effects tests.")
 print(xtable(lm_sizegeo),
       type = "latex",
       file = "results/lm_sizegeo.tex",
