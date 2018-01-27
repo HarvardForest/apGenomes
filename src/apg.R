@@ -1,5 +1,7 @@
 if (substr(getwd(),(nchar(getwd()) - 2),nchar(getwd())) == "src"){setwd("..")}
 
+set.seed(2111981)
+
 ### Check install of package dependencies
 if (!("pacman" %in% installed.packages()[,1])){
     install.packages("pacman")
@@ -286,25 +288,26 @@ names(wc) <- c("MAT", "MDR", "Iso", "TS", "Tmax", "Tmin", "ATR", "MTWeQ", "MTDQ"
 ## BIO18 = Precipitation of Warmest Quarter "PWaQ"
 ## BIO19 = Precipitation of Coldest Quarter "PCQ"
 
-bio.labs <- c(MAT = "BIO1: Annual Mean Temperature (MAT)",
-MDR = "BIO2: Mean Diurnal Range (Mean of monthly (max temp - min temp)) (MDR)",
-Iso = "BIO3: Isothermality (BIO2/BIO7) (* 100) (Iso)",
-TS = "BIO4: Temperature Seasonality (standard deviation *100) (TS)",
-Tmax = "BIO5: Max Temperature of Warmest Month (Tmax)",
-Tmin = "BIO6: Min Temperature of Coldest Month (Tmin)",
-ATR = "BIO7: Temperature Annual Range (BIO5-BIO6) (ATR)",
-MTWeQ = "BIO8: Mean Temperature of Wettest Quarter (MTWeQ)",
-MTDQ = "BIO9: Mean Temperature of Driest Quarter (MTDQ)",
-MTWaQ = "BIO10: Mean Temperature of Warmest Quarter (MTWaQ)",
-MTCQ = "BIO11: Mean Temperature of Coldest Quarter (MTCQ)",
-PA = "BIO12: Annual Precipitation (PA)",
-PWM = "BIO13: Precipitation of Wettest Month (PWM)",
-PDM = "BIO14: Precipitation of Driest Month (PDM)",
-PS = "BIO15: Precipitation Seasonality (Coefficient of Variation) (PS)",
-PWeQ = "BIO16: Precipitation of Wettest Quarter (PWeQ)",
-PDQ = "BIO17: Precipitation of Driest Quarter (PDQ)",
-PWaQ = "BIO18: Precipitation of Warmest Quarter (PWaQ)",
-PCQ = "BIO19: Precipitation of Coldest Quarter (PCQ)")
+bio.labs <- c(
+MAT = "MAT: Annual Mean Temperature (BIO1)",
+MDR = "MDR: Mean Diurnal Range (Mean of monthly (max temp - min temp)) (BIO2)",
+Iso = "Iso: Isothermality (BIO2/BIO7) (* 100) (BIO3)",
+TS = "TS: Temperature Seasonality (standard deviation *100) (BIO4)",
+Tmax = "Tmax: Max Temperature of Warmest Month (BIO5)",
+Tmin = "Tmin: Min Temperature of Coldest Month (BIO6)",
+ATR = "ATR: Temperature Annual Range (BIO5-BIO6) (BIO7)",
+MTWeQ = "MTWeQ: Mean Temperature of Wettest Quarter (BIO8)",
+MTDQ = "MTDQ: Mean Temperature of Driest Quarter (BIO9)",
+MTWaQ = "MTWaQ: Mean Temperature of Warmest Quarter (BIO10)",
+MTCQ = "MTCQ: Mean Temperature of Coldest Quarter (BIO11)",
+PA = "PA: Annual Precipitation (BIO12)",
+PWM = "PWM: Precipitation of Wettest Month (BIO13)",
+PDM = "PDM: Precipitation of Driest Month (BIO14)",
+PS = "PS: Precipitation Seasonality (Coefficient of Variation) (BIO15)",
+PWeQ = "PWeQ: Precipitation of Wettest Quarter (BIO16)",
+PDQ = "PDQ: Precipitation of Driest Quarter (BIO17)",
+PWaQ = "PWaQ: Precipitation of Warmest Quarter (BIO18)",
+PCQ = "PCQ: Precipitation of Coldest Quarter (BIO19)")
 
 ncbi_gps <- na.omit(ncbi_info[,c("lon","lat")])
 ncbi.spc <- SpatialPoints(ncbi_gps, 
@@ -440,17 +443,21 @@ system("scp results/worldmap_bioc_i.pdf matthewklau@fas.harvard.edu:public_html/
 
 ## Write vector results table to results
 ## Only writing out those that are less than p<=0.05
-vec.tab <- vec.out[order(vec.out[,"p"]),]
-apg.vec.tab <- apg.vec.out[order(apg.vec.out[,"p"]),]
+vec.tab <- vec.out 
+rownames(vec.tab) <- c("Longitude","Latitude", bio.labs)
+vec.tab <- vec.tab[order(vec.tab[,"p"]),]
+apg.vec.tab <- apg.vec.out
+rownames(apg.vec.tab) <- c("Longitude","Latitude", bio.labs)
+apg.vec.tab <- apg.vec.tab[order(apg.vec.tab[,"p"]),]
 
-vec.xtab <- xtable(vec.tab, caption = "Results of the NMS ordination vector analysis.", digits = 3)
+vec.xtab <- xtable(vec.tab, caption = "Results of the NMS ordination vector analysis.", digits = 3, label = "tab:wc_vec")
 print(vec.xtab,
       type = "latex",
       file = "results/worldclim_vectors.tex",
       include.rownames = TRUE,
       include.colnames = TRUE
 )
-apg.vec.xtab <- xtable(apg.vec.tab, caption = "Results of the NMS ordination vector analysis for only Aphaenogaster spp.", digits = 3)
+apg.vec.xtab <- xtable(apg.vec.tab, caption = "Results of the NMS ordination vector analysis for only Aphaenogaster spp.", digits = 3, label = "tab:wc_apg_vec")
 print(apg.vec.xtab,
       type = "latex",
       file = "results/worldclim_apg_vectors.tex",
@@ -771,7 +778,7 @@ all.sizegeo <- data.frame(all.sizegeo,apply(all.sizegeo[,c("lon","lat")],2,funct
 colnames(all.sizegeo)[colnames(all.sizegeo) == c("lon.1","lat.1")] <- c("lon2","lat2")
 
 lm_sizegeo <- lm(size ~ lon * lat, data = all.sizegeo)
-cap_lmsizegeo <- capture.output(summary(lm_sizegeo))[28:30]
+cap_lmsizegeo <- capture.output(summary(lm_sizegeo))
 write.table(capture.output(shapiro.test(residuals(lm_sizegeo))), 
             file = "results/cap_shapiro.txt", 
             col.names = FALSE, row.names = FALSE, quote = FALSE)
