@@ -2,6 +2,8 @@ if (substr(getwd(),(nchar(getwd()) - 2),nchar(getwd())) == "src"){setwd("..")}
 
 set.seed(2111981)
 
+no.rudis <- TRUE
+
 ### Check install of package dependencies
 if (!("pacman" %in% installed.packages()[,1])){
     install.packages("pacman")
@@ -69,8 +71,11 @@ italic <- function(x){paste0('{\\emph{',x,'}}')}
 ### rebuild the stats tables
 make.stats.table <- FALSE
 broad.info <- read.csv('data/storage/apg/broad_sample_key.csv')
+if (no.rudis){broad.info <- broad.info[!(grepl("rud", broad.info$Collaborator.Sample.ID)),]}
 sample.info <- read.csv('data/storage/apg/colony_locations.csv')
+if (no.rudis){sample.info <- sample.info[!(grepl("rud", sample.info$broadID)),]}
 ant.info <- read.csv('data/storage/apg/RADseq_mastersheet_2014.csv')
+
 ant.info <- ant.info[ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. %in% na.omit(sample.info$spec_epithet),]
 ant.info <- ant.info[!ant.info$State == "",]
 ant.geo <- read.csv('data/storage/apg/ant_sites.csv')
@@ -135,10 +140,12 @@ gaemr.tab <- lapply(gaemr.tab,t)
 metrics <- gaemr.tab[[1]]["Metric",]
 gaemr.tab <- do.call(rbind,lapply(gaemr.tab,function(x) as.numeric(x["Value",])))
 colnames(gaemr.tab) <- metrics
+if (no.rudis){gaemr.tab <- gaemr.tab[!(rownames(gaemr.tab) %in% c("SM-AJDMW","SM-AZXXM")),]}
 broad.info <- read.csv("data/storage/apg/broad_sample_key.csv")
 broad.info[,"Collaborator.Sample.ID"] <- as.character(broad.info[,"Collaborator.Sample.ID"])
 broad.info[broad.info[,"Collaborator.Sample.ID"] == "arudis1","Collaborator.Sample.ID"] <- "rud1"
 broad.info[broad.info[,"Collaborator.Sample.ID"] == "rud6","Collaborator.Sample.ID"] <- "rud2"
+if (no.rudis){broad.info <- broad.info[!(grepl("rud", broad.info$Collaborator.Sample.ID)),]}
 
 ## mash organziation
 ## MASH scripts are located in apGenomes/bin
@@ -146,11 +153,17 @@ geno.info <- read.csv("data/storage/apg/gen_seq_info.csv")
 mash.txt <- read.table("data/storage/apg/mash_dist.txt",sep = "\t")
 mash <- as.mashdist(mash.txt) 
 rownames(mash) <- colnames(mash) <- paste0(as.character(geno.info[sapply(geno.info[,1],grep,x = rownames(mash)),2]),c("","","",1,2,rep("",nrow(geno.info) - 5)))
+if (no.rudis){
+    mash <- mash[!(grepl("rud", rownames(mash))),!(grepl("rud", colnames(mash)))]
+    geno.info <- geno.info[!(grepl("rudis",geno.info[,"species"])),]
+}
 ncbi.gen <- mash
 rownames(ncbi.gen)[rownames(ncbi.gen) == "Cerapachys biroi"] <- "Ooceraea biroi"
 colnames(ncbi.gen)[colnames(ncbi.gen) == "Cerapachys biroi"] <- "Ooceraea biroi"
 ncbi.rv <- c(11,19,14,15,9,5,7,10,6,4,8,12,1,2,24,3,22,23,20,25,26,18,21,16,13,17)
 mash <- mash[grep("Aphaenogaster",rownames(mash)),grep("Aphaenogaster",rownames(mash))]
+if (no.rudis){mash <- mash[!(grepl("rud", rownames(mash))),!(grepl("rud", colnames(mash)))]}
+
 
 ## mash network for ants
 mashP.ncbi <- get.mash.p(mash.txt) 
@@ -163,24 +176,43 @@ mash.net[ mashD.ncbi > 0.05] <- 0
 geo.ctr <- split(ant.info[,c("Lon","Lat")],ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.)
 geo.ctr <- lapply(geo.ctr,function(x) apply(x,2,mean))
 geo.ctr <- do.call(rbind,geo.ctr)
-ap.ctr <- do.call(rbind,list(rud1 = geo.ctr[6,],
-                             rud6 = geo.ctr[6,],
-                             pic1 = geo.ctr[5,],
-                             mia1 = geo.ctr[4,],
-                             ful1 = geo.ctr[3,],
-                             ash1 = geo.ctr[1,],
-                             flo1 = geo.ctr[2,]))
+if (no.rudis){
+    ap.ctr <- do.call(rbind,list(
+        pic1 = geo.ctr[5,],
+        mia1 = geo.ctr[4,],
+        ful1 = geo.ctr[3,],
+        ash1 = geo.ctr[1,],
+        flo1 = geo.ctr[2,]))
+}else{
+    ap.ctr <- do.call(rbind,list(rud1 = geo.ctr[6,],
+                                 rud6 = geo.ctr[6,],
+                                 pic1 = geo.ctr[5,],
+                                 mia1 = geo.ctr[4,],
+                                 ful1 = geo.ctr[3,],
+                                 ash1 = geo.ctr[1,],
+                                 flo1 = geo.ctr[2,]))
+}
 
 ### apg sample geographic info
 ### arudis and picea are from google earth
 ### All other coords are from ant_sites.csv
-apg.geo  <- do.call(rbind,list('arudis1' = c(-78.9830464,36.0200847),
-                 'rud6' = c(-78.9830464,36.0200847),
-                 'pic1' = c(-72.5847494,42.6004513),
-                 'mia1' = c(-82.301773,29.657955),
-                 'ful1' = c(-82.514575,32.692384),
-                 'ash1' = c(-82.031176,29.785325),
-                 'flo1' = c(-82.031176,29.785325)))
+if (no.rudis){
+    apg.geo  <- do.call(rbind,list(
+        'pic1' = c(-72.5847494,42.6004513),
+        'mia1' = c(-82.301773,29.657955),
+        'ful1' = c(-82.514575,32.692384),
+        'ash1' = c(-82.031176,29.785325),
+        'flo1' = c(-82.031176,29.785325)))
+}else{
+    apg.geo  <- do.call(rbind,list(
+        'arudis1' = c(-78.9830464,36.0200847),
+        'rud6' = c(-78.9830464,36.0200847),
+        'pic1' = c(-72.5847494,42.6004513),
+        'mia1' = c(-82.301773,29.657955),
+        'ful1' = c(-82.514575,32.692384),
+        'ash1' = c(-82.031176,29.785325),
+        'flo1' = c(-82.031176,29.785325)))
+}
 colnames(apg.geo) <- c('Longitude','Latitude')
 apg.geo.labs <- paste0(substr(rownames(apg.geo),1,3),
                        substr(rownames(apg.geo),nchar(rownames(apg.geo)),
@@ -212,7 +244,6 @@ geo.cd <- as.dist(apg.gcd)
 geod.pic <- apg.gcd[rownames(apg.gcd) != "pic1","pic1"]
 dist.pic <- apg.geo[,'Latitude'] - apg.geo[,'Latitude']['pic1']
 mash.dpic <- mash[rownames(mash) != "Aphaenogaster picea","Aphaenogaster picea"]
-
 mash <- mash[order(apg.gcd[,"pic1"],decreasing = F),
              order(apg.gcd[,"pic1"], decreasing = F)]
 gcd.pic <- apg.gcd["pic1",rownames(apg.gcd) != "pic1"]
@@ -220,10 +251,16 @@ apg.gcd <- apg.gcd[order(apg.gcd[,"pic1"]),order(apg.gcd[,"pic1"])]
 
 ## diag(mash) <- NA
 ## diag(apg.gcd) <- NA
-
 ### Reorg geo.ctr for latitude
-geo.lat <- geo.ctr[c(6,6,5,4,3,1,2),"Lat"]
-names(geo.lat) <- c("rudis1","rudis6","picea","miamiana","fulva","ashmeadi","floridana")
+if (no.rudis){
+    geo.lat <- geo.ctr[c(5,4,3,1,2),"Lat"]
+    names(geo.lat) <- c("picea","miamiana","fulva","ashmeadi","floridana")
+}else{
+    geo.lat <- geo.ctr[c(6,6,5,4,3,1,2),"Lat"]
+    names(geo.lat) <- c("rudis1","rudis6","picea","miamiana","fulva","ashmeadi","floridana")
+}
+
+
 
 ### Size similarity
 size.d <- as.matrix(dist(as.matrix(gaemr.tab[,"TotalScaffoldLength"])))
@@ -235,7 +272,11 @@ gc.dpic <- size.d[rownames(mash) == "pic1",rownames(mash) != "pic1"]
 
 ### Lat distance
 lat.d <- as.matrix(dist(as.matrix(geo.lat)))
-lat.d.reorder <- match(c("picea","rudis1","rudis6","fulva","floridana","miamiana","ashmeadi"),rownames(lat.d))
+if (no.rudis){
+    lat.d.reorder <- match(c("picea","fulva","floridana","miamiana","ashmeadi"),rownames(lat.d))
+}else{
+    lat.d.reorder <- match(c("picea","rudis1","rudis6","fulva","floridana","miamiana","ashmeadi"),rownames(lat.d))
+}
 lat.d <- lat.d[lat.d.reorder,lat.d.reorder]
 
 ### Worldclim data
@@ -403,19 +444,20 @@ apg.bio <- df[grep("Aphaenogaster",rownames(df)),]
 apg.mash <- ncbi.gen[grep("Aphaenogaster",rownames(df)),grep("Aphaenogaster",rownames(df))]
 all(rownames(apg.bio) == rownames(apg.mash))
 if (!(file.exists("data/storage/apg/nmds_all.csv"))){
-        ord <- nmds(as.dist(all.mash),3,3, nits = 500)
-        nms.cap <- capture.output(nms <- nmds.min(ord,3))
-        nms.cap <- c("500 inits and 3D",nms.cap)
-        write.csv(nms, "data/storage/apg/nmds_all.csv", row.names = FALSE)
-        write.table(nms.cap, file = "results/nmds_all_details.txt", col.names = FALSE)
-    }else{nms <- read.csv("data/storage/apg/nmds_all.csv")}
+    n.dim <- 3
+    ord <- nmds(as.dist(all.mash),n.dim,n.dim, nits = 500)
+    nms.cap <- capture.output(nms <- nmds.min(ord,n.dim))
+    nms.cap <- c(paste0("500 inits and ",n.dim,"D"),nms.cap)
+    write.csv(nms, "data/storage/apg/nmds_all.csv", row.names = FALSE)
+    write.table(nms.cap, file = "results/nmds_all_details.txt", col.names = FALSE)
+}else{nms <- read.csv("data/storage/apg/nmds_all.csv")}
 if (!(file.exists("data/storage/apg/nmds_apg.csv"))){
-        apg.ord <- nmds(as.dist(apg.mash),2,2, nits = 500)
-        nms.apg.cap <- capture.output(apg.nms <- nmds.min(apg.ord, 2))
-        nms.apg.cap <- c("500 inits and 2D",nms.apg.cap)
-        write.table(nms.apg.cap, file = "results/nmds_apg_details.txt", col.names = FALSE)
-        write.csv(apg.nms, "data/storage/apg/nmds_apg.csv", row.names = FALSE)
-    }else{apg.nms <- read.csv("data/storage/apg/nmds_apg.csv")}
+    apg.ord <- nmds(as.dist(apg.mash),2,2, nits = 500)
+    nms.apg.cap <- capture.output(apg.nms <- nmds.min(apg.ord, 2))
+    nms.apg.cap <- c("500 inits and 2D",nms.apg.cap)
+    write.table(nms.apg.cap, file = "results/nmds_apg_details.txt", col.names = FALSE)
+    write.csv(apg.nms, "data/storage/apg/nmds_apg.csv", row.names = FALSE)
+}else{apg.nms <- read.csv("data/storage/apg/nmds_apg.csv")}
 
 
 vec <- envfit(nms, df, perm = 10000)
@@ -439,7 +481,7 @@ bio.i <- (1:nrow(vec.out))[vec.out[,"p"] == min(vec.out[,"p"])] - length(c("lon"
 pdf(file = "results/worldmap_bioc_i.pdf",height = 5, width = 10)
 spplot(crop(r,ext)[[bio.i]], main = bio.labs[bio.i], sp.layout = list("sp.points", points, pch = 19, col = "lawngreen"))
 dev.off()
-system("scp results/worldmap_bioc_i.pdf matthewklau@fas.harvard.edu:public_html/tmp.pdf")
+## system("scp results/worldmap_bioc_i.pdf matthewklau@fas.harvard.edu:public_html/tmp.pdf")
 
 ## Write vector results table to results
 ## Only writing out those that are less than p<=0.05
@@ -509,6 +551,11 @@ ref.sizes <- c(as.numeric(ncbi.ant[,'Size..Mb.']),ant.gen.size[,'1C Genome Size 
 apgs <- dir('data/storage/apg',full = TRUE)
 sample.info <- read.csv('data/storage/apg/colony_locations.csv')
 broad.info <- read.csv('data/storage/apg/broad_sample_key.csv')
+if (no.rudis){
+    sample.info <- sample.info[!(grepl("rud",sample.info[,"broadID"])),]
+    broad.info <- broad.info[!(grepl("rud",broad.info[,"Collaborator.Sample.ID"])),]
+}
+
 
 ### Collect gaemr data for making tables and figures
 if (make.stats.table){
@@ -707,20 +754,38 @@ print(climcor.xtab,
 
 ## Mantel of MASH
 ## check ordering 
-if (!all(
-    colnames(as.matrix(mash.d)) == c("Aphaenogaster rudis1", 
-                "Aphaenogaster rudis2", 
-                "Aphaenogaster picea",
-                "Aphaenogaster miamiana",
-                "Aphaenogaster fulva",
-                "Aphaenogaster ashmeadi", 
-                "Aphaenogaster floridana")) & 
-    all(colnames(as.matrix(temp.d)) == c(
-                    "rud1", "rud6", "pic1", "mia1", "ful1", "ash1", "flo1")) & 
-    (all(colnames(as.matrix(temp.d)) == colnames(as.matrix(clim.d))) & 
-         all(colnames(as.matrix(clim.d)) == colnames(as.matrix(geo.cd))) & 
-             all(colnames(as.matrix(clim.d)) == colnames(as.matrix(ppt.d))))){
-    warning("Distance matrix ordering incorrect!")
+if (no.rudis){
+    if (!all(
+        colnames(as.matrix(mash.d)) == c(
+                    "Aphaenogaster picea",
+                    "Aphaenogaster miamiana",
+                    "Aphaenogaster fulva",
+                    "Aphaenogaster ashmeadi", 
+                    "Aphaenogaster floridana")) & 
+        all(colnames(as.matrix(temp.d)) == c(
+                        "pic1", "mia1", "ful1", "ash1", "flo1")) & 
+        (all(colnames(as.matrix(temp.d)) == colnames(as.matrix(clim.d))) & 
+             all(colnames(as.matrix(clim.d)) == colnames(as.matrix(geo.cd))) & 
+                 all(colnames(as.matrix(clim.d)) == colnames(as.matrix(ppt.d))))){
+        warning("Distance matrix ordering incorrect!")
+    }
+}else{
+    if (!all(
+        colnames(as.matrix(mash.d)) == c(
+                    "Aphaenogaster rudis1", 
+                    "Aphaenogaster rudis2", 
+                    "Aphaenogaster picea",
+                    "Aphaenogaster miamiana",
+                    "Aphaenogaster fulva",
+                    "Aphaenogaster ashmeadi", 
+                    "Aphaenogaster floridana")) & 
+        all(colnames(as.matrix(temp.d)) == c(
+                        "rud1", "rud6", "pic1", "mia1", "ful1", "ash1", "flo1")) & 
+        (all(colnames(as.matrix(temp.d)) == colnames(as.matrix(clim.d))) & 
+             all(colnames(as.matrix(clim.d)) == colnames(as.matrix(geo.cd))) & 
+                 all(colnames(as.matrix(clim.d)) == colnames(as.matrix(ppt.d))))){
+        warning("Distance matrix ordering incorrect!")
+    }
 }
 
 set.seed(1649)
@@ -919,6 +984,7 @@ heatmap(ncbi.gen,
         RowSideColors=rainbow(nlevels(geno.info[,"subfamily"]))[as.numeric(geno.info[,"subfamily"])],
         symm = T, margins = c(1,10),labCol = "")
 dev.off()
+system("scp results/ncbi_heat.png matthewklau@fas.harvard.edu:public_html/tmp.png")
 png("results/apg_heat.png",width = 1200, height = 800, pointsize = 25)
 heatmap(mash, 
         symm = T, margins = c(1,10),labCol = "")
