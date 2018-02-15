@@ -3,6 +3,7 @@ if (substr(getwd(),(nchar(getwd()) - 2),nchar(getwd())) == "src"){setwd("..")}
 set.seed(2111981)
 
 no.rudis <- TRUE
+update.results <- TRUE
 
 ### Check install of package dependencies
 if (!("pacman" %in% installed.packages()[,1])){
@@ -1300,5 +1301,12 @@ print(clim.xtab,
 ### Update figures in presentations and manuscripts
 ## system("cp results/*.png docs/esa2017")
 # system("cp results/*.png docs/manuscript")
+if (update.results){
+    man.results <- dir("docs/manuscript/")
+    apg.results <- dir("results/")
+    apg.results <- as.character(na.omit(apg.results[sapply(c("tex","pdf","png","jpg"), grepl, x = apg.results)]))
+    cp.results <- paste0("results/",apg.results[apg.results %in% man.results])
+    sapply(cp.results, file.copy , to = "docs/manuscript", overwrite = TRUE)
+}
 
 print("Done!")
