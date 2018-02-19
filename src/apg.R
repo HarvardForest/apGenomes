@@ -4,6 +4,7 @@ set.seed(2111981)
 
 no.rudis <- TRUE
 update.results <- TRUE
+update.nmds <- TRUE
 
 ### Check install of package dependencies
 if (!("pacman" %in% installed.packages()[,1])){
@@ -444,15 +445,15 @@ df[,grep("T",colnames(df))] <- df[,grep("T",colnames(df))] / 10
 apg.bio <- df[grep("Aphaenogaster",rownames(df)),]
 apg.mash <- ncbi.gen[grep("Aphaenogaster",rownames(df)),grep("Aphaenogaster",rownames(df))]
 all(rownames(apg.bio) == rownames(apg.mash))
-if (!(file.exists("data/storage/apg/nmds_all.csv"))){
-    n.dim <- 3
+if (!(file.exists("data/storage/apg/nmds_all.csv")) | update.nmds){
+    n.dim <- 2
     ord <- nmds(as.dist(all.mash),n.dim,n.dim, nits = 500)
     nms.cap <- capture.output(nms <- nmds.min(ord,n.dim))
     nms.cap <- c(paste0("500 inits and ",n.dim,"D"),nms.cap)
     write.csv(nms, "data/storage/apg/nmds_all.csv", row.names = FALSE)
     write.table(nms.cap, file = "results/nmds_all_details.txt", col.names = FALSE)
 }else{nms <- read.csv("data/storage/apg/nmds_all.csv")}
-if (!(file.exists("data/storage/apg/nmds_apg.csv"))){
+if (!(file.exists("data/storage/apg/nmds_apg.csv")) | update.nmds){
     apg.ord <- nmds(as.dist(apg.mash),2,2, nits = 500)
     nms.apg.cap <- capture.output(apg.nms <- nmds.min(apg.ord, 2))
     nms.apg.cap <- c("500 inits and 2D",nms.apg.cap)
@@ -928,6 +929,14 @@ ggplot(data.frame(size = ref.sizes), aes(size)) +
                   axis.title=element_text(size=20,face="bold"))
 dev.off()
 
+### Cytometry figure
+### genome_sizes.png
+
+## png("results/genome_size.png",width = 700, height = 700)
+## plot()
+## dev.off()
+
+
 ### Hits to ants and Aphaenogaster
 png("results/gaemr_pc_ant.png",width = 700, height = 700)
 ggplot(data.frame(gaemr.tab,names = rownames(mash)), aes(names,Percent.Ants)) + 
@@ -1285,7 +1294,7 @@ clim.tab <- clim.tab[,c(2,1,6,5,4)]
 colnames(clim.tab) <- c("Lat","Lon","Tmin (C)","Tmax (C)","Precip (mm)")
 
 clim.xtab <- xtable::xtable(clim.tab, caption =
-"Climate variables for colony sample sites. Climate are 30 year normal values (1976-2016) for January minimum temperature (Tmin), July maximum temperature (Tmax) and total precipitation (Precip).")
+"Climate variables for colony sample sites. Climate are 30 year normal values (1976-2016) for January minimum temperature (Tmin), July maximum temperature (Tmax) and total precipitation (Precip).", label = "tab:climate")
 print(clim.xtab,
       type = "latex",
       file = "results/climate.tex",
@@ -1302,10 +1311,7 @@ print(clim.xtab,
 ## system("cp results/*.png docs/esa2017")
 # system("cp results/*.png docs/manuscript")
 if (update.results){
-    man.results <- dir("docs/manuscript/")
-    apg.results <- dir("results/")
-    apg.results <- as.character(na.omit(apg.results[sapply(c("tex","pdf","png","jpg"), grepl, x = apg.results)]))
-    cp.results <- paste0("results/",apg.results[apg.results %in% man.results])
+    cp.results <- paste0("results/",dir("results/")[dir("results/") %in% dir("docs/manuscript/")])
     sapply(cp.results, file.copy , to = "docs/manuscript", overwrite = TRUE)
 }
 
