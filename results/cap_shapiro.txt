@@ -2,5 +2,5 @@
 	Shapiro-Wilk normality test
 
 data:  residuals(lm_sizegeo)
-W = 0.96154, p-value = 0.5209
+W = 0.96847, p-value = 0.6295
 

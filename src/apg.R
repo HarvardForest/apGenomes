@@ -2,7 +2,7 @@ if (substr(getwd(),(nchar(getwd()) - 2),nchar(getwd())) == "src"){setwd("..")}
 
 set.seed(2111981)
 
-no.rudis <- TRUE
+no.rudis <- FALSE
 update.results <- TRUE
 update.nmds <- TRUE
 
@@ -72,15 +72,15 @@ italic <- function(x){paste0('{\\emph{',x,'}}')}
 
 ### rebuild the stats tables
 make.stats.table <- FALSE
-broad.info <- read.csv('data/storage/apg/broad_sample_key.csv')
+broad.info <- read.csv('./data/storage/apg/broad_sample_key.csv')
 if (no.rudis){broad.info <- broad.info[!(grepl("rud", broad.info$Collaborator.Sample.ID)),]}
-sample.info <- read.csv('data/storage/apg/colony_locations.csv')
+sample.info <- read.csv('./data/storage/apg/colony_locations.csv')
 if (no.rudis){sample.info <- sample.info[!(grepl("rud", sample.info$broadID)),]}
-ant.info <- read.csv('data/storage/apg/RADseq_mastersheet_2014.csv')
+ant.info <- read.csv('./data/storage/apg/RADseq_mastersheet_2014.csv')
 
 ant.info <- ant.info[ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. %in% na.omit(sample.info$spec_epithet),]
 ant.info <- ant.info[!ant.info$State == "",]
-ant.geo <- read.csv('data/storage/apg/ant_sites.csv')
+ant.geo <- read.csv('./data/storage/apg/ant_sites.csv')
 ant.geo[,c("Lon","Lat")] <- apply(ant.geo[,c("Lon","Lat")],2,as.numeric)
 ant.info <- data.frame(ant.info,
                        ant.geo[match(as.character(ant.info$Locale),ant.geo$Site),c("Lon","Lat")])
@@ -134,7 +134,7 @@ gaga.loc <- data.frame(gaga.loc)
 ### Analyze the mash distnaces
 
 ## gaemr info
-gaemr.tab <- read.csv('data/storage/apg/gaemr-table.csv')
+gaemr.tab <- read.csv('./data/storage/apg/gaemr-table.csv')
 gaemr.tab <- gaemr.tab[!grepl("Name",gaemr.tab[,"Metric"]),]
 gaemr.tab <- gaemr.tab[!grepl("Assembler",gaemr.tab[,"Metric"]),]
 gaemr.tab <- split(gaemr.tab[,c("Metric","Value")],gaemr.tab[,"ID"])
@@ -143,7 +143,7 @@ metrics <- gaemr.tab[[1]]["Metric",]
 gaemr.tab <- do.call(rbind,lapply(gaemr.tab,function(x) as.numeric(x["Value",])))
 colnames(gaemr.tab) <- metrics
 if (no.rudis){gaemr.tab <- gaemr.tab[!(rownames(gaemr.tab) %in% c("SM-AJDMW","SM-AZXXM")),]}
-broad.info <- read.csv("data/storage/apg/broad_sample_key.csv")
+broad.info <- read.csv("./data/storage/apg/broad_sample_key.csv")
 broad.info[,"Collaborator.Sample.ID"] <- as.character(broad.info[,"Collaborator.Sample.ID"])
 broad.info[broad.info[,"Collaborator.Sample.ID"] == "arudis1","Collaborator.Sample.ID"] <- "rud1"
 broad.info[broad.info[,"Collaborator.Sample.ID"] == "rud6","Collaborator.Sample.ID"] <- "rud2"
@@ -151,8 +151,8 @@ if (no.rudis){broad.info <- broad.info[!(grepl("rud", broad.info$Collaborator.Sa
 
 ## mash organziation
 ## MASH scripts are located in apGenomes/bin
-geno.info <- read.csv("data/storage/apg/gen_seq_info.csv")
-mash.txt <- read.table("data/storage/apg/mash_dist.txt",sep = "\t")
+geno.info <- read.csv("./data/storage/apg/gen_seq_info.csv")
+mash.txt <- read.table("./data/storage/apg/mash_dist.txt",sep = "\t")
 mash <- as.mashdist(mash.txt) 
 rownames(mash) <- colnames(mash) <- paste0(as.character(geno.info[sapply(geno.info[,1],grep,x = rownames(mash)),2]),c("","","",1,2,rep("",nrow(geno.info) - 5)))
 if (no.rudis){
@@ -445,21 +445,21 @@ df[,grep("T",colnames(df))] <- df[,grep("T",colnames(df))] / 10
 apg.bio <- df[grep("Aphaenogaster",rownames(df)),]
 apg.mash <- ncbi.gen[grep("Aphaenogaster",rownames(df)),grep("Aphaenogaster",rownames(df))]
 all(rownames(apg.bio) == rownames(apg.mash))
-if (!(file.exists("data/storage/apg/nmds_all.csv")) | update.nmds){
+if (!(file.exists("./data/storage/apg/nmds_all.csv")) | update.nmds){
     n.dim <- 2
     ord <- nmds(as.dist(all.mash),n.dim,n.dim, nits = 500)
     nms.cap <- capture.output(nms <- nmds.min(ord,n.dim))
     nms.cap <- c(paste0("500 inits and ",n.dim,"D"),nms.cap)
-    write.csv(nms, "data/storage/apg/nmds_all.csv", row.names = FALSE)
+    write.csv(nms, "./data/storage/apg/nmds_all.csv", row.names = FALSE)
     write.table(nms.cap, file = "results/nmds_all_details.txt", col.names = FALSE)
-}else{nms <- read.csv("data/storage/apg/nmds_all.csv")}
-if (!(file.exists("data/storage/apg/nmds_apg.csv")) | update.nmds){
+}else{nms <- read.csv("./data/storage/apg/nmds_all.csv")}
+if (!(file.exists("./data/storage/apg/nmds_apg.csv")) | update.nmds){
     apg.ord <- nmds(as.dist(apg.mash),2,2, nits = 500)
     nms.apg.cap <- capture.output(apg.nms <- nmds.min(apg.ord, 2))
     nms.apg.cap <- c("500 inits and 2D",nms.apg.cap)
     write.table(nms.apg.cap, file = "results/nmds_apg_details.txt", col.names = FALSE)
-    write.csv(apg.nms, "data/storage/apg/nmds_apg.csv", row.names = FALSE)
-}else{apg.nms <- read.csv("data/storage/apg/nmds_apg.csv")}
+    write.csv(apg.nms, "./data/storage/apg/nmds_apg.csv", row.names = FALSE)
+}else{apg.nms <- read.csv("./data/storage/apg/nmds_apg.csv")}
 
 
 vec <- envfit(nms, df, perm = 10000)
@@ -521,10 +521,10 @@ print(apg.vec.xtab,
 ## hymenopteragenome.org
 ## rspatial.org/sdm/
 
-if (!any(grepl("ncbi_ant.csv", dir("data/storage/apg")))){
+if (!any(grepl("ncbi_ant.csv", dir("./data/storage/apg")))){
     source('src/ncbi_genome_info.R')
 }
-ncbi.ant <- read.csv("data/storage/apg/ncbi_ant.csv")
+ncbi.ant <- read.csv("./data/storage/apg/ncbi_ant.csv")
 colnames(ncbi.ant)[1] <- 'Organism'
 
 ### Parse the reference sizes
