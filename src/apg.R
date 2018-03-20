@@ -850,7 +850,7 @@ ggplot(df) +
 dev.off()
 
 ### Ordination
-nms <- nmds(mash.d)
+nms <- nmds(1-mash.d)
 ord <- nmds.min(nms)
 vec <- envfit(ord, clim.data[,c("long","lat", "tmax", "tmin", "ppt")])
 clim.data[clim.data[,"mypoints.id"] == "rud6" , "mypoints.id"] <- "rud2"
