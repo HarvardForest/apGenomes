@@ -1,3 +1,12 @@
+*prismtmp
+tmp.pdf
+src/tmp.pdf
+wc10/
+wc2-5
+wc0.5
+src/wc10/
+src/wc0.5
+src/wc0.5
 docs/apg_peerj
 docs/esa2017
 docs/manuscript
@@ -8,4 +17,5 @@ docs/manuscript
 *.err
 *.out
 data/storage
+.DS_Store
 *.DS_Store

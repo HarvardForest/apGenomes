@@ -1,32 +1,45 @@
 if (substr(getwd(),(nchar(getwd()) - 2),nchar(getwd())) == "src"){setwd("..")}
 
+set.seed(2111981)
+
+no.rudis <- TRUE
+update.results <- TRUE
+update.nmds <- TRUE
+
 ### Check install of package dependencies
-pkg <- c("gdata", "prism", "ggplot2", "raster", "AntWeb", "geosphere",
-         "rnoaa", "gdata", "prism", "ggplot2", "raster", "vegan", "gdata",
-         "tidyr", "stringr", "prism", "raster", "magrittr", "XML", "RCurl",
-         "rlist", "rentrez","xtable","broom","ecodist","tibble","igraph","Rgraphviz")
-## 
-if (any(!pkg %in% installed.packages()[,1])){
-    unlist(sapply(pkg,function(pkg) 
-        if(!pkg %in% installed.packages()[,1]){
-            install.packages(pkg)
-        }
-                  ))
+if (!("pacman" %in% installed.packages()[,1])){
+    install.packages("pacman")
+}
+library(pacman)
+pkg.lib <- c("gdata", "prism", "ggplot2", "raster", "AntWeb", "geosphere",
+             "rnoaa", "gdata", "prism", "ggplot2", "raster", "vegan", "gdata",
+             "tidyr", "stringr", "prism", "raster", "XML", "RCurl",
+             "rlist", "rentrez","xtable","broom","ecodist","tibble","igraph",
+             "Rgraphviz", "sp", "ggmap")
+if (any(!(pkg.lib %in% installed.packages()[,1]))){
+    sapply(pkg.lib,p_load)
+}else{
+    sapply(pkg.lib, require, character.only = TRUE)
 }
 
-### Load packages and user defined functions
-all(unlist(lapply(pkg, require, character.only = TRUE)))
-
-### user defined functions
+####################################################################################
+############################USER DEFINED FUNCTIONS##################################
+####################################################################################
+# get_names: return species abbreviations
+get_names <- function(x){
+    x <- strsplit(x, split = " ")[[1]]
+    paste(substr(x[1],1,2), x[2], sep = "_")
+}
+# reorder_size: order a factor by levels of size
 reorder_size <- function(x,decreasing = TRUE) {
     factor(x, levels = names(sort(table(x), decreasing = decreasing)))
 }
-
+# get.spp: character vector search for species
 get.spp <- function(x){
     x <- grep("species", strsplit(x,split = ";")[[1]], value = T)
     return(gsub("species=","",x))
 }
-
+# as.mashdist: convert mash output matrix to distance matrix
 as.mashdist <- function(x){
     lab <- unique(as.character(unlist(x[,1:2])))
     mat <- array(NA,dim = rep(length(lab),2))
@@ -36,7 +49,7 @@ as.mashdist <- function(x){
     rownames(mat) <- colnames(mat) <- lab
     mat
 }
-
+# get.mash.p: return the p-values for the associated distances
 get.mash.p <- function(x){
     lab <- unique(as.character(unlist(x[,1:2])))
     mat <- array(NA,dim = rep(length(lab),2))
@@ -46,37 +59,25 @@ get.mash.p <- function(x){
     rownames(mat) <- colnames(mat) <- lab
     mat
 }
-
-
-### Restrict strings to letters
+### onlyAz: Restrict strings to letters
 onlyAz <- function(x){
     paste(strsplit(x, split = "")[[1]][
         strsplit(x, split = "")[[1]] %in% 
             c(LETTERS,letters)], collapse = "")
 }
-
-### https://cran.r-project.org/web/packages/xtable/vignettes/xtableGallery.pdf
+# italic: format table entries as italic in xtable
+# https://cran.r-project.org/web/packages/xtable/vignettes/xtableGallery.pdf
 italic <- function(x){paste0('{\\emph{',x,'}}')}
-
-### Example.
-## mtcars$cyl <- factor(mtcars$cyl, levels = c("four","six","eight"),
-##                      labels = c("four",italic("six"),"eight"))
-## tbl <- ftable(mtcars$cyl, mtcars$vs, mtcars$am, mtcars$gear,
-##               row.vars = c(2, 4),
-##               dnn = c("Cylinders", "V/S", "Transmission", "Gears"))
-## xftbl <- xtableFtable(tbl, method = "row.compact")
-## print.xtableFtable(xftbl,
-##                    sanitize.rownames.function = large,
-##                    sanitize.colnames.function = bold,
-##                    rotate.colnames = TRUE,
-##                    rotate.rownames = TRUE)
-
+####################################################################################
 
 ### rebuild the stats tables
 make.stats.table <- FALSE
 broad.info <- read.csv('data/storage/apg/broad_sample_key.csv')
+if (no.rudis){broad.info <- broad.info[!(grepl("rud", broad.info$Collaborator.Sample.ID)),]}
 sample.info <- read.csv('data/storage/apg/colony_locations.csv')
+if (no.rudis){sample.info <- sample.info[!(grepl("rud", sample.info$broadID)),]}
 ant.info <- read.csv('data/storage/apg/RADseq_mastersheet_2014.csv')
+
 ant.info <- ant.info[ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. %in% na.omit(sample.info$spec_epithet),]
 ant.info <- ant.info[!ant.info$State == "",]
 ant.geo <- read.csv('data/storage/apg/ant_sites.csv')
@@ -88,7 +89,6 @@ ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. <-
 ant.info <- na.omit(ant.info)
 ant.color <- ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.
 ant.factor <- factor(ant.color)
-
 geo.ctr <- split(ant.info[,c("Lon","Lat")],ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.)
 geo.ctr <- lapply(geo.ctr,function(x) apply(x,2,mean))
 geo.ctr <- do.call(rbind,geo.ctr)
@@ -101,7 +101,6 @@ tables <- readHTMLTable(theurl)
 tables <- list.clean(tables, fun = is.null, recursive = FALSE)
 ant.gen.size <- tables[[1]]
 ant.gen.size <- ant.gen.size[!apply(ant.gen.size,1,function(x) any(grepl('MEAN',x))),]
-
 ant.gen.size <- ant.gen.size[ant.gen.size[,1] != '',]
 ant.gen.size[,'1C Genome Size (Mb)'] <- as.numeric(as.character(ant.gen.size[,'1C Genome Size (Mb)']))
 
@@ -131,8 +130,6 @@ colnames(gaga.loc) <- c("City","State","Country")
 ## Change ordering
 gaga.loc <- data.frame(gaga.loc)
 
-
-
 ## source("src/apg_mash.R")
 ### Analyze the mash distnaces
 
@@ -145,11 +142,12 @@ gaemr.tab <- lapply(gaemr.tab,t)
 metrics <- gaemr.tab[[1]]["Metric",]
 gaemr.tab <- do.call(rbind,lapply(gaemr.tab,function(x) as.numeric(x["Value",])))
 colnames(gaemr.tab) <- metrics
-
+if (no.rudis){gaemr.tab <- gaemr.tab[!(rownames(gaemr.tab) %in% c("SM-AJDMW","SM-AZXXM")),]}
 broad.info <- read.csv("data/storage/apg/broad_sample_key.csv")
 broad.info[,"Collaborator.Sample.ID"] <- as.character(broad.info[,"Collaborator.Sample.ID"])
 broad.info[broad.info[,"Collaborator.Sample.ID"] == "arudis1","Collaborator.Sample.ID"] <- "rud1"
 broad.info[broad.info[,"Collaborator.Sample.ID"] == "rud6","Collaborator.Sample.ID"] <- "rud2"
+if (no.rudis){broad.info <- broad.info[!(grepl("rud", broad.info$Collaborator.Sample.ID)),]}
 
 ## mash organziation
 ## MASH scripts are located in apGenomes/bin
@@ -157,9 +155,17 @@ geno.info <- read.csv("data/storage/apg/gen_seq_info.csv")
 mash.txt <- read.table("data/storage/apg/mash_dist.txt",sep = "\t")
 mash <- as.mashdist(mash.txt) 
 rownames(mash) <- colnames(mash) <- paste0(as.character(geno.info[sapply(geno.info[,1],grep,x = rownames(mash)),2]),c("","","",1,2,rep("",nrow(geno.info) - 5)))
+if (no.rudis){
+    mash <- mash[!(grepl("rud", rownames(mash))),!(grepl("rud", colnames(mash)))]
+    geno.info <- geno.info[!(grepl("rudis",geno.info[,"species"])),]
+}
 ncbi.gen <- mash
+rownames(ncbi.gen)[rownames(ncbi.gen) == "Cerapachys biroi"] <- "Ooceraea biroi"
+colnames(ncbi.gen)[colnames(ncbi.gen) == "Cerapachys biroi"] <- "Ooceraea biroi"
 ncbi.rv <- c(11,19,14,15,9,5,7,10,6,4,8,12,1,2,24,3,22,23,20,25,26,18,21,16,13,17)
 mash <- mash[grep("Aphaenogaster",rownames(mash)),grep("Aphaenogaster",rownames(mash))]
+if (no.rudis){mash <- mash[!(grepl("rud", rownames(mash))),!(grepl("rud", colnames(mash)))]}
+
 
 ## mash network for ants
 mashP.ncbi <- get.mash.p(mash.txt) 
@@ -172,25 +178,43 @@ mash.net[ mashD.ncbi > 0.05] <- 0
 geo.ctr <- split(ant.info[,c("Lon","Lat")],ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID.)
 geo.ctr <- lapply(geo.ctr,function(x) apply(x,2,mean))
 geo.ctr <- do.call(rbind,geo.ctr)
-
-ap.ctr <- do.call(rbind,list(rud1 = geo.ctr[6,],
-                             rud6 = geo.ctr[6,],
-                             pic1 = geo.ctr[5,],
-                             mia1 = geo.ctr[4,],
-                             ful1 = geo.ctr[3,],
-                             ash1 = geo.ctr[1,],
-                             flo1 = geo.ctr[2,]))
+if (no.rudis){
+    ap.ctr <- do.call(rbind,list(
+        pic1 = geo.ctr[5,],
+        mia1 = geo.ctr[4,],
+        ful1 = geo.ctr[3,],
+        ash1 = geo.ctr[1,],
+        flo1 = geo.ctr[2,]))
+}else{
+    ap.ctr <- do.call(rbind,list(rud1 = geo.ctr[6,],
+                                 rud6 = geo.ctr[6,],
+                                 pic1 = geo.ctr[5,],
+                                 mia1 = geo.ctr[4,],
+                                 ful1 = geo.ctr[3,],
+                                 ash1 = geo.ctr[1,],
+                                 flo1 = geo.ctr[2,]))
+}
 
 ### apg sample geographic info
 ### arudis and picea are from google earth
 ### All other coords are from ant_sites.csv
-apg.geo  <- do.call(rbind,list('arudis1' = c(-78.9830464,36.0200847),
-                 'rud6' = c(-78.9830464,36.0200847),
-                 'pic1' = c(-72.5847494,42.6004513),
-                 'mia1' = c(-82.301773,29.657955),
-                 'ful1' = c(-82.514575,32.692384),
-                 'ash1' = c(-82.031176,29.785325),
-                 'flo1' = c(-82.031176,29.785325)))
+if (no.rudis){
+    apg.geo  <- do.call(rbind,list(
+        'pic1' = c(-72.5847494,42.6004513),
+        'mia1' = c(-82.301773,29.657955),
+        'ful1' = c(-82.514575,32.692384),
+        'ash1' = c(-82.031176,29.785325),
+        'flo1' = c(-82.031176,29.785325)))
+}else{
+    apg.geo  <- do.call(rbind,list(
+        'arudis1' = c(-78.9830464,36.0200847),
+        'rud6' = c(-78.9830464,36.0200847),
+        'pic1' = c(-72.5847494,42.6004513),
+        'mia1' = c(-82.301773,29.657955),
+        'ful1' = c(-82.514575,32.692384),
+        'ash1' = c(-82.031176,29.785325),
+        'flo1' = c(-82.031176,29.785325)))
+}
 colnames(apg.geo) <- c('Longitude','Latitude')
 apg.geo.labs <- paste0(substr(rownames(apg.geo),1,3),
                        substr(rownames(apg.geo),nchar(rownames(apg.geo)),
@@ -202,8 +226,8 @@ apg.gd <- array(NA,dim = rep(nrow(apg.geo),2))
 rownames(apg.gd) <- colnames(apg.gd) <- rownames(apg.geo)
 for (i in 1:nrow(apg.geo)){
     for (j in 1:nrow(apg.geo)){
-        apg.gd[i,j] <- distm (apg.geo[i,], apg.geo[j,], 
-                               fun = distHaversine)
+        apg.gd[i,j] <- geosphere::distm(apg.geo[i,], apg.geo[j,], 
+                               fun = geosphere::distHaversine)
     }
 }
 
@@ -211,8 +235,8 @@ apg.gcd <- array(NA,dim = rep(nrow(ap.ctr),2))
 rownames(apg.gcd) <- colnames(apg.gcd) <- rownames(ap.ctr)
 for (i in 1:nrow(ap.ctr)){
     for (j in 1:nrow(ap.ctr)){
-        apg.gcd[i,j] <- distm (ap.ctr[i,], ap.ctr[j,], 
-                               fun = distHaversine)
+        apg.gcd[i,j] <- geosphere::distm(ap.ctr[i,], ap.ctr[j,], 
+                               fun = geosphere::distHaversine)
     }
 }
 
@@ -222,7 +246,6 @@ geo.cd <- as.dist(apg.gcd)
 geod.pic <- apg.gcd[rownames(apg.gcd) != "pic1","pic1"]
 dist.pic <- apg.geo[,'Latitude'] - apg.geo[,'Latitude']['pic1']
 mash.dpic <- mash[rownames(mash) != "Aphaenogaster picea","Aphaenogaster picea"]
-
 mash <- mash[order(apg.gcd[,"pic1"],decreasing = F),
              order(apg.gcd[,"pic1"], decreasing = F)]
 gcd.pic <- apg.gcd["pic1",rownames(apg.gcd) != "pic1"]
@@ -230,10 +253,16 @@ apg.gcd <- apg.gcd[order(apg.gcd[,"pic1"]),order(apg.gcd[,"pic1"])]
 
 ## diag(mash) <- NA
 ## diag(apg.gcd) <- NA
-
 ### Reorg geo.ctr for latitude
-geo.lat <- geo.ctr[c(6,6,5,4,3,1,2),"Lat"]
-names(geo.lat) <- c("rudis1","rudis6","picea","miamiana","fulva","ashmeadi","floridana")
+if (no.rudis){
+    geo.lat <- geo.ctr[c(5,4,3,1,2),"Lat"]
+    names(geo.lat) <- c("picea","miamiana","fulva","ashmeadi","floridana")
+}else{
+    geo.lat <- geo.ctr[c(6,6,5,4,3,1,2),"Lat"]
+    names(geo.lat) <- c("rudis1","rudis6","picea","miamiana","fulva","ashmeadi","floridana")
+}
+
+
 
 ### Size similarity
 size.d <- as.matrix(dist(as.matrix(gaemr.tab[,"TotalScaffoldLength"])))
@@ -245,24 +274,102 @@ gc.dpic <- size.d[rownames(mash) == "pic1",rownames(mash) != "pic1"]
 
 ### Lat distance
 lat.d <- as.matrix(dist(as.matrix(geo.lat)))
-lat.d.reorder <- match(c("picea","rudis1","rudis6","fulva","floridana","miamiana","ashmeadi"),rownames(lat.d))
+if (no.rudis){
+    lat.d.reorder <- match(c("picea","fulva","floridana","miamiana","ashmeadi"),rownames(lat.d))
+}else{
+    lat.d.reorder <- match(c("picea","rudis1","rudis6","fulva","floridana","miamiana","ashmeadi"),rownames(lat.d))
+}
 lat.d <- lat.d[lat.d.reorder,lat.d.reorder]
+
+### Worldclim data
+### Get locations for gaga_genome_info.csv
+ncbi_info <- read.csv("data/gaga_genome_info.csv")
+if (all(sapply(c("lat","lon"),grepl, x = colnames(ncbi_info)))){
+    locs <- ncbi_info[,"Location"]
+    locs <- sapply(as.character(locs),function(x) 
+        paste(strsplit(x,",")[[1]][c(1,3)], collapse = ","))
+    ncbi_gps <- list()
+    for (i in 1:length(locs)){
+        ncbi_gps[[i]] <- geocode(locs[i])
+    }
+### Catch any that didn't successfully find a loc
+    while (any(unlist(lapply(ncbi_gps, is.na)))){
+        for (i in 1:length(locs)){
+            if (any(is.na(ncbi_gps[[i]]))){
+                ncbi_gps[[i]] <- geocode(locs[i])
+            }
+        }
+    }
+    ncbi_gps <- do.call(rbind,ncbi_gps)
+    ncbi_gps[grepl("Unkown",rownames(ncbi_gps)),] <- c(NA,NA)
+    out <- data.frame(ncbi_info,ncbi_gps)
+    write.csv(out,"../data/gaga_genome_info.csv", row.names = FALSE)
+}
+
+### create spatial data point object to get climate data
+### Get climate for ncbi locs
+r <- getData("worldclim",var="bio",res=2.5)
+wc <- r 
+names(wc) <- c("MAT", "MDR", "Iso", "TS", "Tmax", "Tmin", "ATR", "MTWeQ", "MTDQ","MTWaQ", "MTCQ", "PA", "PWM", "PDM", "PS", "PWeQ", "PDQ", "PWaQ", "PCQ")
+## BIO1 = Annual Mean Temperature "MAT"
+## BIO2 = Mean Diurnal Range (Mean of monthly (max temp - min temp)) "MDR"
+## BIO3 = Isothermality (BIO2/BIO7) (* 100) "Iso"
+## BIO4 = Temperature Seasonality (standard deviation *100) "TS"
+## BIO5 = Max Temperature of Warmest Month "Tmax"
+## BIO6 = Min Temperature of Coldest Month "Tmin"
+## BIO7 = Temperature Annual Range (BIO5-BIO6) "ATR"
+## BIO8 = Mean Temperature of Wettest Quarter "MTWeQ"
+## BIO9 = Mean Temperature of Driest Quarter "MTDQ
+## BIO10 = Mean Temperature of Warmest Quarter "MTWaQ"
+## BIO11 = Mean Temperature of Coldest Quarter "MTCQ"
+## BIO12 = Annual Precipitation "PA"
+## BIO13 = Precipitation of Wettest Month "PWM"
+## BIO14 = Precipitation of Driest Month "PDM"
+## BIO15 = Precipitation Seasonality (Coefficient of Variation) "PS"
+## BIO16 = Precipitation of Wettest Quarter "PWeQ"
+## BIO17 = Precipitation of Driest Quarter "PDQ"
+## BIO18 = Precipitation of Warmest Quarter "PWaQ"
+## BIO19 = Precipitation of Coldest Quarter "PCQ"
+
+bio.labs <- c(
+MAT = "MAT: Annual Mean Temperature (BIO1)",
+MDR = "MDR: Mean Diurnal Range (Mean of monthly (max temp - min temp)) (BIO2)",
+Iso = "Iso: Isothermality (BIO2/BIO7) (* 100) (BIO3)",
+TS = "TS: Temperature Seasonality (standard deviation *100) (BIO4)",
+Tmax = "Tmax: Max Temperature of Warmest Month (BIO5)",
+Tmin = "Tmin: Min Temperature of Coldest Month (BIO6)",
+ATR = "ATR: Temperature Annual Range (BIO5-BIO6) (BIO7)",
+MTWeQ = "MTWeQ: Mean Temperature of Wettest Quarter (BIO8)",
+MTDQ = "MTDQ: Mean Temperature of Driest Quarter (BIO9)",
+MTWaQ = "MTWaQ: Mean Temperature of Warmest Quarter (BIO10)",
+MTCQ = "MTCQ: Mean Temperature of Coldest Quarter (BIO11)",
+PA = "PA: Annual Precipitation (BIO12)",
+PWM = "PWM: Precipitation of Wettest Month (BIO13)",
+PDM = "PDM: Precipitation of Driest Month (BIO14)",
+PS = "PS: Precipitation Seasonality (Coefficient of Variation) (BIO15)",
+PWeQ = "PWeQ: Precipitation of Wettest Quarter (BIO16)",
+PDQ = "PDQ: Precipitation of Driest Quarter (BIO17)",
+PWaQ = "PWaQ: Precipitation of Warmest Quarter (BIO18)",
+PCQ = "PCQ: Precipitation of Coldest Quarter (BIO19)")
+
+ncbi_gps <- na.omit(ncbi_info[,c("lon","lat")])
+ncbi.spc <- SpatialPoints(ncbi_gps, 
+                          proj4string = r@crs)
+ncbi.df <- cbind.data.frame(coordinates(ncbi_gps),ncbi.spc)
+ncbi.gps <- read.csv("data/gaga_genome_info.csv")
+ncbi.gps[,"Species.name"] <- as.character(ncbi.gps[,"Species.name"])
 
 ## source("src/apg_prism.R")
 ### Get prism data for coordinates
 ### This is borrowed code:
 ### http://eremrah.com/articles/How-to-extract-data-from-PRISM-raster/
-
 ## SEE: https://github.com/ropensci/prism
 ## Get PRISM data
-if (!dir.exists("~/prismtmpnormals")){
-    options(prism.path = "~/prismtmpnormals")
-    get_prism_normals(type="ppt", "800m", annual = TRUE)
-    get_prism_normals(type="tmin", "800m", mon = 1, annual = TRUE)
-    get_prism_normals(type="tmax", "800m", mon = 7, annual = TRUE)
-}
-
 options(prism.path = "~/prismtmpnormals")
+get_prism_normals(type="ppt", "800m", annual = TRUE)
+get_prism_normals(type="tmin", "800m", mon = 1, annual = TRUE)
+get_prism_normals(type="tmax", "800m", mon = 7, annual = TRUE)
+
 ## Stack files
 mystack <- ls_prism_data() %>%  prism_stack()  
 ## Get proj from raster stack
@@ -277,7 +384,7 @@ coordinates(mypoints) <- c('long', 'lat')
 proj4string(mypoints) <- CRS(mycrs)
 ## Extract data from raster
 data <- data.frame(coordinates(mypoints), mypoints$id,
-                   extract(mystack, mypoints))
+                   raster::extract(mystack, mypoints))
 ## Rename column headers
 colnames(data)[4:6] <- do.call(rbind,strsplit(colnames(data)[4:6],"_"))[,2]
 rownames(data)[rownames(data) == "arudis1"] <- "rud1"
@@ -305,12 +412,115 @@ tmin.d <- as.matrix(dist(clim.data[,c("tmin")]))
 rownames(tmin.d) <- colnames(tmin.d) <- rownames(as.matrix(clim.d))
 tmin.d <- as.dist(tmin.d)
 
+### Merge ncbi and apg geo
+apg.merging <- data.frame(Species.name = rownames(as.matrix(mash.d)), 
+                          lon = apg.geo[,'Longitude'],
+                          lat = apg.geo[,'Latitude'])
+all.geo <- rbind(ncbi.gps[,c("Species.name","lon","lat")], 
+                 apg.merging)
+all.geo <- all.geo[match(rownames(ncbi.gen),all.geo[,"Species.name"]),]
+all.geo <- na.omit(all.geo)
+all.mash <- ncbi.gen
+all.mash <- all.mash[sapply(rownames(all.mash), function(x) x %in% all.geo[,"Species.name"]),
+                     sapply(colnames(all.mash), function(x) x %in% all.geo[,"Species.name"])]
+all.mash <- all.mash[na.omit(match(all.geo[,"Species.name"],rownames(all.mash))),
+         na.omit(match(all.geo[,"Species.name"],rownames(all.mash)))]
+all.geo <- all.geo[sapply(all.geo[,"Species.name"], function(x) x %in% rownames(all.mash)),]
+
+all(all(rownames(all.mash) == colnames(all.mash)) & 
+        all(rownames(all.mash) == all.geo[,"Species.name"]))
+
+### Setup variables for plotting and analysis
+coords <- data.frame(x=all.geo[,"lon"],y=all.geo[,"lat"])
+points <- SpatialPoints(coords, proj4string = wc@crs)
+values <- raster::extract(wc,points)
+df <- cbind.data.frame(coordinates(points),values)
+rownames(df) <- all.geo[,"Species.name"]
+colnames(df)[1:2] <- c("Lon","Lat")
+### Bioclim imports temps as integers by default
+### They just multiply by 10, so we divide to get the true temps
+df[,grep("T",colnames(df))] <- df[,grep("T",colnames(df))] / 10
+
+### Just Ap
+apg.bio <- df[grep("Aphaenogaster",rownames(df)),]
+apg.mash <- ncbi.gen[grep("Aphaenogaster",rownames(df)),grep("Aphaenogaster",rownames(df))]
+all(rownames(apg.bio) == rownames(apg.mash))
+if (!(file.exists("data/storage/apg/nmds_all.csv")) | update.nmds){
+    n.dim <- 2
+    ord <- nmds(as.dist(all.mash),n.dim,n.dim, nits = 500)
+    nms.cap <- capture.output(nms <- nmds.min(ord,n.dim))
+    nms.cap <- c(paste0("500 inits and ",n.dim,"D"),nms.cap)
+    write.csv(nms, "data/storage/apg/nmds_all.csv", row.names = FALSE)
+    write.table(nms.cap, file = "results/nmds_all_details.txt", col.names = FALSE)
+}else{nms <- read.csv("data/storage/apg/nmds_all.csv")}
+if (!(file.exists("data/storage/apg/nmds_apg.csv")) | update.nmds){
+    apg.ord <- nmds(as.dist(apg.mash),2,2, nits = 500)
+    nms.apg.cap <- capture.output(apg.nms <- nmds.min(apg.ord, 2))
+    nms.apg.cap <- c("500 inits and 2D",nms.apg.cap)
+    write.table(nms.apg.cap, file = "results/nmds_apg_details.txt", col.names = FALSE)
+    write.csv(apg.nms, "data/storage/apg/nmds_apg.csv", row.names = FALSE)
+}else{apg.nms <- read.csv("data/storage/apg/nmds_apg.csv")}
+
+
+vec <- envfit(nms, df, perm = 10000)
+apg.vec <- envfit(apg.nms, apg.bio, perm = 10000)
+vec.out <- cbind(r = (vec[["vectors"]][["r"]]), p = vec[["vectors"]][["pvals"]])
+apg.vec.out <- cbind(r = (apg.vec[["vectors"]][["r"]]), p = apg.vec[["vectors"]][["pvals"]])
+
+pdf(file = "results/worldclim_ordination.pdf", width = 12, height = 6.5)
+par(mfrow = c(1,2))
+plot(nms[,1:2], pch = "", xlab = "NMDS 1", ylab = "NMDS 2")
+text(nms[,1:2], labels = sapply(rownames(all.mash), get_names), cex = 0.5)
+plot(vec, col = "darkgrey", cex = 0.75)
+plot(apg.nms[,1:2], pch = "", xlab = "NMDS 1", ylab = "NMDS 2")
+text(apg.nms[,1:2], labels = sapply(rownames(as.matrix(mash.d)), get_names), cex = 0.5)
+plot(apg.vec, col = "darkgrey", cex = 0.75)
+dev.off()
+system("scp results/worldclim_ordination.pdf matthewklau@fas.harvard.edu:public_html/tmp.pdf")
+
+ext <- raster::extent(-180,180,ymin = -75, ymax = 100)
+bio.i <- (1:nrow(vec.out))[vec.out[,"p"] == min(vec.out[,"p"])] - length(c("lon","lat"))
+pdf(file = "results/worldmap_bioc_i.pdf",height = 5, width = 10)
+spplot(crop(r,ext)[[bio.i]], main = bio.labs[bio.i], sp.layout = list("sp.points", points, pch = 19, col = "lawngreen"))
+dev.off()
+## system("scp results/worldmap_bioc_i.pdf matthewklau@fas.harvard.edu:public_html/tmp.pdf")
+
+## Write vector results table to results
+## Only writing out those that are less than p<=0.05
+vec.tab <- vec.out 
+rownames(vec.tab) <- c("Longitude","Latitude", bio.labs)
+vec.tab <- vec.tab[order(vec.tab[,"p"]),]
+apg.vec.tab <- apg.vec.out
+rownames(apg.vec.tab) <- c("Longitude","Latitude", bio.labs)
+apg.vec.tab <- apg.vec.tab[order(apg.vec.tab[,"p"]),]
+
+vec.xtab <- xtable(vec.tab, caption = "Results of the NMS ordination vector analysis.", digits = 3, label = "tab:wc_vec")
+print(vec.xtab,
+      type = "latex",
+      file = "results/worldclim_vectors.tex",
+      include.rownames = TRUE,
+      include.colnames = TRUE
+)
+apg.vec.xtab <- xtable(apg.vec.tab, caption = "Results of the NMS ordination vector analysis for only Aphaenogaster spp.", digits = 3, label = "tab:wc_apg_vec")
+print(apg.vec.xtab,
+      type = "latex",
+      file = "results/worldclim_apg_vectors.tex",
+      include.rownames = TRUE,
+      include.colnames = TRUE
+)
+
 ### Analysis Outline
 ## sample information
 
 ### Compare to other ant genomes and bees
 ## This is the data to make the genome to gene/contig fig
 ### NCBI Genome Info
+
+## ncbi.db <- read.csv("ftp://ftp.ncbi.nlm.nih.gov/genomes/GENOME_REPORTS/eukaryotes.txt", sep = "\t")
+## hymenopteragenome.org/hymenopteramine/dataCategories.do
+## hymenopteragenome.org
+## rspatial.org/sdm/
+
 if (!any(grepl("ncbi_ant.csv", dir("data/storage/apg")))){
     source('src/ncbi_genome_info.R')
 }
@@ -343,6 +553,11 @@ ref.sizes <- c(as.numeric(ncbi.ant[,'Size..Mb.']),ant.gen.size[,'1C Genome Size 
 apgs <- dir('data/storage/apg',full = TRUE)
 sample.info <- read.csv('data/storage/apg/colony_locations.csv')
 broad.info <- read.csv('data/storage/apg/broad_sample_key.csv')
+if (no.rudis){
+    sample.info <- sample.info[!(grepl("rud",sample.info[,"broadID"])),]
+    broad.info <- broad.info[!(grepl("rud",broad.info[,"Collaborator.Sample.ID"])),]
+}
+
 
 ### Collect gaemr data for making tables and figures
 if (make.stats.table){
@@ -541,20 +756,38 @@ print(climcor.xtab,
 
 ## Mantel of MASH
 ## check ordering 
-if (!all(
-    colnames(as.matrix(mash.d)) == c("Aphaenogaster rudis1", 
-                "Aphaenogaster rudis2", 
-                "Aphaenogaster picea",
-                "Aphaenogaster miamiana",
-                "Aphaenogaster fulva",
-                "Aphaenogaster ashmeadi", 
-                "Aphaenogaster floridana")) & 
-    all(colnames(as.matrix(temp.d)) == c(
-                    "rud1", "rud6", "pic1", "mia1", "ful1", "ash1", "flo1")) & 
-    (all(colnames(as.matrix(temp.d)) == colnames(as.matrix(clim.d))) & 
-         all(colnames(as.matrix(clim.d)) == colnames(as.matrix(geo.cd))) & 
-             all(colnames(as.matrix(clim.d)) == colnames(as.matrix(ppt.d))))){
-    warning("Distance matrix ordering incorrect!")
+if (no.rudis){
+    if (!all(
+        colnames(as.matrix(mash.d)) == c(
+                    "Aphaenogaster picea",
+                    "Aphaenogaster miamiana",
+                    "Aphaenogaster fulva",
+                    "Aphaenogaster ashmeadi", 
+                    "Aphaenogaster floridana")) & 
+        all(colnames(as.matrix(temp.d)) == c(
+                        "pic1", "mia1", "ful1", "ash1", "flo1")) & 
+        (all(colnames(as.matrix(temp.d)) == colnames(as.matrix(clim.d))) & 
+             all(colnames(as.matrix(clim.d)) == colnames(as.matrix(geo.cd))) & 
+                 all(colnames(as.matrix(clim.d)) == colnames(as.matrix(ppt.d))))){
+        warning("Distance matrix ordering incorrect!")
+    }
+}else{
+    if (!all(
+        colnames(as.matrix(mash.d)) == c(
+                    "Aphaenogaster rudis1", 
+                    "Aphaenogaster rudis2", 
+                    "Aphaenogaster picea",
+                    "Aphaenogaster miamiana",
+                    "Aphaenogaster fulva",
+                    "Aphaenogaster ashmeadi", 
+                    "Aphaenogaster floridana")) & 
+        all(colnames(as.matrix(temp.d)) == c(
+                        "rud1", "rud6", "pic1", "mia1", "ful1", "ash1", "flo1")) & 
+        (all(colnames(as.matrix(temp.d)) == colnames(as.matrix(clim.d))) & 
+             all(colnames(as.matrix(clim.d)) == colnames(as.matrix(geo.cd))) & 
+                 all(colnames(as.matrix(clim.d)) == colnames(as.matrix(ppt.d))))){
+        warning("Distance matrix ordering incorrect!")
+    }
 }
 
 set.seed(1649)
@@ -596,6 +829,34 @@ size.dat <- data.frame(GenomeSize = gaemr.tab[,"TotalScaffoldLength"],
 (summary(lm(GC~Latitude*Precipitation, data = gc.dat)))
 (summary(lm(GenomeSize~Latitude*Precipitation, data = size.dat)))
 
+### Size correlation analysis
+ncbi.size <- ncbi.ant[,c("X.Organism.Name","Size..Mb.")]
+colnames(ncbi.size) <- c("species", "size")
+ncbi.size[,"species"] <- as.character(ncbi.size[,"species"])
+apg.size <- data.frame(species = broad.info[,"Collaborator.Sample.ID"], 
+                       size = gaemr.tab[,"TotalScaffoldLength"] / 10^6)
+apg.size[,"species"] <- as.character(na.omit(all.geo[match(apg.size[,"species"],
+                                                           rownames(all.geo)),"Species.name"]))
+all.size <- rbind(ncbi.size, apg.size)
+all.size <- all.size[match(all.geo[,"Species.name"],all.size[,"species"]),]
+if (!(all(all.geo[,1] == all.size[,1]))){print("Danger Will Robinson!!!")}
+all.sizegeo <- data.frame(all.geo,size = all.size[,"size"])
+all.sizegeo <- data.frame(all.sizegeo,apply(all.sizegeo[,c("lon","lat")],2,function(x) (x + abs(min(x)))^2))
+colnames(all.sizegeo)[colnames(all.sizegeo) == c("lon.1","lat.1")] <- c("lon2","lat2")
+
+lm_sizegeo <- lm(size ~ lon * lat, data = all.sizegeo)
+cap_lmsizegeo <- capture.output(summary(lm_sizegeo))
+write.table(capture.output(shapiro.test(residuals(lm_sizegeo))), 
+            file = "results/cap_shapiro.txt", 
+            col.names = FALSE, row.names = FALSE, quote = FALSE)
+write.table(cap_lmsizegeo, file = "results/cap_lmsizegeo.txt", col.names = FALSE, row.names = FALSE, quote = FALSE)
+print(xtable(lm_sizegeo, label = "tab:sizegeo", 
+             caption = "F-table for the regression of genome size and geographic position showing the additive and interactive effects tests."),
+      type = "latex",
+      file = "results/lm_sizegeo.tex",
+      include.rownames = TRUE,
+      include.colnames = TRUE
+      )
 
 ### Figures
 ### Ant genomes previously sequenced
@@ -668,6 +929,14 @@ ggplot(data.frame(size = ref.sizes), aes(size)) +
                   axis.title=element_text(size=20,face="bold"))
 dev.off()
 
+### Cytometry figure
+### genome_sizes.png
+
+## png("results/genome_size.png",width = 700, height = 700)
+## plot()
+## dev.off()
+
+
 ### Hits to ants and Aphaenogaster
 png("results/gaemr_pc_ant.png",width = 700, height = 700)
 ggplot(data.frame(gaemr.tab,names = rownames(mash)), aes(names,Percent.Ants)) + 
@@ -725,6 +994,7 @@ heatmap(ncbi.gen,
         RowSideColors=rainbow(nlevels(geno.info[,"subfamily"]))[as.numeric(geno.info[,"subfamily"])],
         symm = T, margins = c(1,10),labCol = "")
 dev.off()
+system("scp results/ncbi_heat.png matthewklau@fas.harvard.edu:public_html/tmp.png")
 png("results/apg_heat.png",width = 1200, height = 800, pointsize = 25)
 heatmap(mash, 
         symm = T, margins = c(1,10),labCol = "")
@@ -860,6 +1130,12 @@ plot(ord, xlab = "NMDS 1", ylab = "NMDS 2", pch = "")
 text(ord, labels = clim.data[,"mypoints.id"], col = "black")
 plot(vec, col = "darkgrey")
 dev.off()
+
+par(mfrow=c(1,2))
+plot(hclust(mash.d))
+plot(ord[,1:2], xlab = "NMDS 1", ylab = "NMDS 2", pch = "")
+text(ord[,1:2], labels = , substr(rownames(as.matrix(mash.d)),15,20),col = "black")
+
 
 ### Parsing the impact of geography + climate on MASH
 ### Simple correlation vs mantel
@@ -1018,7 +1294,7 @@ clim.tab <- clim.tab[,c(2,1,6,5,4)]
 colnames(clim.tab) <- c("Lat","Lon","Tmin (C)","Tmax (C)","Precip (mm)")
 
 clim.xtab <- xtable::xtable(clim.tab, caption =
-"Climate variables for colony sample sites. Climate are 30 year normal values (1976-2016) for January minimum temperature (Tmin), July maximum temperature (Tmax) and total precipitation (Precip).")
+"Climate variables for colony sample sites. Climate are 30 year normal values (1976-2016) for January minimum temperature (Tmin), July maximum temperature (Tmax) and total precipitation (Precip).", label = "tab:climate")
 print(clim.xtab,
       type = "latex",
       file = "results/climate.tex",
@@ -1034,5 +1310,9 @@ print(clim.xtab,
 ### Update figures in presentations and manuscripts
 ## system("cp results/*.png docs/esa2017")
 # system("cp results/*.png docs/manuscript")
+if (update.results){
+    cp.results <- paste0("results/",dir("results/")[dir("results/") %in% dir("docs/manuscript/")])
+    sapply(cp.results, file.copy , to = "docs/manuscript", overwrite = TRUE)
+}
 
 print("Done!")

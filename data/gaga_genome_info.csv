@@ -1,21 +1,21 @@
-Species name ,Assembly size Mb) ,Scaffold N50 length kb) ,Contig N50 length kb) ,Biological questions addressed ,Reference ,Location
-Acromyrmex echinatior ,300,"1,094.27",62.71,"Mutualism with fungi, gene loss, arginin- loss, neuropeptides, sex determination ",NYGAARD & al. (2011) ,"Gamboa,Unknown, Panama "
-Atta cephalotes ,318,"5,154.50",14.24,"Mutualism with fungi, arginin-loss, serine proteases, hexamerin ",SUEN & al. (2011) ,"Gamboa,Unknown, Panama "
-Atta colombica ,293,"2,037.15",15,Multigenome analysis of mutualistic per- formance in ants and fungal crops ,NYGAARD & al. (2016) ,"Gamboa,Unknown, Panama "
-Camponotus floridanus ,238,602.92,24.13,"Genomic comparison, caste, epigenetics of aging and behavior ",BONASIO & al. (2010) ,"Sugarloaf Key, Florida, USA"
-Cardiocondyla obscurior ,182,"2,570.86",14.94,"Genome reduction, transposable elements, differential methylation ",SCHRADER & al. (2014) ,"Unknown,Unknown, Brazil"
-Cyphomyrmex costatus ,323,"1,016.47",27.2,Multigenome analysis of mutualistic per- formance in ants and fungal crops ,NYGAARD & al. (2016) ,"Gamboa,Unknown, Panama "
-Dinoponera quadriceps ,260,"1,361.23",29.91,"Phenotypic plasticity, comparison with wasps ",PATALANO & al. (2015) ,"Punta Galeta,Unknown, Panama"
-Formica selysi ,224,16.1,No data ,Non-recombining social chromosome com- parison with Solenopsis invicta ,PURCELL & al. (2014) ,"Unknown,Unknown, Switzerland"
-Harpegnathos saltator ,297,598.19,38.03,"Genomic comparison, caste, epigenetics of aging and behavior ",BONASIO & al. (2010) ,"Karnataka,Unknown, India "
-Lasius niger ,236,17.06,16.38,"Transposable elements, detoxification ",KONOROV & al. (2017) ,"Moscow,Unknown, Russia"
-Linepithema humile ,216,"1,386.36",35.86,"Gene family expansions, odorant receptors, royal jelly, desaturases ",SMITH & al. (2011a) ,"Saratoga, California, USA"
-Monomorium pharaonis ,258,75.38,21.81,Correlated gene expression and conser- vation ,MIKHEYEV & LINKS- VAYER (2015) ,"Unknown,Unknown, Unkown"
-Ooceraea biroi ,214,"1,291.49",31.93,"Queen loss, automictic parthenogenesis ",OXLEY & al. (2014) ,"Okinawa,Unknown, Japan "
-Pogonomyrmex barbatus ,235,793.75,11.61,"Caste-specific gene networks, gene family expansions, comparisons with bees ",SMITH & al. (2011b) ,"Queretaro,Unknown, Mexico "
-Pseudomyrmex gracilis ,282,317.68,38.83,Rates of genome-wide evolution in mutualisms with plants ,RUBIN & MOREAU (2016) ,"Madre de Dios,Unknown, Peru"
-Solenopsis invicta ,353,720.58,14.67,"Vitellogenin, sex differentiation, telomerase, odorant receptors ",WURM & al. (2011) ,"Athens, Georgia, USA"
-Trachymyrmex cornetzi ,402,632.81,12.44,Multigenome analysis of mutualistic performance in ants and fungal crops ,NYGAARD & al. (2016) ,"Gamboa,Unknown, Panama "
-Trachymyrmex septentrionalis ,295,"2,447.26",14.51,Multigenome analysis of mutualistic performance in ants and fungal crops ,NYGAARD & al. (2016) ,"Tallahassee, Florida, USA"
-Trachymyrmex zeteki ,269,"1,333.95",18.99,Multigenome analysis of mutualistic performance in ants and fungal crops ,NYGAARD & al. (2016) ,"Gamboa,Unknown, Panama "
-Vollenhovia emeryi ,288,"1,346.09",32.42,Genomic changes in inquiline social parasites ,SMITH & al. (2015) ,"Queretaro,Unknown, Mexico "
+"Species.name","Assembly.size.Mb.","Scaffold.N50.length.kb.","Contig.N50.length.kb.","Biological.questions.addressed","Reference","Location","lon","lat"
+"Acromyrmex echinatior",300,"1,094.27","62.71","Mutualism with fungi, gene loss, arginin- loss, neuropeptides, sex determination","NYGAARD & al. (2011) ","Gamboa,Unknown, Panama ",-79.696513,9.1164638
+"Atta cephalotes",318,"5,154.50","14.24","Mutualism with fungi, arginin-loss, serine proteases, hexamerin ","SUEN & al. (2011) ","Gamboa,Unknown, Panama ",-79.696513,9.1164638
+"Atta colombica",293,"2,037.15","15","Multigenome analysis of mutualistic per- formance in ants and fungal crops ","NYGAARD & al. (2016) ","Gamboa,Unknown, Panama ",-79.696513,9.1164638
+"Camponotus floridanus",238,"602.92","24.13","Genomic comparison, caste, epigenetics of aging and behavior ","BONASIO & al. (2010) ","Sugarloaf Key, Florida, USA",-81.5431872,24.6245746
+"Cardiocondyla obscurior",182,"2,570.86","14.94","Genome reduction, transposable elements, differential methylation ","SCHRADER & al. (2014) ","Unknown,Unknown, Brazil",-43.9364324,-19.9243098
+"Cyphomyrmex costatus",323,"1,016.47","27.2","Multigenome analysis of mutualistic per- formance in ants and fungal crops ","NYGAARD & al. (2016) ","Gamboa,Unknown, Panama ",-79.696513,9.1164638
+"Dinoponera quadriceps",260,"1,361.23","29.91","Phenotypic plasticity, comparison with wasps ","PATALANO & al. (2015) ","Punta Galeta,Unknown, Panama",-79.8697222,9.4008333
+"Formica selysi",224,"16.1","No data ","Non-recombining social chromosome com- parison with Solenopsis invicta ","PURCELL & al. (2014) ","Unknown,Unknown, Switzerland",10.323031,46.575462
+"Harpegnathos saltator",297,"598.19","38.03","Genomic comparison, caste, epigenetics of aging and behavior ","BONASIO & al. (2010) ","Karnataka,Unknown, India ",75.7138884,15.3172775
+"Lasius niger",236,"17.06","16.38","Transposable elements, detoxification ","KONOROV & al. (2017) ","Moscow,Unknown, Russia",37.6172999,55.755826
+"Linepithema humile",216,"1,386.36","35.86","Gene family expansions, odorant receptors, royal jelly, desaturases ","SMITH & al. (2011a) ","Saratoga, California, USA",-122.0230146,37.2638324
+"Monomorium pharaonis",258,"75.38","21.81","Correlated gene expression and conser- vation ","MIKHEYEV & LINKS- VAYER (2015) ","Unknown,Unknown, Unkown",NA,NA
+"Ooceraea biroi",214,"1,291.49","31.93","Queen loss, automictic parthenogenesis ","OXLEY & al. (2014) ","Okinawa,Unknown, Japan ",127.6809317,26.2124013
+"Pogonomyrmex barbatus",235,"793.75","11.61","Caste-specific gene networks, gene family expansions, comparisons with bees ","SMITH & al. (2011b) ","Queretaro,Unknown, Mexico ",-100.3898876,20.5888184
+"Pseudomyrmex gracilis",282,"317.68","38.83","Rates of genome-wide evolution in mutualisms with plants ","RUBIN & MOREAU (2016) ","Madre de Dios,Unknown, Peru",-70.8119953,-11.7668705
+"Solenopsis invicta",353,"720.58","14.67","Vitellogenin, sex differentiation, telomerase, odorant receptors ","WURM & al. (2011) ","Athens, Georgia, USA",-83.357567,33.9519347
+"Trachymyrmex cornetzi",402,"632.81","12.44","Multigenome analysis of mutualistic performance in ants and fungal crops ","NYGAARD & al. (2016) ","Gamboa,Unknown, Panama ",-79.696513,9.1164638
+"Trachymyrmex septentrionalis",295,"2,447.26","14.51","Multigenome analysis of mutualistic performance in ants and fungal crops ","NYGAARD & al. (2016) ","Tallahassee, Florida, USA",-84.2807329,30.4382559
+"Trachymyrmex zeteki",269,"1,333.95","18.99","Multigenome analysis of mutualistic performance in ants and fungal crops ","NYGAARD & al. (2016) ","Gamboa,Unknown, Panama ",-79.696513,9.1164638
+"Vollenhovia emeryi",288,"1,346.09","32.42","Genomic changes in inquiline social parasites ","SMITH & al. (2015) ","Queretaro,Unknown, Mexico ",-100.3898876,20.5888184

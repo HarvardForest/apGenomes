@@ -5,8 +5,8 @@
 #SBATCH -p general # Partition
 #SBATCH --mem 10000 # Memory request
 #SBATCH -t 3-00:00 # (D-HH:MM)
-#SBATCH -o rep_mask.out # Standard out goes to this file
-#SBATCH -e rep_mask.err # Standard err goes to this filehostname
+#SBATCH -o rep_mask.out # Standard out goes to this filehostname
+#SBATCH -e apg.err # Standard err goes to this filehostname
 #SBATCH --mail-type=ALL # email notification
 #SBATCH --mail-user=matthewklau@fas.harvard.edu
 
