@@ -1,4 +1,6 @@
-if (substr(getwd(),(nchar(getwd()) - 2),nchar(getwd())) == "src"){setwd("..")}
+### Ant genome analysis
+### MK Lau
+### Harvard Forest, Harvard University
 
 set.seed(2111981)
 
@@ -72,15 +74,15 @@ italic <- function(x){paste0('{\\emph{',x,'}}')}
 
 ### rebuild the stats tables
 make.stats.table <- FALSE
-broad.info <- read.csv('./data/storage/apg/broad_sample_key.csv')
+broad.info <- read.csv("../data/storage/apg/broad_sample_key.csv")
 if (no.rudis){broad.info <- broad.info[!(grepl("rud", broad.info$Collaborator.Sample.ID)),]}
-sample.info <- read.csv('./data/storage/apg/colony_locations.csv')
+sample.info <- read.csv("../data/storage/apg/colony_locations.csv")
 if (no.rudis){sample.info <- sample.info[!(grepl("rud", sample.info$broadID)),]}
-ant.info <- read.csv('./data/storage/apg/RADseq_mastersheet_2014.csv')
+ant.info <- read.csv("../data/storage/apg/RADseq_mastersheet_2014.csv")
 
 ant.info <- ant.info[ant.info$Species..varying.ID.sources...Bernice.if.different.from.original.ID. %in% na.omit(sample.info$spec_epithet),]
 ant.info <- ant.info[!ant.info$State == "",]
-ant.geo <- read.csv('./data/storage/apg/ant_sites.csv')
+ant.geo <- read.csv("../data/storage/apg/ant_sites.csv")
 ant.geo[,c("Lon","Lat")] <- apply(ant.geo[,c("Lon","Lat")],2,as.numeric)
 ant.info <- data.frame(ant.info,
                        ant.geo[match(as.character(ant.info$Locale),ant.geo$Site),c("Lon","Lat")])
@@ -118,7 +120,7 @@ ant.spp <- unique(unlist(ant.count.spp))
 ant.count.gen <- table(do.call(rbind, strsplit(unique(unlist(ant.count.spp)), split = " "))[,1])
 
 ### From the GAGA group
-gaga <- na.omit(read.csv("data/gaga_genome_info.csv"))
+gaga <- na.omit(read.csv("../data/gaga_genome_info.csv"))
 gaga <- gaga[gaga[,"Contig.N50.length.kb."] != "No data ", ]
 gaga[,"Scaffold.N50.length.kb."] <- as.numeric(gsub(",","",as.character(
     gaga[,"Scaffold.N50.length.kb."])))
@@ -134,7 +136,7 @@ gaga.loc <- data.frame(gaga.loc)
 ### Analyze the mash distnaces
 
 ## gaemr info
-gaemr.tab <- read.csv('./data/storage/apg/gaemr-table.csv')
+gaemr.tab <- read.csv("../data/storage/apg/gaemr-table.csv")
 gaemr.tab <- gaemr.tab[!grepl("Name",gaemr.tab[,"Metric"]),]
 gaemr.tab <- gaemr.tab[!grepl("Assembler",gaemr.tab[,"Metric"]),]
 gaemr.tab <- split(gaemr.tab[,c("Metric","Value")],gaemr.tab[,"ID"])
@@ -143,7 +145,7 @@ metrics <- gaemr.tab[[1]]["Metric",]
 gaemr.tab <- do.call(rbind,lapply(gaemr.tab,function(x) as.numeric(x["Value",])))
 colnames(gaemr.tab) <- metrics
 if (no.rudis){gaemr.tab <- gaemr.tab[!(rownames(gaemr.tab) %in% c("SM-AJDMW","SM-AZXXM")),]}
-broad.info <- read.csv("./data/storage/apg/broad_sample_key.csv")
+broad.info <- read.csv("../data/storage/apg/broad_sample_key.csv")
 broad.info[,"Collaborator.Sample.ID"] <- as.character(broad.info[,"Collaborator.Sample.ID"])
 broad.info[broad.info[,"Collaborator.Sample.ID"] == "arudis1","Collaborator.Sample.ID"] <- "rud1"
 broad.info[broad.info[,"Collaborator.Sample.ID"] == "rud6","Collaborator.Sample.ID"] <- "rud2"
@@ -151,8 +153,8 @@ if (no.rudis){broad.info <- broad.info[!(grepl("rud", broad.info$Collaborator.Sa
 
 ## mash organziation
 ## MASH scripts are located in apGenomes/bin
-geno.info <- read.csv("./data/storage/apg/gen_seq_info.csv")
-mash.txt <- read.table("./data/storage/apg/mash_dist.txt",sep = "\t")
+geno.info <- read.csv("../data/storage/apg/gen_seq_info.csv")
+mash.txt <- read.table("../data/storage/apg/mash_dist.txt",sep = "\t")
 mash <- as.mashdist(mash.txt) 
 rownames(mash) <- colnames(mash) <- paste0(as.character(geno.info[sapply(geno.info[,1],grep,x = rownames(mash)),2]),c("","","",1,2,rep("",nrow(geno.info) - 5)))
 if (no.rudis){
@@ -441,25 +443,39 @@ colnames(df)[1:2] <- c("Lon","Lat")
 ### They just multiply by 10, so we divide to get the true temps
 df[,grep("T",colnames(df))] <- df[,grep("T",colnames(df))] / 10
 
+### For climate heatmap plotting
+clim.df <- df
+
 ### Just Ap
 apg.bio <- df[grep("Aphaenogaster",rownames(df)),]
 apg.mash <- ncbi.gen[grep("Aphaenogaster",rownames(df)),grep("Aphaenogaster",rownames(df))]
 all(rownames(apg.bio) == rownames(apg.mash))
-if (!(file.exists("./data/storage/apg/nmds_all.csv")) | update.nmds){
+if (!(file.exists("../data/storage/apg/nmds_all.csv")) | update.nmds){
     n.dim <- 2
     ord <- nmds(as.dist(all.mash),n.dim,n.dim, nits = 500)
     nms.cap <- capture.output(nms <- nmds.min(ord,n.dim))
     nms.cap <- c(paste0("500 inits and ",n.dim,"D"),nms.cap)
-    write.csv(nms, "./data/storage/apg/nmds_all.csv", row.names = FALSE)
-    write.table(nms.cap, file = "results/nmds_all_details.txt", col.names = FALSE)
-}else{nms <- read.csv("./data/storage/apg/nmds_all.csv")}
-if (!(file.exists("./data/storage/apg/nmds_apg.csv")) | update.nmds){
+    write.csv(nms, "../data/storage/apg/nmds_all.csv", row.names = FALSE)
+    write.table(nms.cap, file = "../results/nmds_all_details.txt", col.names = FALSE)
+}else{nms <- read.csv("../data/storage/apg/nmds_all.csv")}
+if (!(file.exists("../data/storage/apg/nmds_apg.csv")) | update.nmds){
     apg.ord <- nmds(as.dist(apg.mash),2,2, nits = 500)
     nms.apg.cap <- capture.output(apg.nms <- nmds.min(apg.ord, 2))
     nms.apg.cap <- c("500 inits and 2D",nms.apg.cap)
-    write.table(nms.apg.cap, file = "results/nmds_apg_details.txt", col.names = FALSE)
-    write.csv(apg.nms, "./data/storage/apg/nmds_apg.csv", row.names = FALSE)
-}else{apg.nms <- read.csv("./data/storage/apg/nmds_apg.csv")}
+    write.table(nms.apg.cap, file = "../results/nmds_apg_details.txt", col.names = FALSE)
+    write.csv(apg.nms, "../data/storage/apg/nmds_apg.csv", row.names = FALSE)
+}else{apg.nms <- read.csv("../data/storage/apg/nmds_apg.csv")}
+if (!(file.exists("../data/storage/apg/nmds_apg.csv")) | update.nmds){
+    ap <- substr(rownames(all.mash), 1, 2)
+    napg.ord <- nmds(as.dist(all.mash[ap != "Ap", ap != "Ap"]),2,2, nits = 500)
+    nms.napg.cap <- capture.output(napg.nms <- nmds.min(napg.ord, 2))
+    nms.napg.cap <- c("500 inits and 2D",nms.napg.cap)
+    write.table(nms.napg.cap, file = "../results/nmds_napg_details.txt", col.names = FALSE)
+    write.csv(napg.nms, "../data/storage/apg/nmds_napg.csv", row.names = FALSE)
+}else{
+    ap <- substr(rownames(all.mash), 1, 2)
+    apg.nms <- read.csv("../data/storage/apg/nmds_napg.csv")
+}
 
 
 vec <- envfit(nms, df, perm = 10000)
@@ -467,7 +483,15 @@ apg.vec <- envfit(apg.nms, apg.bio, perm = 10000)
 vec.out <- cbind(r = (vec[["vectors"]][["r"]]), p = vec[["vectors"]][["pvals"]])
 apg.vec.out <- cbind(r = (apg.vec[["vectors"]][["r"]]), p = apg.vec[["vectors"]][["pvals"]])
 
-pdf(file = "results/worldclim_ordination.pdf", width = 12, height = 6.5)
+
+napg.ord <- nmds(as.dist(all.mash[ap != "Ap", ap != "Ap"]), 2,2)
+napg.cap <- nmds.min(napg.ord,2)
+napg.env <- envfit(napg.cap, df[ap != "Ap",])
+napg.out <- cbind(r = napg.env$vectors$r, p = napg.env$vectors$pvals)
+napg.out[order(napg.out[,2]),]
+
+### Figures
+pdf(file = "../results/worldclim_ordination.pdf", width = 12, height = 6.5)
 par(mfrow = c(1,2))
 plot(nms[,1:2], pch = "", xlab = "NMDS 1", ylab = "NMDS 2")
 text(nms[,1:2], labels = sapply(rownames(all.mash), get_names), cex = 0.5)
@@ -480,7 +504,7 @@ system("scp results/worldclim_ordination.pdf matthewklau@fas.harvard.edu:public_
 
 ext <- raster::extent(-180,180,ymin = -75, ymax = 100)
 bio.i <- (1:nrow(vec.out))[vec.out[,"p"] == min(vec.out[,"p"])] - length(c("lon","lat"))
-pdf(file = "results/worldmap_bioc_i.pdf",height = 5, width = 10)
+pdf(file = "../results/worldmap_bioc_i.pdf",height = 5, width = 10)
 spplot(crop(r,ext)[[bio.i]], main = bio.labs[bio.i], sp.layout = list("sp.points", points, pch = 19, col = "lawngreen"))
 dev.off()
 ## system("scp results/worldmap_bioc_i.pdf matthewklau@fas.harvard.edu:public_html/tmp.pdf")
@@ -497,14 +521,14 @@ apg.vec.tab <- apg.vec.tab[order(apg.vec.tab[,"p"]),]
 vec.xtab <- xtable(vec.tab, caption = "Results of the NMS ordination vector analysis.", digits = 3, label = "tab:wc_vec")
 print(vec.xtab,
       type = "latex",
-      file = "results/worldclim_vectors.tex",
+      file = "../results/worldclim_vectors.tex",
       include.rownames = TRUE,
       include.colnames = TRUE
 )
 apg.vec.xtab <- xtable(apg.vec.tab, caption = "Results of the NMS ordination vector analysis for only Aphaenogaster spp.", digits = 3, label = "tab:wc_apg_vec")
 print(apg.vec.xtab,
       type = "latex",
-      file = "results/worldclim_apg_vectors.tex",
+      file = "../results/worldclim_apg_vectors.tex",
       include.rownames = TRUE,
       include.colnames = TRUE
 )
@@ -521,10 +545,10 @@ print(apg.vec.xtab,
 ## hymenopteragenome.org
 ## rspatial.org/sdm/
 
-if (!any(grepl("ncbi_ant.csv", dir("./data/storage/apg")))){
+if (!any(grepl("ncbi_ant.csv", dir("../data/storage/apg")))){
     source('src/ncbi_genome_info.R')
 }
-ncbi.ant <- read.csv("./data/storage/apg/ncbi_ant.csv")
+ncbi.ant <- read.csv("../data/storage/apg/ncbi_ant.csv")
 colnames(ncbi.ant)[1] <- 'Organism'
 
 ### Parse the reference sizes
@@ -550,9 +574,9 @@ ref.sizes <- c(as.numeric(ncbi.ant[,'Size..Mb.']),ant.gen.size[,'1C Genome Size 
 
 ### Inter-species comparisons
 ### Load other ant genome information
-apgs <- dir('data/storage/apg',full = TRUE)
-sample.info <- read.csv('data/storage/apg/colony_locations.csv')
-broad.info <- read.csv('data/storage/apg/broad_sample_key.csv')
+apgs <- dir("../data/storage/apg",full = TRUE)
+sample.info <- read.csv("../data/storage/apg/colony_locations.csv")
+broad.info <- read.csv("../data/storage/apg/broad_sample_key.csv")
 if (no.rudis){
     sample.info <- sample.info[!(grepl("rud",sample.info[,"broadID"])),]
     broad.info <- broad.info[!(grepl("rud",broad.info[,"Collaborator.Sample.ID"])),]
@@ -561,7 +585,7 @@ if (no.rudis){
 
 ### Collect gaemr data for making tables and figures
 if (make.stats.table){
-    apgs <- dir('data/storage/apg',full = TRUE)
+    apgs <- dir("../data/storage/apg",full = TRUE)
     apgs <- apgs[grepl('SM-',apgs)]
 ### overview
     df <- list()
@@ -605,7 +629,7 @@ if (make.stats.table){
     all(colnames(stats)[match(stats.ord,colnames(stats))] == stats.ord)
     stats <- stats[,match(stats.ord,colnames(stats))]
 ### Repeat for contaminants
-    apgs <- dir('data/storage/apg/20161122/',full = TRUE)
+    apgs <- dir("../data/storage/apg/20161122/",full = TRUE)
     apgs <- grep('SM-A',apgs,value = TRUE)
     df <- list()
     for (i in 1:length(apgs)){
@@ -704,11 +728,11 @@ if (make.stats.table){
                               'PercentCoverage' = pc.coverage,
                               table.stats[,((ncol(table.stats)-1):2)])
 ### Write to csv
-    write.csv(table.stats,'data/apg_summary.csv')
+    write.csv(table.stats,"../data/apg_summary.csv")
 ### Write latex
     xtab <- xtable(table.stats, align = c("l",">{\\itshape}l",rep('l',(ncol(table.stats)-1))))
     names(xtab) <- c("Species" , "Percent Removed" , "GC Content" , "Contigs" , "ContigN50" , "Total Contig Length" , "Total Gap Length" , "Captured Gaps" , "Max Gap Length" , "Scaffolds" , "Scaffold N50" , "Total Scaffold Length")
-    capture.output(xtab,file = "docs/manuscript/seq_info_tab.tex")
+    capture.output(xtab,file = "../docs/manuscript/seq_info_tab.tex")
     size.xlim <- range(as.numeric(c((
         stats[,'TotalScaffoldLength'] / (1000000)),
                                     ncbi.ant[,'Size..Mb.)'])))
@@ -729,7 +753,7 @@ if (make.stats.table){
     ## Table: create ncbi_ants 
     print(ncbi.xtab,
           type = "latex",
-          file = "results/ncbi_ants.tex",
+          file = "../results/ncbi_ants.tex",
           sanitize.rownames.function = italic,
           include.rownames = TRUE,
           include.colnames = TRUE
@@ -742,13 +766,13 @@ cor.tminmax <- cor.test(clim.data[,"tmax"],clim.data[,"tmin"])
 cor.ppttmax <- cor.test(clim.data[,"ppt"],clim.data[,"tmax"])
 cor.ppttmin <- cor.test(clim.data[,"ppt"],clim.data[,"tmin"])
 clim.cor <- do.call(rbind,lapply(lst(cor.tminmax,cor.ppttmax,cor.ppttmin),tidy))
-write.csv(clim.cor,"results/clim_cor.csv")
+write.csv(clim.cor,"../results/clim_cor.csv")
 
 ## Table: create climate correlation table
 climcor.xtab <- xtable::xtable(clim.cor, digits = 5)
 print(climcor.xtab,
       type = "latex",
-      file = "results/clim_cor.tex",
+      file = "../results/clim_cor.tex",
       include.rownames = TRUE,
       include.colnames = TRUE
       )
@@ -805,12 +829,12 @@ mantel.tab <- list(clim.geo = ecodist::mantel(clim.d~geo.d, nperm = 10000),
 mantel.tab <- do.call(rbind,mantel.tab)
 mantel.tab <- mantel.tab[,c(1,2)]
 mantel.tab
-write.csv(mantel.tab,"results/mantel_tab.csv")
+write.csv(mantel.tab,"../results/mantel_tab.csv")
 mantel.xtab <- xtable::xtable(mantel.tab, digits = 5)
 ## Table: create mantel
 print(mantel.xtab,
       type = "latex",
-      file = "results/mantel_tab.tex",
+      file = "../results/mantel_tab.tex",
       include.rownames = TRUE,
       include.colnames = TRUE
       )
@@ -847,20 +871,20 @@ colnames(all.sizegeo)[colnames(all.sizegeo) == c("lon.1","lat.1")] <- c("lon2","
 lm_sizegeo <- lm(size ~ lon * lat, data = all.sizegeo)
 cap_lmsizegeo <- capture.output(summary(lm_sizegeo))
 write.table(capture.output(shapiro.test(residuals(lm_sizegeo))), 
-            file = "results/cap_shapiro.txt", 
+            file = "../results/cap_shapiro.txt", 
             col.names = FALSE, row.names = FALSE, quote = FALSE)
-write.table(cap_lmsizegeo, file = "results/cap_lmsizegeo.txt", col.names = FALSE, row.names = FALSE, quote = FALSE)
+write.table(cap_lmsizegeo, file = "../results/cap_lmsizegeo.txt", col.names = FALSE, row.names = FALSE, quote = FALSE)
 print(xtable(lm_sizegeo, label = "tab:sizegeo", 
              caption = "F-table for the regression of genome size and geographic position showing the additive and interactive effects tests."),
       type = "latex",
-      file = "results/lm_sizegeo.tex",
+      file = "../results/lm_sizegeo.tex",
       include.rownames = TRUE,
       include.colnames = TRUE
       )
 
 ### Figures
 ### Ant genomes previously sequenced
-png("results/gaga_world.png",width = 700, height = 700)
+png("../results/gaga_world.png",width = 700, height = 700)
 ggplot(gaga.loc, aes(reorder_size(Country))) + 
     geom_bar(stat = "count") + 
         xlab("") + ylab("Frequency") +
@@ -869,7 +893,7 @@ ggplot(gaga.loc, aes(reorder_size(Country))) +
                   axis.text.x = element_text(angle = 25, hjust = 1))
 dev.off()
 
-png("results/gaga_usa.png",width = 700, height = 700)
+png("../results/gaga_usa.png",width = 700, height = 700)
 ggplot(gaga.loc[gaga.loc[,"Country"] == "USA",], aes(State)) + 
     geom_bar(stat = "count") + 
         xlab("") + ylab("Frequency") +
@@ -881,7 +905,7 @@ dev.off()
 ### Ant Genome Comparisons
 
 ## GC Content
-png("results/GC.png",width = 700, height = 700)
+png("../results/GC.png",width = 700, height = 700)
 ggplot(data.frame(GC = as.numeric(ncbi.ant[,"GC."])), aes(GC)) + 
     geom_histogram(binwidth = 2) + 
         geom_vline(xintercept = gaemr.tab[,"AssemblyGC"]) + 
@@ -891,7 +915,7 @@ ggplot(data.frame(GC = as.numeric(ncbi.ant[,"GC."])), aes(GC)) +
 dev.off()
 
 ## Scaffold N50
-png("results/ScaffoldN50.png",width = 700, height = 700)
+png("../results/ScaffoldN50.png",width = 700, height = 700)
 ggplot(gaga, aes(Scaffold.N50.length.kb.)) + 
     geom_histogram(binwidth = 1200) + 
         geom_vline(xintercept = gaemr.tab[,"ScaffoldN50"] / 100) + 
@@ -901,7 +925,7 @@ ggplot(gaga, aes(Scaffold.N50.length.kb.)) +
 dev.off()
 
 ## Contig N50
-png("results/ContigN50.png",width = 700, height = 700)
+png("../results/ContigN50.png",width = 700, height = 700)
 ggplot(gaga, aes(Contig.N50.length.kb.)) + 
     geom_histogram(binwidth = 10) + 
         geom_vline(xintercept = gaemr.tab[,"ContigN50"] / 1000) + 
@@ -911,7 +935,7 @@ ggplot(gaga, aes(Contig.N50.length.kb.)) +
 dev.off()
 
 ## Size
-png("results/Assembly_gaga.png",width = 700, height = 700)
+png("../results/Assembly_gaga.png",width = 700, height = 700)
 ggplot(gaga, aes(Assembly.size.Mb.)) + 
     geom_histogram(binwidth = 50) + 
         geom_vline(xintercept = gaemr.tab[,"TotalScaffoldLength"] / 1000000) + 
@@ -920,7 +944,7 @@ ggplot(gaga, aes(Assembly.size.Mb.)) +
                   axis.title=element_text(size=20,face="bold"))
 dev.off()
 
-png("results/Assembly.png",width = 700, height = 700)
+png("../results/Assembly.png",width = 700, height = 700)
 ggplot(data.frame(size = ref.sizes), aes(size)) + 
     geom_histogram(binwidth = 50) + 
         geom_vline(xintercept = gaemr.tab[,"TotalScaffoldLength"] / 1000000) + 
@@ -932,13 +956,13 @@ dev.off()
 ### Cytometry figure
 ### genome_sizes.png
 
-## png("results/genome_size.png",width = 700, height = 700)
+## png("../results/genome_size.png",width = 700, height = 700)
 ## plot()
 ## dev.off()
 
 
 ### Hits to ants and Aphaenogaster
-png("results/gaemr_pc_ant.png",width = 700, height = 700)
+png("../results/gaemr_pc_ant.png",width = 700, height = 700)
 ggplot(data.frame(gaemr.tab,names = rownames(mash)), aes(names,Percent.Ants)) + 
     geom_bar(stat = "identity") + 
         xlab("") + ylab("Percent Ant Hits (NCBI BLAST)") +
@@ -947,7 +971,7 @@ ggplot(data.frame(gaemr.tab,names = rownames(mash)), aes(names,Percent.Ants)) +
                   axis.text.x = element_text(angle = 25, hjust = 1))
 dev.off()
 
-png("results/gaemr_pc_apg.png",width = 700, height = 700)
+png("../results/gaemr_pc_apg.png",width = 700, height = 700)
 ggplot(data.frame(gaemr.tab,names = rownames(mash)), 
        aes(names,Percent.Aphaenogaster)) + 
     geom_bar(stat = "identity") + 
@@ -959,7 +983,7 @@ dev.off()
 
 
 ### Distance analyses
-png("results/geoVmash.png",width = 700, height = 700)
+png("../results/geoVmash.png",width = 700, height = 700)
 df <- data.frame(geo = apg.gcd[lower.tri(apg.gcd)] / 1000, 
                  mash = mash[lower.tri(mash)])
 fit <- lm(mash~geo,data = df)
@@ -974,7 +998,7 @@ ggplot(df,aes(geo,mash)) + geom_point() +
 dev.off()
 
 ### Latitude analysis
-png("results/latVmash.png",width = 700, height = 700)
+png("../results/latVmash.png",width = 700, height = 700)
 df <- data.frame(geo = lat.d[lower.tri(lat.d)] / 1000, 
                  mash = mash[lower.tri(mash)])
 fit <- lm(mash~geo,data = df)
@@ -989,13 +1013,13 @@ ggplot(df,aes(geo,mash)) + geom_point() +
 dev.off()
 
 ## Heatmap
-png("results/ncbi_heat.png",width = 1200, height = 800, pointsize = 25)
+png("../results/ncbi_heat.png",width = 1200, height = 800, pointsize = 25)
 heatmap(ncbi.gen, 
         RowSideColors=rainbow(nlevels(geno.info[,"subfamily"]))[as.numeric(geno.info[,"subfamily"])],
         symm = T, margins = c(1,10),labCol = "")
 dev.off()
 system("scp results/ncbi_heat.png matthewklau@fas.harvard.edu:public_html/tmp.png")
-png("results/apg_heat.png",width = 1200, height = 800, pointsize = 25)
+png("../results/apg_heat.png",width = 1200, height = 800, pointsize = 25)
 heatmap(mash, 
         symm = T, margins = c(1,10),labCol = "")
 dev.off()
@@ -1005,7 +1029,7 @@ dev.off()
 
 ### Geographic distance
 stats.mash.spp <- list()
-png("results/geoVmashXspp.png")
+png("../results/geoVmashXspp.png")
 i <- 1
 gcd.spp <- apg.gcd[i,-i]
 mash.spp <- mash[i,-i]
@@ -1035,7 +1059,7 @@ dev.off()
 ### Climate distance
 rm(df)
 stats.mash.spp <- list()
-png("results/climVmashXspp.png")
+png("../results/climVmashXspp.png")
 i <- 1
 clim.spp <- as.matrix(clim.d)[i,-i]
 mash.spp <- as.matrix(mash.d)[i,-i]
@@ -1064,7 +1088,7 @@ dev.off()
 ### Precip distance
 rm(df)
 stats.mash.spp <- list()
-png("results/pptVmashXspp.png")
+png("../results/pptVmashXspp.png")
 i <- 1
 ppt.spp <- as.matrix(ppt.d)[i,-i]
 mash.spp <- as.matrix(mash.d)[i,-i]
@@ -1093,7 +1117,7 @@ dev.off()
 ### Temp distance
 rm(df)
 stats.mash.spp <- list()
-png("results/tempVmashXspp.png")
+png("../results/tempVmashXspp.png")
 i <- 1
 temp.spp <- as.matrix(temp.d)[i,-i]
 mash.spp <- as.matrix(mash.d)[i,-i]
@@ -1125,7 +1149,7 @@ ord <- nmds.min(nms)
 vec <- envfit(ord, clim.data[,c("long","lat", "tmax", "tmin", "ppt")])
 clim.data[clim.data[,"mypoints.id"] == "rud6" , "mypoints.id"] <- "rud2"
 
-png("results/apg_ord.png")
+png("../results/apg_ord.png")
 plot(ord, xlab = "NMDS 1", ylab = "NMDS 2", pch = "")
 text(ord, labels = clim.data[,"mypoints.id"], col = "black")
 plot(vec, col = "darkgrey")
@@ -1257,7 +1281,7 @@ mash.path.xtab <- xtable::xtable(mash.path[["r"]])
 ## Table: create mash mantel path analysis
 print(mash.path.xtab,
       type = "latex",
-      file = "results/mash_path.tex",
+      file = "../results/mash_path.tex",
       include.rownames = TRUE,
       include.colnames = TRUE
       )
@@ -1282,7 +1306,7 @@ ec.p <- as.character(ec.p)
 names(ec.p) <- names(ew.r) <- edgeNames(ig)
 attr.e <- list(label = ew.r, color = ec.p)
 
-pdf("results/mash_path.pdf",height = 5, width = 5)
+pdf("../results/mash_path.pdf",height = 5, width = 5)
 plot(ig, attrs = attr, edgeAttrs = attr.e)
 dev.off()
 
@@ -1297,12 +1321,15 @@ clim.xtab <- xtable::xtable(clim.tab, caption =
 "Climate variables for colony sample sites. Climate are 30 year normal values (1976-2016) for January minimum temperature (Tmin), July maximum temperature (Tmax) and total precipitation (Precip).", label = "tab:climate")
 print(clim.xtab,
       type = "latex",
-      file = "results/climate.tex",
+      file = "../results/climate.tex",
       sanitize.rownames.function = italic,
       include.rownames = TRUE,
       include.colnames = TRUE
       )
 
+### Climate heatmap
+
+pdf("./results/clim_cor.pdf"); heatmap(cor(df)); dev.off()
 
 ### system("scp results/mash_path.pdf matthewklau@fas.harvard.edu:public_html")
 
@@ -1311,8 +1338,8 @@ print(clim.xtab,
 ## system("cp results/*.png docs/esa2017")
 # system("cp results/*.png docs/manuscript")
 if (update.results){
-    cp.results <- paste0("results/",dir("results/")[dir("results/") %in% dir("docs/manuscript/")])
-    sapply(cp.results, file.copy , to = "docs/manuscript", overwrite = TRUE)
+    cp.results <- paste0("../results/",dir("../results/")[dir("../results/") %in% dir("../docs/manuscript/")])
+    sapply(cp.results, file.copy , to = "../docs/manuscript", overwrite = TRUE)
 }
 
 print("Done!")
