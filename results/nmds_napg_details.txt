@@ -1,3 +1,3 @@
 "1" "500 inits and 2D"
-"2" "Minimum stress for given dimensionality:  0.2180639 "
-"3" "r^2 for minimum stress configuration:  0.6168611 "
+"2" "Minimum stress for given dimensionality:  0.2192006 "
+"3" "r^2 for minimum stress configuration:  0.6270564 "

@@ -5,8 +5,9 @@
 set.seed(2111981)
 
 no.rudis <- FALSE
-update.results <- TRUE
-update.nmds <- TRUE
+update.results <- FALSE
+update.nmds <- FALSE
+refresh.clim <- FALSE
 
 ### Check install of package dependencies
 if (!("pacman" %in% installed.packages()[,1])){
@@ -285,7 +286,7 @@ lat.d <- lat.d[lat.d.reorder,lat.d.reorder]
 
 ### Worldclim data
 ### Get locations for gaga_genome_info.csv
-ncbi_info <- read.csv("data/gaga_genome_info.csv")
+ncbi_info <- read.csv("../data/gaga_genome_info.csv")
 if (all(sapply(c("lat","lon"),grepl, x = colnames(ncbi_info)))){
     locs <- ncbi_info[,"Location"]
     locs <- sapply(as.character(locs),function(x) 
@@ -358,7 +359,7 @@ ncbi_gps <- na.omit(ncbi_info[,c("lon","lat")])
 ncbi.spc <- SpatialPoints(ncbi_gps, 
                           proj4string = r@crs)
 ncbi.df <- cbind.data.frame(coordinates(ncbi_gps),ncbi.spc)
-ncbi.gps <- read.csv("data/gaga_genome_info.csv")
+ncbi.gps <- read.csv("../data/gaga_genome_info.csv")
 ncbi.gps[,"Species.name"] <- as.character(ncbi.gps[,"Species.name"])
 
 ## source("src/apg_prism.R")
@@ -367,31 +368,36 @@ ncbi.gps[,"Species.name"] <- as.character(ncbi.gps[,"Species.name"])
 ### http://eremrah.com/articles/How-to-extract-data-from-PRISM-raster/
 ## SEE: https://github.com/ropensci/prism
 ## Get PRISM data
-options(prism.path = "~/prismtmpnormals")
-get_prism_normals(type="ppt", "800m", annual = TRUE)
-get_prism_normals(type="tmin", "800m", mon = 1, annual = TRUE)
-get_prism_normals(type="tmax", "800m", mon = 7, annual = TRUE)
-
-## Stack files
-mystack <- ls_prism_data() %>%  prism_stack()  
-## Get proj from raster stack
-mycrs <- mystack@crs@projargs
-## My points
-mypoints <- data.frame(id = rownames(apg.geo),
-                       lat = apg.geo[,"Latitude"],
-                       long = apg.geo[,"Longitude"]
-)
-## Convert points to spatial points data frame
-coordinates(mypoints) <- c('long', 'lat')
-proj4string(mypoints) <- CRS(mycrs)
-## Extract data from raster
-data <- data.frame(coordinates(mypoints), mypoints$id,
-                   raster::extract(mystack, mypoints))
-## Rename column headers
-colnames(data)[4:6] <- do.call(rbind,strsplit(colnames(data)[4:6],"_"))[,2]
-rownames(data)[rownames(data) == "arudis1"] <- "rud1"
-data[,"mypoints.id"] <- as.character(data[,"mypoints.id"])
-data[rownames(data) == "rud1","mypoints.id"] <- "rud1"
+if (!(dir.exists("~/prismtmpnormals")) | refresh.clim){
+    options(prism.path = "~/prismtmpnormals")
+    get_prism_normals(type="ppt", "800m", annual = TRUE)
+    get_prism_normals(type="tmin", "800m", mon = 1, annual = TRUE)
+    get_prism_normals(type="tmax", "800m", mon = 7, annual = TRUE)
+    ## Stack files
+    mystack <- ls_prism_data() %>%  prism_stack()  
+    ## Get proj from raster stack
+    mycrs <- mystack@crs@projargs
+    ## My points
+    mypoints <- data.frame(id = rownames(apg.geo),
+                           lat = apg.geo[,"Latitude"],
+                           long = apg.geo[,"Longitude"]
+                           )
+    ## Convert points to spatial points data frame
+    coordinates(mypoints) <- c('long', 'lat')
+    proj4string(mypoints) <- CRS(mycrs)
+    ## Extract data from raster
+    data <- data.frame(coordinates(mypoints), mypoints$id,
+                       raster::extract(mystack, mypoints))
+    ## Rename column headers
+    colnames(data)[4:6] <- do.call(rbind,strsplit(colnames(data)[4:6],"_"))[,2]
+    rownames(data)[rownames(data) == "arudis1"] <- "rud1"
+    data[,"mypoints.id"] <- as.character(data[,"mypoints.id"])
+    data[rownames(data) == "rud1","mypoints.id"] <- "rud1"
+    write.csv(data, "../data/storage/prism_clim_data.csv", row.names = FALSE)
+}else{
+    data <- read.csv("../data/storage/prism_clim_data.csv")
+    rownames(data) <- c("rud1", "rud6", "pic1", "mia1", "ful1", "ash1", "flo1")
+}
 
 ## Rename object
 clim.data <- data
@@ -467,14 +473,15 @@ if (!(file.exists("../data/storage/apg/nmds_apg.csv")) | update.nmds){
 }else{apg.nms <- read.csv("../data/storage/apg/nmds_apg.csv")}
 if (!(file.exists("../data/storage/apg/nmds_apg.csv")) | update.nmds){
     ap <- substr(rownames(all.mash), 1, 2)
-    napg.ord <- nmds(as.dist(all.mash[ap != "Ap", ap != "Ap"]),2,2, nits = 500)
+    napg.mash <- as.dist(all.mash[ap != "Ap", ap != "Ap"])
+    napg.ord <- nmds(napg.mash,2,2, nits = 500)
     nms.napg.cap <- capture.output(napg.nms <- nmds.min(napg.ord, 2))
     nms.napg.cap <- c("500 inits and 2D",nms.napg.cap)
     write.table(nms.napg.cap, file = "../results/nmds_napg_details.txt", col.names = FALSE)
     write.csv(napg.nms, "../data/storage/apg/nmds_napg.csv", row.names = FALSE)
 }else{
     ap <- substr(rownames(all.mash), 1, 2)
-    apg.nms <- read.csv("../data/storage/apg/nmds_napg.csv")
+    napg.nms <- read.csv("../data/storage/apg/nmds_napg.csv")
 }
 
 
@@ -484,23 +491,21 @@ vec.out <- cbind(r = (vec[["vectors"]][["r"]]), p = vec[["vectors"]][["pvals"]])
 apg.vec.out <- cbind(r = (apg.vec[["vectors"]][["r"]]), p = apg.vec[["vectors"]][["pvals"]])
 
 
-napg.ord <- nmds(as.dist(all.mash[ap != "Ap", ap != "Ap"]), 2,2)
-napg.cap <- nmds.min(napg.ord,2)
-napg.env <- envfit(napg.cap, df[ap != "Ap",])
-napg.out <- cbind(r = napg.env$vectors$r, p = napg.env$vectors$pvals)
+napg.vec <- envfit(napg.nms, df[ap != "Ap",])
+napg.out <- cbind(r = napg.vec$vectors$r, p = napg.vec$vectors$pvals)
 napg.out[order(napg.out[,2]),]
 
 ### Figures
-pdf(file = "../results/worldclim_ordination.pdf", width = 12, height = 6.5)
-par(mfrow = c(1,2))
-plot(nms[,1:2], pch = "", xlab = "NMDS 1", ylab = "NMDS 2")
-text(nms[,1:2], labels = sapply(rownames(all.mash), get_names), cex = 0.5)
-plot(vec, col = "darkgrey", cex = 0.75)
-plot(apg.nms[,1:2], pch = "", xlab = "NMDS 1", ylab = "NMDS 2")
-text(apg.nms[,1:2], labels = sapply(rownames(as.matrix(mash.d)), get_names), cex = 0.5)
-plot(apg.vec, col = "darkgrey", cex = 0.75)
+pdf(file = "../results/worldclim_ordination.pdf", width = 10, height = 10)
+## par(mfrow = c(1,2))
+plot(nms[,1:2], pch = "", xlab = "NMDS 1", ylab = "NMDS 2", xlim = range(nms[,1:2]) + c(-0.025, 0.025))
+text(nms[,1:2], labels = sapply(rownames(all.mash), get_names), cex = 1)
+plot(vec, col = "darkgrey", cex = 0.90)
+## plot(napg.nms[,1:2], pch = "", xlab = "NMDS 1", ylab = "NMDS 2")
+## text(napg.nms[,1:2], labels = sapply(rownames(as.matrix(all.mash[ap != "Ap",])), get_names), cex = 0.5)
+## plot(napg.vec, col = "darkgrey", cex = 0.75)
 dev.off()
-system("scp results/worldclim_ordination.pdf matthewklau@fas.harvard.edu:public_html/tmp.pdf")
+system("scp ../results/worldclim_ordination.pdf matthewklau@fas.harvard.edu:public_html/tmp.pdf")
 
 ext <- raster::extent(-180,180,ymin = -75, ymax = 100)
 bio.i <- (1:nrow(vec.out))[vec.out[,"p"] == min(vec.out[,"p"])] - length(c("lon","lat"))
@@ -1329,7 +1334,7 @@ print(clim.xtab,
 
 ### Climate heatmap
 
-pdf("./results/clim_cor.pdf"); heatmap(cor(df)); dev.off()
+pdf("../results/clim_cor.pdf"); heatmap(cor(clim.df)); dev.off()
 
 ### system("scp results/mash_path.pdf matthewklau@fas.harvard.edu:public_html")
 
