@@ -5,7 +5,7 @@
 set.seed(2111981)
 
 no.rudis <- FALSE
-update.results <- FALSE
+update.results <- TRUE
 update.nmds <- FALSE
 refresh.clim <- FALSE
 
@@ -490,10 +490,9 @@ apg.vec <- envfit(apg.nms, apg.bio, perm = 10000)
 vec.out <- cbind(r = (vec[["vectors"]][["r"]]), p = vec[["vectors"]][["pvals"]])
 apg.vec.out <- cbind(r = (apg.vec[["vectors"]][["r"]]), p = apg.vec[["vectors"]][["pvals"]])
 
-
 napg.vec <- envfit(napg.nms, df[ap != "Ap",])
-napg.out <- cbind(r = napg.vec$vectors$r, p = napg.vec$vectors$pvals)
-napg.out[order(napg.out[,2]),]
+napg.vec.out <- cbind(r = napg.vec$vectors$r, p = napg.vec$vectors$pvals)
+
 
 ### Figures
 pdf(file = "../results/worldclim_ordination.pdf", width = 10, height = 10)
@@ -523,6 +522,10 @@ apg.vec.tab <- apg.vec.out
 rownames(apg.vec.tab) <- c("Longitude","Latitude", bio.labs)
 apg.vec.tab <- apg.vec.tab[order(apg.vec.tab[,"p"]),]
 
+napg.vec.tab <- napg.vec.out
+rownames(napg.vec.tab) <- c("Longitude","Latitude", bio.labs)
+napg.vec.tab <- napg.vec.tab[order(napg.vec.tab[,"p"]),]
+
 vec.xtab <- xtable(vec.tab, caption = "Results of the NMS ordination vector analysis.", digits = 3, label = "tab:wc_vec")
 print(vec.xtab,
       type = "latex",
@@ -534,6 +537,13 @@ apg.vec.xtab <- xtable(apg.vec.tab, caption = "Results of the NMS ordination vec
 print(apg.vec.xtab,
       type = "latex",
       file = "../results/worldclim_apg_vectors.tex",
+      include.rownames = TRUE,
+      include.colnames = TRUE
+)
+napg.vec.xtab <- xtable(napg.vec.tab, caption = "Results of the NMS ordination vector analysis for all whole genome sequences present in NCBI prior to the current sequencing effort.", digits = 3, label = "tab:wc_napg_vec")
+print(napg.vec.xtab,
+      type = "latex",
+      file = "../results/worldclim_napg_vectors.tex",
       include.rownames = TRUE,
       include.colnames = TRUE
 )
