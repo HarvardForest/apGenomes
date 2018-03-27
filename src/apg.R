@@ -555,6 +555,19 @@ print(napg.vec.xtab,
       include.colnames = TRUE
 )
 
+### Table of climate from all from worldclim.
+wc.xtab.cap <- paste0("Sequenced ant genome biogeographic (location and climate) data from the WorldClim database accessed on ", format(Sys.time(), "%d %B %Y"), ".")
+wc.all.xtab <- xtable(clim.df, 
+                      caption = wc.xtab.cap, 
+                      digits = 3, label = "tab:wc_all")
+print(wc.all.xtab,
+      type = "latex",
+      file = "../results/worldclim_all.tex",
+      sanitize.rownames.function = italic,
+      include.rownames = TRUE,
+      include.colnames = TRUE
+)
+
 ### Analysis Outline
 ## sample information
 
