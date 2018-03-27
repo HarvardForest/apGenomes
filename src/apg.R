@@ -439,15 +439,22 @@ all(all(rownames(all.mash) == colnames(all.mash)) &
         all(rownames(all.mash) == all.geo[,"Species.name"]))
 
 ### Setup variables for plotting and analysis
-coords <- data.frame(x=all.geo[,"lon"],y=all.geo[,"lat"])
-points <- SpatialPoints(coords, proj4string = wc@crs)
-values <- raster::extract(wc,points)
-df <- cbind.data.frame(coordinates(points),values)
-rownames(df) <- all.geo[,"Species.name"]
-colnames(df)[1:2] <- c("Lon","Lat")
-### Bioclim imports temps as integers by default
-### They just multiply by 10, so we divide to get the true temps
-df[,grep("T",colnames(df))] <- df[,grep("T",colnames(df))] / 10
+if (refresh.clim){
+    coords <- data.frame(x=all.geo[,"lon"],y=all.geo[,"lat"])
+    points <- SpatialPoints(coords, proj4string = wc@crs)
+    values <- raster::extract(wc,points)
+    df <- cbind.data.frame(coordinates(points),values)
+    rownames(df) <- all.geo[,"Species.name"]
+    colnames(df)[1:2] <- c("Lon","Lat")
+    ## Bioclim imports temps as integers by default
+    ## They just multiply by 10, so we divide to get the true temps
+    df[,grep("T",colnames(df))] <- df[,grep("T",colnames(df))] / 10
+    write.csv(df, "../data/storage/apg/clim_dat_all.csv")
+}else{
+    df <- read.csv("../data/storage/apg/clim_dat_all.csv")
+    rownames(df) <- df[,1]
+    df <- df[,-1]
+}
 
 ### For climate heatmap plotting
 clim.df <- df
