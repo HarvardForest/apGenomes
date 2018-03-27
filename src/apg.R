@@ -18,7 +18,7 @@ pkg.lib <- c("gdata", "prism", "ggplot2", "raster", "AntWeb", "geosphere",
              "rnoaa", "gdata", "prism", "ggplot2", "raster", "vegan", 
              "tidyr", "stringr", "prism", "raster", "XML", "RCurl",
              "rlist", "rentrez","xtable","broom","ecodist","tibble","igraph",
-             "sp", "ggmap")
+             "sp", "ggmap", "Rgraphviz", "pvclust")
 if (any(!(pkg.lib %in% installed.packages()[,1]))){
     sapply(pkg.lib,p_load)
 }else{
@@ -790,6 +790,14 @@ cor.ppttmin <- cor.test(clim.data[,"ppt"],clim.data[,"tmin"])
 clim.cor <- do.call(rbind,lapply(lst(cor.tminmax,cor.ppttmax,cor.ppttmin),tidy))
 write.csv(clim.cor,"../results/clim_cor.csv")
 
+## CLimate clustering
+pvc <- pvclust(clim.df)
+
+write.table(c(cor(clim.df)["PCQ", c("PWM", "PWeQ")], 
+  cor(clim.df)["Iso", c("MAT", "MTCQ", "Tmin")]), 
+         file = "../results/cor_pcq_iso.tex", 
+            col.names = FALSE)
+
 ## Table: create climate correlation table
 climcor.xtab <- xtable::xtable(clim.cor, digits = 5)
 print(climcor.xtab,
@@ -1349,11 +1357,19 @@ print(clim.xtab,
       include.colnames = TRUE
       )
 
+
 ### Climate heatmap
+pdf("../results/clim_cor.pdf")
+heatmap(abs(cor(clim.df)), scale = "none", col = cm.colors(256)) 
+dev.off()
+##system("scp ../results/clim_cor.pdf matthewklau@fas.harvard.edu:public_html/tmp.pdf")
 
-pdf("../results/clim_cor.pdf"); heatmap(cor(clim.df)); dev.off()
-
-### system("scp results/mash_path.pdf matthewklau@fas.harvard.edu:public_html")
+### Climate cluster diagram
+pdf("../results/clim_clust.pdf")
+plot(pvc)
+pvrect(pvc, alpha = 0.94, max.only = FALSE)
+dev.off()
+## system("scp ../results/clim_clust.pdf matthewklau@fas.harvard.edu:public_html/tmp.pdf")
 
 
 ### Update figures in presentations and manuscripts
