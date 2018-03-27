@@ -4,10 +4,10 @@
 
 set.seed(2111981)
 
-no.rudis <- FALSE
-update.results <- TRUE
-update.nmds <- FALSE
-refresh.clim <- FALSE
+no.rudis <- FALSE # Remove the two A. rudis from the data set?
+update.nmds <- FALSE # Re-run the NMS?
+refresh.clim <- FALSE # Get updated climate data?
+update.results <- TRUE # Copy results to docs/manuscript?
 
 ### Check install of package dependencies
 if (!("pacman" %in% installed.packages()[,1])){
