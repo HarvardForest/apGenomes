@@ -393,9 +393,9 @@ if (!(dir.exists("~/prismtmpnormals")) | refresh.clim){
     rownames(data)[rownames(data) == "arudis1"] <- "rud1"
     data[,"mypoints.id"] <- as.character(data[,"mypoints.id"])
     data[rownames(data) == "rud1","mypoints.id"] <- "rud1"
-    write.csv(data, "../data/storage/prism_clim_data.csv", row.names = FALSE)
+    write.csv(data, "../data/storage/apg/prism_clim_data.csv", row.names = FALSE)
 }else{
-    data <- read.csv("../data/storage/prism_clim_data.csv")
+    data <- read.csv("../data/storage/apg/prism_clim_data.csv")
     rownames(data) <- c("rud1", "rud6", "pic1", "mia1", "ful1", "ash1", "flo1")
 }
 
