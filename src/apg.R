@@ -15,10 +15,10 @@ if (!("pacman" %in% installed.packages()[,1])){
 }
 library(pacman)
 pkg.lib <- c("gdata", "prism", "ggplot2", "raster", "AntWeb", "geosphere",
-             "rnoaa", "gdata", "prism", "ggplot2", "raster", "vegan", "gdata",
+             "rnoaa", "gdata", "prism", "ggplot2", "raster", "vegan", 
              "tidyr", "stringr", "prism", "raster", "XML", "RCurl",
              "rlist", "rentrez","xtable","broom","ecodist","tibble","igraph",
-             "Rgraphviz", "sp", "ggmap")
+             "sp", "ggmap")
 if (any(!(pkg.lib %in% installed.packages()[,1]))){
     sapply(pkg.lib,p_load)
 }else{
