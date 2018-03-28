@@ -524,14 +524,16 @@ dev.off()
 ## Only writing out those that are less than p<=0.05
 vec.tab <- vec.out 
 rownames(vec.tab) <- c("Longitude","Latitude", bio.labs)
-vec.tab <- vec.tab[order(vec.tab[,"p"]),]
+colnames(vec.tab) <- c("r", "p-value")
+vec.tab <- vec.tab[order(vec.tab[,"p-value"]),]
 apg.vec.tab <- apg.vec.out
 rownames(apg.vec.tab) <- c("Longitude","Latitude", bio.labs)
-apg.vec.tab <- apg.vec.tab[order(apg.vec.tab[,"p"]),]
-
+colnames(apg.vec.tab) <- c("r", "p-value")
+apg.vec.tab <- apg.vec.tab[order(apg.vec.tab[,"p-value"]),]
 napg.vec.tab <- napg.vec.out
 rownames(napg.vec.tab) <- c("Longitude","Latitude", bio.labs)
-napg.vec.tab <- napg.vec.tab[order(napg.vec.tab[,"p"]),]
+colnames(napg.vec.tab) <- c("r", "p-value")
+napg.vec.tab <- napg.vec.tab[order(napg.vec.tab[,"p-value"]),]
 
 vec.xtab <- xtable(vec.tab, caption = "Results of the NMS ordination vector analysis.", digits = 3, label = "tab:wc_vec")
 print(vec.xtab,
@@ -551,6 +553,7 @@ napg.vec.xtab <- xtable(napg.vec.tab, caption = "Results of the NMS ordination v
 print(napg.vec.xtab,
       type = "latex",
       file = "../results/worldclim_napg_vectors.tex",
+      sanitize.colnames.function = italic,
       include.rownames = TRUE,
       include.colnames = TRUE
 )
@@ -918,9 +921,10 @@ write.table(capture.output(shapiro.test(residuals(lm_sizegeo))),
             col.names = FALSE, row.names = FALSE, quote = FALSE)
 write.table(cap_lmsizegeo, file = "../results/cap_lmsizegeo.txt", col.names = FALSE, row.names = FALSE, quote = FALSE)
 print(xtable(lm_sizegeo, label = "tab:sizegeo", 
-             caption = "F-table for the regression of genome size and geographic position showing the additive and interactive effects tests."),
+             caption = "Regression of genome size and geographic position showing the additive and interactive effects tests using all currently sequenced ant genomes."),
       type = "latex",
       file = "../results/lm_sizegeo.tex",
+      sanitize.colnames.function = italic,
       include.rownames = TRUE,
       include.colnames = TRUE
       )
@@ -1359,9 +1363,8 @@ rownames(clim.tab) <- clim.tab[,"mypoints.id"] <- rownames(as.matrix(mash.d))
 clim.tab <- clim.tab[order(clim.tab[,"mypoints.id"]),]
 clim.tab <- clim.tab[,c(2,1,6,5,4)]
 colnames(clim.tab) <- c("Lat","Lon","Tmin (C)","Tmax (C)","Precip (mm)")
-
 clim.xtab <- xtable::xtable(clim.tab, caption =
-"Climate variables for colony sample sites. Climate are 30 year normal values (1976-2016) for January minimum temperature (Tmin), July maximum temperature (Tmax) and total precipitation (Precip).", label = "tab:climate")
+"Climate variables for colony sample sites. Climate are 30 year normal values (1976-2016) for January minimum temperature (Tmin), July maximum temperature (Tmax) and total precipitation (Precip) extracted from the PRISM (PRISM Climate Group, Oregon State University, USA).", label = "tab:climate")
 print(clim.xtab,
       type = "latex",
       file = "../results/climate.tex",
@@ -1373,7 +1376,7 @@ print(clim.xtab,
 
 ### Climate heatmap
 pdf("../results/clim_cor.pdf")
-heatmap(abs(cor(clim.df)), scale = "none", col = cm.colors(256)) 
+heatmap((cor(clim.df)), scale = "none", col = cm.colors(256)) 
 dev.off()
 ##system("scp ../results/clim_cor.pdf matthewklau@fas.harvard.edu:public_html/tmp.pdf")
 
