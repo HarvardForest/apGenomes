@@ -491,12 +491,37 @@ if (!(file.exists("../data/storage/apg/nmds_apg.csv")) | update.nmds){
     napg.nms <- read.csv("../data/storage/apg/nmds_napg.csv")
 }
 
+### Worldclim climate and location
+if (all(rownames(clim.df) == rownames(all.mash))){
+    std <- function(x){ (x - mean(x)) / sd(x)}
+    am.d <- as.dist(all.mash)
+    std.c <- apply(clim.df,2, std)
+    wc.d <- dist(std.c)
+    std.l <- apply(clim.df[,c("Lat", "Lon")], 2, std)
+    loc.d <- dist(std.l)
+    set.seed(1979)
+    ecodist::mantel(am.d ~ wc.d + loc.d)
+    ecodist::mantel(am.d ~ loc.d + wc.d)
+    ecodist::mantel(am.d ~ wc.d)
+    ecodist::mantel(am.d ~ loc.d)
+    adonis(am.d ~ Lat * Lon * Tmin * Tmax * MAT * PCQ * Iso, data = clim.df, perm = 10000)
 
+adonis(am.d ~ Lon * Lat *  MAT *  MDR *  Iso *  TS *  Tmax * Tmin * ATR * MTWeQ *MTDQ * MTWaQ *MTCQ * PA *   PWM *  PDM *  PS *   PWeQ *PDQ *  PWaQ * PCQ, perm = 1000)
+
+}else{
+    print("WorldClim and MASH don't match.")
+}
+
+
+
+### Vector analysis
+set.seed(2111981)
 vec <- envfit(nms, df, perm = 10000)
+set.seed(2111981)
 apg.vec <- envfit(apg.nms, apg.bio, perm = 10000)
 vec.out <- cbind(r = (vec[["vectors"]][["r"]]), p = vec[["vectors"]][["pvals"]])
 apg.vec.out <- cbind(r = (apg.vec[["vectors"]][["r"]]), p = apg.vec[["vectors"]][["pvals"]])
-
+set.seed(2111981)
 napg.vec <- envfit(napg.nms, df[ap != "Ap",])
 napg.vec.out <- cbind(r = napg.vec$vectors$r, p = napg.vec$vectors$pvals)
 
@@ -539,6 +564,7 @@ vec.xtab <- xtable(vec.tab, caption = "Results of the NMS ordination vector anal
 print(vec.xtab,
       type = "latex",
       file = "../results/worldclim_vectors.tex",
+      sanitize.colnames.function = italic,
       include.rownames = TRUE,
       include.colnames = TRUE
 )
@@ -546,6 +572,7 @@ apg.vec.xtab <- xtable(apg.vec.tab, caption = "Results of the NMS ordination vec
 print(apg.vec.xtab,
       type = "latex",
       file = "../results/worldclim_apg_vectors.tex",
+      sanitize.colnames.function = italic,
       include.rownames = TRUE,
       include.colnames = TRUE
 )
@@ -565,7 +592,7 @@ wc.all.xtab <- xtable(clim.df,
                       digits = 3, label = "tab:wc_all")
 print(wc.all.xtab,
       type = "latex",
-      file = "../results/worldclim_all.tex",
+ file = "../results/worldclim_all.tex",
       sanitize.rownames.function = italic,
       include.rownames = TRUE,
       include.colnames = TRUE
@@ -807,7 +834,9 @@ clim.cor <- do.call(rbind,lapply(lst(cor.tminmax,cor.ppttmax,cor.ppttmin),tidy))
 write.csv(clim.cor,"../results/clim_cor.csv")
 
 ## CLimate clustering
-pvc <- pvclust(clim.df)
+if (file.exists("../results/clim_clust.pdf") & !(refresh.clim)){
+    pvc <- pvclust(clim.df)
+}
 
 write.table(c(cor(clim.df)["PCQ", c("PWM", "PWeQ")], 
   cor(clim.df)["Iso", c("MAT", "MTCQ", "Tmin")]), 
@@ -1193,6 +1222,7 @@ dev.off()
 ### Ordination
 nms <- nmds(1-mash.d)
 ord <- nmds.min(nms)
+set.seed(2111981)
 vec <- envfit(ord, clim.data[,c("long","lat", "tmax", "tmin", "ppt")])
 clim.data[clim.data[,"mypoints.id"] == "rud6" , "mypoints.id"] <- "rud2"
 
@@ -1373,20 +1403,33 @@ print(clim.xtab,
       include.colnames = TRUE
       )
 
+## Table of climate inter-correlations
+clim.cor.xtab <- xtable::xtable(cor(clim.df), caption =
+"Matrix of biogeographic variable correlations.", label = "tab:clim_cor")
+print(clim.cor.xtab,
+      type = "latex",
+      file = "../results/clim_cor.tex",
+      include.rownames = TRUE,
+      include.colnames = TRUE
+      )
+
 
 ### Climate heatmap
 pdf("../results/clim_cor.pdf")
 heatmap((cor(clim.df)), scale = "none", col = cm.colors(256)) 
 dev.off()
+
+
 ##system("scp ../results/clim_cor.pdf matthewklau@fas.harvard.edu:public_html/tmp.pdf")
 
 ### Climate cluster diagram
-pdf("../results/clim_clust.pdf")
-plot(pvc)
-pvrect(pvc, alpha = 0.94, max.only = FALSE)
-dev.off()
+if (file.exists("../results/clim_clust.pdf") & !(refresh.clim)){
+    pdf("../results/clim_clust.pdf")
+    plot(pvc)
+    pvrect(pvc, alpha = 0.94, max.only = FALSE)
+    dev.off()
 ## system("scp ../results/clim_clust.pdf matthewklau@fas.harvard.edu:public_html/tmp.pdf")
-
+}
 
 ### Update figures in presentations and manuscripts
 ## system("cp results/*.png docs/esa2017")
