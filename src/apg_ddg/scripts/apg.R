@@ -25,8 +25,6 @@ for (i in missing.pkgs){
     install.packages(i)
 }
 
-sapply(pkg.lib, require, character.only = TRUE)
-
 ## if (any(!(pkg.lib %in% installed.packages()[,1]))){
 ##     sapply(pkg.lib[!(pkg.lib %in% installed.packages()[,1])], install.packages)
 ## }else{}

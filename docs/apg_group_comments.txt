@@ -1,0 +1,81 @@
+<<<Bernice>>> 
+
+Commented that the ant species total of 12,000 was likely an
+underestimate given that antweb reports 16000+ with sub-species.
+
+<<<Nick See Overleaf>>>
+
+<<<Nate>>>
+
+Hey Matt - Thanks for pulling this together. 
+
+I’ve added a few comments and queries on the PDF. 
+
+I had a comment similar to Rob’s. I guess I didn’t understand the
+climatic correlations either. Did you use all of the ants for which
+genomes exist? Or just Aphaenogaster? It reads like you did both.
+
+The R2 and stress of the final solutions were 0.80 and 15% for all
+genomes together and 0.88 and 5% for the Aphaenogaster genomes
+alone. ...  We observed significant biogeographic patterns of genomic
+composition. The top correlations were primarily to temperature range
+(MDR, ATR, Iso), precipitation (PCQ, PDM, PWM) and minimum temperature
+(Tmin) (Table 4). One specific pattern, is that Mean Diurnal Range
+(MDR), the mean difference between the min and max monthly
+temperature, was positively correlated with the separation of the
+genus Aphaenogaster from other species (Fig 5).
+
+And I don’t really understand Figure 5, I have to admit. That’s just
+an NMDS plot of genome distance, correct? And it shows that
+Aphaenogaster spp. Tend to cluster? But climatic variables (that are
+not easy to interpret, generally) are also on the graph?
+
+And how did you get the climate data for the genomes of the other
+species? From where they were collected? Or something like the
+centroid of the ranges? Or what?
+
+Anyways, thanks again for this. I appreciate being included, and
+especially appreciate the shout-out to GAGA! Mind if I share this
+draft with them?
+
+Nate
+
+
+<<<Rob>>>
+
+Hi Matt,
+
+Sorry for the delay. Here are some edits. I think this is great, but
+you can sell it more. The way you have framed it it has three
+pieces...
+
+1) Bunch of cool genomes, eat your heart out and explore.
+2) A test of whether genome size correlates with latitude/climate.
+3) A test of whether genome similarity is predicted by climate. This
+is just a really high powered way of testing whether species that live
+in the same conditions tend to be closely related (right?). Say as
+much. Probably if Nick and Aaron think about the null model much for
+this their heads will go crooked, but they'll be OK.
+
+If this is right, make sure to set this up in the intro....
+
+a) Ants are cool and good to study
+b) Aphaenogaster is especially cool and we think it has interesting
+genomes
+c) Because it is a genus in which life history doesn't vary much but
+geography does, great chance to consider the effects of climate on
+genome size. An effect was found before, for crustracea. We don't see
+one here for apheanogaster, but that may be because genome size seems
+very conserved in the genus. We don't/do see one however when we
+consider all the ants.
+d) Aphaenogaster from different regions have different thermal
+tolerances, which are at least partially genetically encoded. We might
+expected Aphaenogaster from the same region to also be more likely to
+have more similar genomes than expected by chance.  This part sticks
+me up though because I think that you expect neutral genes to show no
+pattern (or the null) and functional genes to show a strong
+pattern. Is that what is being tested?
+
+Best,
+
+Rob

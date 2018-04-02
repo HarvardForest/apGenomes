@@ -1,0 +1,1242 @@
+{
+	"prefix": {
+		"prov": "http://www.w3.org/ns/prov#",
+		"rdt": "http://rdatatracker.org/"
+	},
+
+	"activity" : {
+		// procedure nodes
+		"p1": {
+			"rdt:name": "apg.R",
+			"rdt:type": "Start",
+			"rdt:elapsedTime": 34.339,
+			"rdt:scriptNum": "NA",
+			"rdt:startLine": "NA",
+			"rdt:startCol": "NA",
+			"rdt:endLine": "NA",
+			"rdt:endCol": "NA"
+		},
+		"p2": {
+			"rdt:name": "set.seed(2111981)",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.345,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 5,
+			"rdt:startCol": 1,
+			"rdt:endLine": 5,
+			"rdt:endCol": 17
+		},
+		"p3": {
+			"rdt:name": "print(\"Loading libraries\")",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.361,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 7,
+			"rdt:startCol": 1,
+			"rdt:endLine": 7,
+			"rdt:endCol": 26
+		},
+		"p4": {
+			"rdt:name": "no.rudis <- FALSE",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.368,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 9,
+			"rdt:startCol": 1,
+			"rdt:endLine": 9,
+			"rdt:endCol": 17
+		},
+		"p5": {
+			"rdt:name": "update.nmds <- FALSE",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.383,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 10,
+			"rdt:startCol": 1,
+			"rdt:endLine": 10,
+			"rdt:endCol": 20
+		},
+		"p6": {
+			"rdt:name": "refresh.clim <- FALSE",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.397,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 11,
+			"rdt:startCol": 1,
+			"rdt:endLine": 11,
+			"rdt:endCol": 21
+		},
+		"p7": {
+			"rdt:name": "update.results <- FALSE",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.409,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 12,
+			"rdt:startCol": 1,
+			"rdt:endLine": 12,
+			"rdt:endCol": 23
+		},
+		"p8": {
+			"rdt:name": "p.clust <- FALSE",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.421,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 13,
+			"rdt:startCol": 1,
+			"rdt:endLine": 13,
+			"rdt:endCol": 16
+		},
+		"p9": {
+			"rdt:name": "pkg.lib <- c(\"gdata\", \"prism\", \"ggplot2\", \"raster\", \"AntWeb\"",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.435,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 16,
+			"rdt:startCol": 1,
+			"rdt:endLine": 20,
+			"rdt:endCol": 52
+		},
+		"p10": {
+			"rdt:name": "missing.pkgs <- pkg.lib[!(pkg.lib %in% installed.packages()[",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.618,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 22,
+			"rdt:startCol": 1,
+			"rdt:endLine": 22,
+			"rdt:endCol": 65
+		},
+		"p11": {
+			"rdt:name": "get_names <- function(x) {	x <- strsplit(x, split = \" \")[",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.677,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 37,
+			"rdt:startCol": 1,
+			"rdt:endLine": 40,
+			"rdt:endCol": 1
+		},
+		"p12": {
+			"rdt:name": "reorder_size <- function(x, decreasing = TRUE) {	factor(x",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.692,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 42,
+			"rdt:startCol": 1,
+			"rdt:endLine": 44,
+			"rdt:endCol": 1
+		},
+		"p13": {
+			"rdt:name": "get.spp <- function(x) {	x <- grep(\"species\", strsplit(x,",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.706,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 46,
+			"rdt:startCol": 1,
+			"rdt:endLine": 49,
+			"rdt:endCol": 1
+		},
+		"p14": {
+			"rdt:name": "as.mashdist <- function(x) {	lab <- unique(as.character(u",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.718,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 51,
+			"rdt:startCol": 1,
+			"rdt:endLine": 59,
+			"rdt:endCol": 1
+		},
+		"p15": {
+			"rdt:name": "get.mash.p <- function(x) {	lab <- unique(as.character(un",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.734,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 61,
+			"rdt:startCol": 1,
+			"rdt:endLine": 69,
+			"rdt:endCol": 1
+		},
+		"p16": {
+			"rdt:name": "onlyAz <- function(x) {	paste(strsplit(x, split = \"\")[[1]",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.746,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 71,
+			"rdt:startCol": 1,
+			"rdt:endLine": 75,
+			"rdt:endCol": 1
+		},
+		"p17": {
+			"rdt:name": "italic <- function(x) {	paste0(\"{\\emph{\", x, \"}}\")}",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.759,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 78,
+			"rdt:startCol": 1,
+			"rdt:endLine": 78,
+			"rdt:endCol": 48
+		},
+		"p18": {
+			"rdt:name": "print(\"Loading data\")",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.77,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 81,
+			"rdt:startCol": 1,
+			"rdt:endLine": 81,
+			"rdt:endCol": 21
+		},
+		"p19": {
+			"rdt:name": "make.stats.table <- FALSE",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.777,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 83,
+			"rdt:startCol": 1,
+			"rdt:endLine": 83,
+			"rdt:endCol": 25
+		},
+		"p20": {
+			"rdt:name": "broad.info <- read.csv(\"../data/storage/apg/broad_sample_key",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.793,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 84,
+			"rdt:startCol": 1,
+			"rdt:endLine": 84,
+			"rdt:endCol": 66
+		},
+		"p21": {
+			"rdt:name": "sample.info <- read.csv(\"../data/storage/apg/colony_location",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.843,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 86,
+			"rdt:startCol": 1,
+			"rdt:endLine": 86,
+			"rdt:endCol": 67
+		},
+		"p22": {
+			"rdt:name": "ant.info <- read.csv(\"../data/storage/apg/RADseq_mastersheet",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.89,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 88,
+			"rdt:startCol": 1,
+			"rdt:endLine": 88,
+			"rdt:endCol": 71
+		},
+		"p23": {
+			"rdt:name": "ant.info <- ant.info[ant.info$Species..varying.ID.sources...",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.927,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 90,
+			"rdt:startCol": 1,
+			"rdt:endLine": 90,
+			"rdt:endCol": 139
+		},
+		"p24": {
+			"rdt:name": "ant.info <- ant.info[!ant.info$State == \"\", ]",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 34.972,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 91,
+			"rdt:startCol": 1,
+			"rdt:endLine": 91,
+			"rdt:endCol": 44
+		},
+		"p25": {
+			"rdt:name": "ant.geo <- read.csv(\"../data/storage/apg/ant_sites.csv\")",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 35.009,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 92,
+			"rdt:startCol": 1,
+			"rdt:endLine": 92,
+			"rdt:endCol": 56
+		},
+		"p26": {
+			"rdt:name": "ant.geo[, c(\"Lon\", \"Lat\")] <- apply(ant.geo[, c(\"Lon\", \"Lat\"",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 35.046,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 93,
+			"rdt:startCol": 1,
+			"rdt:endLine": 93,
+			"rdt:endCol": 72
+		},
+		"p27": {
+			"rdt:name": "ant.info <- data.frame(ant.info, ant.geo[match(as.character(",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 35.082,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 94,
+			"rdt:startCol": 1,
+			"rdt:endLine": 95,
+			"rdt:endCol": 97
+		},
+		"p28": {
+			"rdt:name": "ant.info$Species..varying.ID.sources...Bernice.if.different.",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 35.139,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 96,
+			"rdt:startCol": 1,
+			"rdt:endLine": 97,
+			"rdt:endCol": 95
+		},
+		"p29": {
+			"rdt:name": "ant.info <- na.omit(ant.info)",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 35.173,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 98,
+			"rdt:startCol": 1,
+			"rdt:endLine": 98,
+			"rdt:endCol": 29
+		},
+		"p30": {
+			"rdt:name": "ant.color <- ant.info$Species..varying.ID.sources...Bernice.",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 35.202,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 99,
+			"rdt:startCol": 1,
+			"rdt:endLine": 99,
+			"rdt:endCol": 90
+		},
+		"p31": {
+			"rdt:name": "ant.factor <- factor(ant.color)",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 35.225,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 100,
+			"rdt:startCol": 1,
+			"rdt:endLine": 100,
+			"rdt:endCol": 31
+		},
+		"p32": {
+			"rdt:name": "geo.ctr <- split(ant.info[, c(\"Lon\", \"Lat\")], ant.info$Speci",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 35.254,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 101,
+			"rdt:startCol": 1,
+			"rdt:endLine": 101,
+			"rdt:endCol": 121
+		},
+		"p33": {
+			"rdt:name": "geo.ctr <- lapply(geo.ctr, function(x) apply(x, 2, mean))",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 35.301,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 102,
+			"rdt:startCol": 1,
+			"rdt:endLine": 102,
+			"rdt:endCol": 54
+		},
+		"p34": {
+			"rdt:name": "geo.ctr <- do.call(rbind, geo.ctr)",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 35.327,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 103,
+			"rdt:startCol": 1,
+			"rdt:endLine": 103,
+			"rdt:endCol": 33
+		},
+		"p35": {
+			"rdt:name": "theurl <- getURL(\"https://bmcevolbiol.biomedcentral.com/arti",
+			"rdt:type": "Operation",
+			"rdt:elapsedTime": 35.355,
+			"rdt:scriptNum": 0,
+			"rdt:startLine": 108,
+			"rdt:startCol": 1,
+			"rdt:endLine": 108,
+			"rdt:endCol": 127
+		}
+	},
+
+	"entity" : {
+		// data nodes
+		"d1": {
+			"rdt:name": "no.rudis",
+			"rdt:value": "FALSE",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"logical\"]}",
+			"rdt:type": "Data",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "",
+			"rdt:location": ""
+		},
+		"d2": {
+			"rdt:name": "update.nmds",
+			"rdt:value": "FALSE",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"logical\"]}",
+			"rdt:type": "Data",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "",
+			"rdt:location": ""
+		},
+		"d3": {
+			"rdt:name": "refresh.clim",
+			"rdt:value": "FALSE",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"logical\"]}",
+			"rdt:type": "Data",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "",
+			"rdt:location": ""
+		},
+		"d4": {
+			"rdt:name": "update.results",
+			"rdt:value": "FALSE",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"logical\"]}",
+			"rdt:type": "Data",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "",
+			"rdt:location": ""
+		},
+		"d5": {
+			"rdt:name": "p.clust",
+			"rdt:value": "FALSE",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"logical\"]}",
+			"rdt:type": "Data",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "",
+			"rdt:location": ""
+		},
+		"d6": {
+			"rdt:name": "pkg.lib",
+			"rdt:value": "data/6-pkg.lib.csv",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[29], \"type\":[\"character\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.01EDT",
+			"rdt:location": ""
+		},
+		"d7": {
+			"rdt:name": "missing.pkgs",
+			"rdt:value": "data/7-missing.pkgs.csv",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[0], \"type\":[\"character\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.01EDT",
+			"rdt:location": ""
+		},
+		"d8": {
+			"rdt:name": "get_names",
+			"rdt:value": "#ddg.function",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"character\"]}",
+			"rdt:type": "Data",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "",
+			"rdt:location": ""
+		},
+		"d9": {
+			"rdt:name": "reorder_size",
+			"rdt:value": "#ddg.function",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"character\"]}",
+			"rdt:type": "Data",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "",
+			"rdt:location": ""
+		},
+		"d10": {
+			"rdt:name": "get.spp",
+			"rdt:value": "#ddg.function",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"character\"]}",
+			"rdt:type": "Data",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "",
+			"rdt:location": ""
+		},
+		"d11": {
+			"rdt:name": "as.mashdist",
+			"rdt:value": "#ddg.function",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"character\"]}",
+			"rdt:type": "Data",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "",
+			"rdt:location": ""
+		},
+		"d12": {
+			"rdt:name": "get.mash.p",
+			"rdt:value": "#ddg.function",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"character\"]}",
+			"rdt:type": "Data",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "",
+			"rdt:location": ""
+		},
+		"d13": {
+			"rdt:name": "onlyAz",
+			"rdt:value": "#ddg.function",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"character\"]}",
+			"rdt:type": "Data",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "",
+			"rdt:location": ""
+		},
+		"d14": {
+			"rdt:name": "italic",
+			"rdt:value": "#ddg.function",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"character\"]}",
+			"rdt:type": "Data",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "",
+			"rdt:location": ""
+		},
+		"d15": {
+			"rdt:name": "make.stats.table",
+			"rdt:value": "FALSE",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"logical\"]}",
+			"rdt:type": "Data",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "",
+			"rdt:location": ""
+		},
+		"d16": {
+			"rdt:name": "broad_sample_key.csv",
+			"rdt:value": "data/16-broad_sample_key.csv",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"character\"]}",
+			"rdt:type": "File",
+			"rdt:scope": "undefined",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "8a11688c4569b86cdadde0330d344695",
+			"rdt:timestamp": "2018-04-01T22.16.01EDT",
+			"rdt:location": "/Users/hermes/Documents/apg/broad_sample_key.csv"
+		},
+		"d17": {
+			"rdt:name": "broad.info",
+			"rdt:value": "data/17-broad.info.csv",
+			"rdt:valType": "{\"container\":\"data_frame\", \"dimension\":[7,3], \"type\":[\"factor\",\"factor\",\"factor\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.01EDT",
+			"rdt:location": ""
+		},
+		"d18": {
+			"rdt:name": "colony_locations.csv",
+			"rdt:value": "data/18-colony_locations.csv",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"character\"]}",
+			"rdt:type": "File",
+			"rdt:scope": "undefined",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "1b9f8ce4ddbd1c7c4193bdbff27cf0f1",
+			"rdt:timestamp": "2018-04-01T22.16.01EDT",
+			"rdt:location": "/Users/hermes/Documents/apg/colony_locations.csv"
+		},
+		"d19": {
+			"rdt:name": "sample.info",
+			"rdt:value": "data/19-sample.info-PARTIAL.csv",
+			"rdt:valType": "{\"container\":\"data_frame\", \"dimension\":[7,17], \"type\":[\"factor\",\"factor\",\"factor\",\"factor\",\"integer\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"numeric\",\"numeric\",\"factor\",\"integer\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.01EDT",
+			"rdt:location": ""
+		},
+		"d20": {
+			"rdt:name": "RADseq_mastersheet_2014.csv",
+			"rdt:value": "data/20-RADseq_mastersheet_2014.csv",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"character\"]}",
+			"rdt:type": "File",
+			"rdt:scope": "undefined",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "96405b41b2c4791b240e52f20d182f7d",
+			"rdt:timestamp": "2018-04-01T22.16.01EDT",
+			"rdt:location": "/Users/hermes/Documents/apg/RADseq_mastersheet_2014.csv"
+		},
+		"d21": {
+			"rdt:name": "ant.info",
+			"rdt:value": "data/21-ant.info-PARTIAL.csv",
+			"rdt:valType": "{\"container\":\"data_frame\", \"dimension\":[418,15], \"type\":[\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"numeric\",\"numeric\",\"factor\",\"integer\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.01EDT",
+			"rdt:location": ""
+		},
+		"d22": {
+			"rdt:name": "ant.info",
+			"rdt:value": "data/22-ant.info-PARTIAL.csv",
+			"rdt:valType": "{\"container\":\"data_frame\", \"dimension\":[154,15], \"type\":[\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"numeric\",\"numeric\",\"factor\",\"integer\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.01EDT",
+			"rdt:location": ""
+		},
+		"d23": {
+			"rdt:name": "ant.info",
+			"rdt:value": "data/23-ant.info-PARTIAL.csv",
+			"rdt:valType": "{\"container\":\"data_frame\", \"dimension\":[152,15], \"type\":[\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"numeric\",\"numeric\",\"factor\",\"integer\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.01EDT",
+			"rdt:location": ""
+		},
+		"d24": {
+			"rdt:name": "ant_sites.csv",
+			"rdt:value": "data/24-ant_sites.csv",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"character\"]}",
+			"rdt:type": "File",
+			"rdt:scope": "undefined",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "7f0566fbb2ff0b12c1ce7beee593ee70",
+			"rdt:timestamp": "2018-04-01T22.16.01EDT",
+			"rdt:location": "/Users/hermes/Documents/apg/ant_sites.csv"
+		},
+		"d25": {
+			"rdt:name": "ant.geo",
+			"rdt:value": "data/25-ant.geo.csv",
+			"rdt:valType": "{\"container\":\"data_frame\", \"dimension\":[57,4], \"type\":[\"factor\",\"factor\",\"numeric\",\"numeric\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.01EDT",
+			"rdt:location": ""
+		},
+		"d26": {
+			"rdt:name": "ant.geo",
+			"rdt:value": "data/26-ant.geo.csv",
+			"rdt:valType": "{\"container\":\"data_frame\", \"dimension\":[57,4], \"type\":[\"factor\",\"factor\",\"numeric\",\"numeric\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.01EDT",
+			"rdt:location": ""
+		},
+		"d27": {
+			"rdt:name": "ant.info",
+			"rdt:value": "data/27-ant.info-PARTIAL.csv",
+			"rdt:valType": "{\"container\":\"data_frame\", \"dimension\":[152,17], \"type\":[\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"numeric\",\"numeric\",\"factor\",\"integer\",\"numeric\",\"numeric\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.02EDT",
+			"rdt:location": ""
+		},
+		"d28": {
+			"rdt:name": "ant.info",
+			"rdt:value": "data/28-ant.info-PARTIAL.csv",
+			"rdt:valType": "{\"container\":\"data_frame\", \"dimension\":[152,17], \"type\":[\"factor\",\"factor\",\"factor\",\"factor\",\"character\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"numeric\",\"numeric\",\"factor\",\"integer\",\"numeric\",\"numeric\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.02EDT",
+			"rdt:location": ""
+		},
+		"d29": {
+			"rdt:name": "ant.info",
+			"rdt:value": "data/29-ant.info-PARTIAL.csv",
+			"rdt:valType": "{\"container\":\"data_frame\", \"dimension\":[66,17], \"type\":[\"factor\",\"factor\",\"factor\",\"factor\",\"character\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"factor\",\"numeric\",\"numeric\",\"factor\",\"integer\",\"numeric\",\"numeric\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.02EDT",
+			"rdt:location": ""
+		},
+		"d30": {
+			"rdt:name": "ant.color",
+			"rdt:value": "data/30-ant.color.csv",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[66], \"type\":[\"character\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.02EDT",
+			"rdt:location": ""
+		},
+		"d31": {
+			"rdt:name": "ant.factor",
+			"rdt:value": "data/31-ant.factor.txt",
+			"rdt:valType": "\"object\"",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.02EDT",
+			"rdt:location": ""
+		},
+		"d32": {
+			"rdt:name": "geo.ctr",
+			"rdt:value": "data/32-geo.ctr.txt",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[6], \"type\":[\"list\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.02EDT",
+			"rdt:location": ""
+		},
+		"d33": {
+			"rdt:name": "geo.ctr",
+			"rdt:value": "data/33-geo.ctr.txt",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[6], \"type\":[\"list\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.02EDT",
+			"rdt:location": ""
+		},
+		"d34": {
+			"rdt:name": "geo.ctr",
+			"rdt:value": "data/34-geo.ctr.csv",
+			"rdt:valType": "{\"container\":\"matrix\", \"dimension\":[6,2], \"type\":[\"numeric\"]}",
+			"rdt:type": "Snapshot",
+			"rdt:scope": "R_GlobalEnv",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "2018-04-01T22.16.02EDT",
+			"rdt:location": ""
+		},
+		"d35": {
+			"rdt:name": "error.msg",
+			"rdt:value": "\"Error in getURL(\"https://bmcevolbiol.biomedcentral.com/articles/10.1186/1471-2148-8-64\", : could not find function \"getURL\" \"",
+			"rdt:valType": "{\"container\":\"vector\", \"dimension\":[1], \"type\":[\"character\"]}",
+			"rdt:type": "Exception",
+			"rdt:scope": "ddg.library",
+			"rdt:fromEnv": false,
+			"rdt:MD5hash": "",
+			"rdt:timestamp": "",
+			"rdt:location": ""
+		},
+
+		// environment
+		"environment": {
+			"rdt:name": "environment",
+			"rdt:architecture": "x86_64",
+			"rdt:operatingSystem": "unix",
+			"rdt:language": "R",
+			"rdt:rVersion": "R Under development (unstable) (2018-03-19 r74426)",
+			"rdt:script": "/Users/hermes/Labs/HF/projects/apGenomes/src/apg.R",
+			"rdt:scriptTimeStamp": "2018-04-01T14.55.17EDT",
+			"rdt:sourcedScripts": "",
+			"rdt:sourcedScriptTimeStamps": "",
+			"rdt:workingDirectory": "/Users/hermes/Labs/HF/projects/apGenomes/src",
+			"rdt:ddgDirectory": "./apg_ddg",
+			"rdt:ddgTimeStamp": "2018-04-01T22.15.25EDT",
+			"rdt:rdatatrackerVersion": "2.27.0",
+			"rdt:hashAlgorithm": "md5"
+		},
+
+		// library nodes - prov collections
+		"l1": {
+			"name": "base",
+			"version": "3.5.0",
+			"prov:type": {
+				"$": "prov:Collection",
+				"type": "xsd:QName"
+			}
+		},
+		"l2": {
+			"name": "datasets",
+			"version": "3.5.0",
+			"prov:type": {
+				"$": "prov:Collection",
+				"type": "xsd:QName"
+			}
+		},
+		"l3": {
+			"name": "graphics",
+			"version": "3.5.0",
+			"prov:type": {
+				"$": "prov:Collection",
+				"type": "xsd:QName"
+			}
+		},
+		"l4": {
+			"name": "grDevices",
+			"version": "3.5.0",
+			"prov:type": {
+				"$": "prov:Collection",
+				"type": "xsd:QName"
+			}
+		},
+		"l5": {
+			"name": "jsonlite",
+			"version": "1.5",
+			"prov:type": {
+				"$": "prov:Collection",
+				"type": "xsd:QName"
+			}
+		},
+		"l6": {
+			"name": "methods",
+			"version": "3.5.0",
+			"prov:type": {
+				"$": "prov:Collection",
+				"type": "xsd:QName"
+			}
+		},
+		"l7": {
+			"name": "RDataTracker",
+			"version": "2.27.0",
+			"prov:type": {
+				"$": "prov:Collection",
+				"type": "xsd:QName"
+			}
+		},
+		"l8": {
+			"name": "stats",
+			"version": "3.5.0",
+			"prov:type": {
+				"$": "prov:Collection",
+				"type": "xsd:QName"
+			}
+		},
+		"l9": {
+			"name": "utils",
+			"version": "3.5.0",
+			"prov:type": {
+				"$": "prov:Collection",
+				"type": "xsd:QName"
+			}
+		},
+
+		// function nodes
+		"f1": {
+			"name": "installed.packages"
+		},
+		"f2": {
+			"name": "read.csv"
+		},
+		"f3": {
+			"name": "na.omit"
+		}
+	},
+
+	"wasInformedBy" : {
+		// procedure-to-procedure edges
+		"pp1": {
+			"prov:informant": "rdt:p1",
+			"prov:informed": "rdt:p2"
+		},
+		"pp2": {
+			"prov:informant": "rdt:p2",
+			"prov:informed": "rdt:p3"
+		},
+		"pp3": {
+			"prov:informant": "rdt:p3",
+			"prov:informed": "rdt:p4"
+		},
+		"pp4": {
+			"prov:informant": "rdt:p4",
+			"prov:informed": "rdt:p5"
+		},
+		"pp5": {
+			"prov:informant": "rdt:p5",
+			"prov:informed": "rdt:p6"
+		},
+		"pp6": {
+			"prov:informant": "rdt:p6",
+			"prov:informed": "rdt:p7"
+		},
+		"pp7": {
+			"prov:informant": "rdt:p7",
+			"prov:informed": "rdt:p8"
+		},
+		"pp8": {
+			"prov:informant": "rdt:p8",
+			"prov:informed": "rdt:p9"
+		},
+		"pp9": {
+			"prov:informant": "rdt:p9",
+			"prov:informed": "rdt:p10"
+		},
+		"pp10": {
+			"prov:informant": "rdt:p10",
+			"prov:informed": "rdt:p11"
+		},
+		"pp11": {
+			"prov:informant": "rdt:p11",
+			"prov:informed": "rdt:p12"
+		},
+		"pp12": {
+			"prov:informant": "rdt:p12",
+			"prov:informed": "rdt:p13"
+		},
+		"pp13": {
+			"prov:informant": "rdt:p13",
+			"prov:informed": "rdt:p14"
+		},
+		"pp14": {
+			"prov:informant": "rdt:p14",
+			"prov:informed": "rdt:p15"
+		},
+		"pp15": {
+			"prov:informant": "rdt:p15",
+			"prov:informed": "rdt:p16"
+		},
+		"pp16": {
+			"prov:informant": "rdt:p16",
+			"prov:informed": "rdt:p17"
+		},
+		"pp17": {
+			"prov:informant": "rdt:p17",
+			"prov:informed": "rdt:p18"
+		},
+		"pp18": {
+			"prov:informant": "rdt:p18",
+			"prov:informed": "rdt:p19"
+		},
+		"pp19": {
+			"prov:informant": "rdt:p19",
+			"prov:informed": "rdt:p20"
+		},
+		"pp20": {
+			"prov:informant": "rdt:p20",
+			"prov:informed": "rdt:p21"
+		},
+		"pp21": {
+			"prov:informant": "rdt:p21",
+			"prov:informed": "rdt:p22"
+		},
+		"pp22": {
+			"prov:informant": "rdt:p22",
+			"prov:informed": "rdt:p23"
+		},
+		"pp23": {
+			"prov:informant": "rdt:p23",
+			"prov:informed": "rdt:p24"
+		},
+		"pp24": {
+			"prov:informant": "rdt:p24",
+			"prov:informed": "rdt:p25"
+		},
+		"pp25": {
+			"prov:informant": "rdt:p25",
+			"prov:informed": "rdt:p26"
+		},
+		"pp26": {
+			"prov:informant": "rdt:p26",
+			"prov:informed": "rdt:p27"
+		},
+		"pp27": {
+			"prov:informant": "rdt:p27",
+			"prov:informed": "rdt:p28"
+		},
+		"pp28": {
+			"prov:informant": "rdt:p28",
+			"prov:informed": "rdt:p29"
+		},
+		"pp29": {
+			"prov:informant": "rdt:p29",
+			"prov:informed": "rdt:p30"
+		},
+		"pp30": {
+			"prov:informant": "rdt:p30",
+			"prov:informed": "rdt:p31"
+		},
+		"pp31": {
+			"prov:informant": "rdt:p31",
+			"prov:informed": "rdt:p32"
+		},
+		"pp32": {
+			"prov:informant": "rdt:p32",
+			"prov:informed": "rdt:p33"
+		},
+		"pp33": {
+			"prov:informant": "rdt:p33",
+			"prov:informed": "rdt:p34"
+		},
+		"pp34": {
+			"prov:informant": "rdt:p34",
+			"prov:informed": "rdt:p35"
+		}
+	},
+
+	"wasGeneratedBy" : {
+		// procedure-to-data edges
+		"pd1": {
+			"prov:activity": "rdt:p4",
+			"prov:entity": "rdt:d1"
+		},
+		"pd2": {
+			"prov:activity": "rdt:p5",
+			"prov:entity": "rdt:d2"
+		},
+		"pd3": {
+			"prov:activity": "rdt:p6",
+			"prov:entity": "rdt:d3"
+		},
+		"pd4": {
+			"prov:activity": "rdt:p7",
+			"prov:entity": "rdt:d4"
+		},
+		"pd5": {
+			"prov:activity": "rdt:p8",
+			"prov:entity": "rdt:d5"
+		},
+		"pd6": {
+			"prov:activity": "rdt:p9",
+			"prov:entity": "rdt:d6"
+		},
+		"pd7": {
+			"prov:activity": "rdt:p10",
+			"prov:entity": "rdt:d7"
+		},
+		"pd8": {
+			"prov:activity": "rdt:p11",
+			"prov:entity": "rdt:d8"
+		},
+		"pd9": {
+			"prov:activity": "rdt:p12",
+			"prov:entity": "rdt:d9"
+		},
+		"pd10": {
+			"prov:activity": "rdt:p13",
+			"prov:entity": "rdt:d10"
+		},
+		"pd11": {
+			"prov:activity": "rdt:p14",
+			"prov:entity": "rdt:d11"
+		},
+		"pd12": {
+			"prov:activity": "rdt:p15",
+			"prov:entity": "rdt:d12"
+		},
+		"pd13": {
+			"prov:activity": "rdt:p16",
+			"prov:entity": "rdt:d13"
+		},
+		"pd14": {
+			"prov:activity": "rdt:p17",
+			"prov:entity": "rdt:d14"
+		},
+		"pd15": {
+			"prov:activity": "rdt:p19",
+			"prov:entity": "rdt:d15"
+		},
+		"pd16": {
+			"prov:activity": "rdt:p20",
+			"prov:entity": "rdt:d17"
+		},
+		"pd17": {
+			"prov:activity": "rdt:p21",
+			"prov:entity": "rdt:d19"
+		},
+		"pd18": {
+			"prov:activity": "rdt:p22",
+			"prov:entity": "rdt:d21"
+		},
+		"pd19": {
+			"prov:activity": "rdt:p23",
+			"prov:entity": "rdt:d22"
+		},
+		"pd20": {
+			"prov:activity": "rdt:p24",
+			"prov:entity": "rdt:d23"
+		},
+		"pd21": {
+			"prov:activity": "rdt:p25",
+			"prov:entity": "rdt:d25"
+		},
+		"pd22": {
+			"prov:activity": "rdt:p26",
+			"prov:entity": "rdt:d26"
+		},
+		"pd23": {
+			"prov:activity": "rdt:p27",
+			"prov:entity": "rdt:d27"
+		},
+		"pd24": {
+			"prov:activity": "rdt:p28",
+			"prov:entity": "rdt:d28"
+		},
+		"pd25": {
+			"prov:activity": "rdt:p29",
+			"prov:entity": "rdt:d29"
+		},
+		"pd26": {
+			"prov:activity": "rdt:p30",
+			"prov:entity": "rdt:d30"
+		},
+		"pd27": {
+			"prov:activity": "rdt:p31",
+			"prov:entity": "rdt:d31"
+		},
+		"pd28": {
+			"prov:activity": "rdt:p32",
+			"prov:entity": "rdt:d32"
+		},
+		"pd29": {
+			"prov:activity": "rdt:p33",
+			"prov:entity": "rdt:d33"
+		},
+		"pd30": {
+			"prov:activity": "rdt:p34",
+			"prov:entity": "rdt:d34"
+		},
+		"pd31": {
+			"prov:activity": "rdt:p35",
+			"prov:entity": "rdt:d35"
+		}
+	},
+
+	"used" : {
+		// data-to-procedure edges
+		"dp1": {
+			"prov:entity": "rdt:d6",
+			"prov:activity": "rdt:p10"
+		},
+		"dp2": {
+			"prov:entity": "rdt:d16",
+			"prov:activity": "rdt:p20"
+		},
+		"dp3": {
+			"prov:entity": "rdt:d18",
+			"prov:activity": "rdt:p21"
+		},
+		"dp4": {
+			"prov:entity": "rdt:d20",
+			"prov:activity": "rdt:p22"
+		},
+		"dp5": {
+			"prov:entity": "rdt:d21",
+			"prov:activity": "rdt:p23"
+		},
+		"dp6": {
+			"prov:entity": "rdt:d19",
+			"prov:activity": "rdt:p23"
+		},
+		"dp7": {
+			"prov:entity": "rdt:d22",
+			"prov:activity": "rdt:p24"
+		},
+		"dp8": {
+			"prov:entity": "rdt:d24",
+			"prov:activity": "rdt:p25"
+		},
+		"dp9": {
+			"prov:entity": "rdt:d25",
+			"prov:activity": "rdt:p26"
+		},
+		"dp10": {
+			"prov:entity": "rdt:d23",
+			"prov:activity": "rdt:p27"
+		},
+		"dp11": {
+			"prov:entity": "rdt:d26",
+			"prov:activity": "rdt:p27"
+		},
+		"dp12": {
+			"prov:entity": "rdt:d27",
+			"prov:activity": "rdt:p28"
+		},
+		"dp13": {
+			"prov:entity": "rdt:d28",
+			"prov:activity": "rdt:p29"
+		},
+		"dp14": {
+			"prov:entity": "rdt:d29",
+			"prov:activity": "rdt:p30"
+		},
+		"dp15": {
+			"prov:entity": "rdt:d30",
+			"prov:activity": "rdt:p31"
+		},
+		"dp16": {
+			"prov:entity": "rdt:d29",
+			"prov:activity": "rdt:p32"
+		},
+		"dp17": {
+			"prov:entity": "rdt:d32",
+			"prov:activity": "rdt:p33"
+		},
+		"dp18": {
+			"prov:entity": "rdt:d33",
+			"prov:activity": "rdt:p34"
+		},
+
+		// function-to-procedure edges
+		"fp1": {
+			"prov:entity": "rdt:f1",
+			"prov:activity": "rdt:p10"
+		},
+		"fp2": {
+			"prov:entity": "rdt:f2",
+			"prov:activity": "rdt:p20"
+		},
+		"fp3": {
+			"prov:entity": "rdt:f2",
+			"prov:activity": "rdt:p21"
+		},
+		"fp4": {
+			"prov:entity": "rdt:f2",
+			"prov:activity": "rdt:p22"
+		},
+		"fp5": {
+			"prov:entity": "rdt:f3",
+			"prov:activity": "rdt:p23"
+		},
+		"fp6": {
+			"prov:entity": "rdt:f2",
+			"prov:activity": "rdt:p25"
+		},
+		"fp7": {
+			"prov:entity": "rdt:f3",
+			"prov:activity": "rdt:p29"
+		}
+	},
+
+	"hadMember" : {
+		// groups function nodes with their library nodes
+		"m1": {
+			"prov:collection": "rdt:l8",
+			"prov:entity": "rdt:f3"
+		},
+		"m2": {
+			"prov:collection": "rdt:l9",
+			"prov:entity": "rdt:f1"
+		},
+		"m3": {
+			"prov:collection": "rdt:l9",
+			"prov:entity": "rdt:f2"
+		}
+	}
+}
