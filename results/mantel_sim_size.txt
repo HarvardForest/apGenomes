@@ -1,0 +1,15 @@
+[1] size.d ~ all.mash.d + all.gd
+   mantelr      pval1      pval2      pval3  llim.2.5% ulim.97.5% 
+ 0.1509421  0.0659000  0.9342000  0.1114000  0.0801825  0.2268655 
+[1] size.d ~ wc.d + all.gd
+   mantelr      pval1      pval2      pval3  llim.2.5% ulim.97.5% 
+ 0.1868056  0.0208000  0.9793000  0.0246000  0.1143169  0.2794234 
+[1] all.mash.d ~ wc.d + all.gd + size.d
+   mantelr      pval1      pval2      pval3  llim.2.5% ulim.97.5% 
+ 0.3248169  0.0008000  0.9993000  0.0008000  0.2553740  0.4409213 
+[1] size.d.napg ~ wc.d.napg + all.gd.napg
+    mantelr       pval1       pval2       pval3   llim.2.5%  ulim.97.5% 
+ 0.12934277  0.19040000  0.80970000  0.38700000 -0.01271129  0.25681027 
+[1] all.mash.d.napg ~ wc.d.napg + all.gd.napg
+   mantelr      pval1      pval2      pval3  llim.2.5% ulim.97.5% 
+ 0.3711441  0.0117000  0.9884000  0.0118000  0.2612168  0.4780338 

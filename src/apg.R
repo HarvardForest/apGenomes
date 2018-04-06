@@ -242,6 +242,16 @@ for (i in 1:nrow(apg.geo)){
     }
 }
 
+apg.gd <- array(NA,dim = rep(nrow(apg.geo),2))
+rownames(apg.gd) <- colnames(apg.gd) <- rownames(apg.geo)
+for (i in 1:nrow(apg.geo)){
+    for (j in 1:nrow(apg.geo)){
+        apg.gd[i,j] <- geosphere::distm(apg.geo[i,], apg.geo[j,], 
+                               fun = geosphere::distHaversine)
+    }
+}
+
+
 apg.gcd <- array(NA,dim = rep(nrow(ap.ctr),2))
 rownames(apg.gcd) <- colnames(apg.gcd) <- rownames(ap.ctr)
 for (i in 1:nrow(ap.ctr)){
@@ -504,14 +514,9 @@ if (all(rownames(clim.df) == rownames(all.mash))){
     std <- function(x){ (x - mean(x)) / sd(x)}
     am.d <- as.dist(all.mash)
     std.c <- apply(clim.df,2, std)
-    wc.d <- dist(std.c)
+    wc.d <- dist(std.c[,-1:-2])
     std.l <- apply(clim.df[,c("Lat", "Lon")], 2, std)
     loc.d <- dist(std.l)
-    set.seed(1979)
-    ecodist::mantel(am.d ~ wc.d)
-    ecodist::mantel(am.d ~ loc.d)
-    ecodist::mantel(wc.d ~ loc.d)
-    ecodist::mantel(am.d ~ wc.d + loc.d)
 }else{
     print("WorldClim and MASH don't match.")
 }
@@ -555,6 +560,8 @@ vec.tab <- vec.out
 rownames(vec.tab) <- c("Longitude","Latitude", bio.labs)
 colnames(vec.tab) <- c("r", "p-value")
 vec.tab <- vec.tab[order(vec.tab[,"p-value"]),]
+vec.tab <- as.matrix(vec.tab[,-2])
+colnames(vec.tab) <- c("r")
 apg.vec.tab <- apg.vec.out
 rownames(apg.vec.tab) <- c("Longitude","Latitude", bio.labs)
 colnames(apg.vec.tab) <- c("r", "p-value")
@@ -829,6 +836,21 @@ if (make.stats.table){
           )
 }
 
+### Size correlation analysis
+ncbi.size <- ncbi.ant[,c("X.Organism.Name","Size..Mb.")]
+colnames(ncbi.size) <- c("species", "size")
+ncbi.size[,"species"] <- as.character(ncbi.size[,"species"])
+apg.size <- data.frame(species = broad.info[,"Collaborator.Sample.ID"], 
+                       size = gaemr.tab[,"TotalScaffoldLength"] / 10^6)
+apg.size[,"species"] <- as.character(na.omit(all.geo[match(apg.size[,"species"],
+                                                           rownames(all.geo)),"Species.name"]))
+all.size <- rbind(ncbi.size, apg.size)
+all.size <- all.size[match(all.geo[,"Species.name"],all.size[,"species"]),]
+if (!(all(all.geo[,1] == all.size[,1]))){print("Danger Will Robinson!!!")}
+all.sizegeo <- data.frame(all.geo,size = all.size[,"size"])
+all.sizegeo <- data.frame(all.sizegeo,apply(all.sizegeo[,c("lon","lat")],2,function(x) (x + abs(min(x)))^2))
+colnames(all.sizegeo)[colnames(all.sizegeo) == c("lon.1","lat.1")] <- c("lon2","lat2")
+
 ### Genomic biogeography = lat/lon, distance, climate = temperature, climatic similarities
 ### Tests of climate variable correlations
 cor.tminmax <- cor.test(clim.data[,"tmax"],clim.data[,"tmin"])
@@ -929,25 +951,63 @@ size.dat <- data.frame(GenomeSize = gaemr.tab[,"TotalScaffoldLength"],
                      Latitude = apg.geo[,"Latitude"], 
                      Precipitation = clim.data[,"ppt"])
 
-(summary(lm(GC~Latitude*Precipitation, data = gc.dat)))
-(summary(lm(GenomeSize~Latitude*Precipitation, data = size.dat)))
+## size geographic distance for all
+all.gd <- array(NA,dim = rep(nrow(all.geo),2))
+rownames(all.gd) <- colnames(all.gd) <- all.geo[,1]
+for (i in 1:nrow(all.geo)){
+    for (j in 1:nrow(all.geo)){
+        all.gd[i,j] <- geosphere::distm(all.geo[i,-1], all.geo[j,-1], 
+                               fun = geosphere::distHaversine)
+    }
+}
+all.gd <- as.dist(all.gd)
 
-### Size correlation analysis
-ncbi.size <- ncbi.ant[,c("X.Organism.Name","Size..Mb.")]
-colnames(ncbi.size) <- c("species", "size")
-ncbi.size[,"species"] <- as.character(ncbi.size[,"species"])
-apg.size <- data.frame(species = broad.info[,"Collaborator.Sample.ID"], 
-                       size = gaemr.tab[,"TotalScaffoldLength"] / 10^6)
-apg.size[,"species"] <- as.character(na.omit(all.geo[match(apg.size[,"species"],
-                                                           rownames(all.geo)),"Species.name"]))
-all.size <- rbind(ncbi.size, apg.size)
-all.size <- all.size[match(all.geo[,"Species.name"],all.size[,"species"]),]
-if (!(all(all.geo[,1] == all.size[,1]))){print("Danger Will Robinson!!!")}
-all.sizegeo <- data.frame(all.geo,size = all.size[,"size"])
-all.sizegeo <- data.frame(all.sizegeo,apply(all.sizegeo[,c("lon","lat")],2,function(x) (x + abs(min(x)))^2))
-colnames(all.sizegeo)[colnames(all.sizegeo) == c("lon.1","lat.1")] <- c("lon2","lat2")
+### Analysis of genome size and similarity
+size.d.napg <- as.dist(as.matrix(size.d)[ap != "Ap", ap != "Ap"])
+all.mash.d.napg <- as.dist(as.matrix(all.mash.d)[ap != "Ap", ap != "Ap"])
+wc.d.napg <- as.dist(as.matrix(wc.d)[ap != "Ap", ap != "Ap"])
+all.gd.napg <- as.dist(as.matrix(all.gd)[ap != "Ap", ap != "Ap"])
 
-lm_sizegeo <- lm(size ~ lon * lat, data = all.sizegeo)
+results.sim.size <- capture.output(
+    set.seed(1981), 
+    print("size.d ~ all.mash.d + all.gd", quote  = FALSE),
+    ecodist::mantel(size.d ~ all.mash.d + all.gd, nperm = 10000),
+    set.seed(1981), 
+    print("size.d ~ wc.d + all.gd", quote  = FALSE),
+    ecodist::mantel(size.d ~ wc.d + all.gd, nperm = 10000),
+    set.seed(1981), 
+    print("all.mash.d ~ wc.d + all.gd + size.d", quote  = FALSE),
+    ecodist::mantel(all.mash.d ~ wc.d + all.gd + size.d, nperm = 10000),
+    set.seed(1981), 
+    print("size.d.napg ~ wc.d.napg + all.gd.napg", quote  = FALSE),
+    ecodist::mantel(size.d.napg ~ wc.d.napg + all.gd.napg, nperm = 10000),
+    set.seed(1981), 
+    print("all.mash.d.napg ~ wc.d.napg + all.gd.napg", quote  = FALSE),
+    ecodist::mantel(all.mash.d.napg ~ wc.d.napg + all.gd.napg, nperm = 10000)
+    )
+write.table(results.sim.size, 
+            file = "../results/mantel_sim_size.txt",
+            row.names = FALSE, col.names = FALSE, quote = FALSE)
+
+set.seed(1981)
+perm.size <- adonis(size.d ~ Lat + Lon + MAT + Tmin + Tmax + PA + PS, 
+       data = clim.df,
+       perm = 10000)
+set.seed(1981)
+perm.mash <- adonis(all.mash.d ~ Lat + Lon + MAT + Tmin + Tmax + PA + PS, 
+       data = clim.df,
+       perm = 10000)
+set.seed(1981)
+perm.size.napg <- adonis(size.d.napg ~ Lat + Lon + MAT + Tmin + Tmax + PA + PS, 
+       data = clim.df[ap != "Ap",], 
+       perm = 10000)
+set.seed(1981)
+perm.mash.napg <- adonis(all.mash.d.napg ~ Lat + Lon + MAT + Tmin + Tmax + PA + PS, 
+       data = clim.df[ap != "Ap",], 
+       perm = 10000)
+
+
+### shapiro.test(lm_sizegeo$residuals) # ran check of residuals
 cap_lmsizegeo <- capture.output(summary(lm_sizegeo))
 write.table(capture.output(shapiro.test(residuals(lm_sizegeo))), 
             file = "../results/cap_shapiro.txt", 
@@ -1376,6 +1436,10 @@ pdf("../results/mash_path.pdf",height = 5, width = 5)
 plot(ig, attrs = attr, edgeAttrs = attr.e)
 dev.off()
 
+### Linear regression Size ~ biogeo
+lm.all.size <- lm(size ~ lat + lon + MAT + Tmin + Tmax + PA + PS, data = data.frame(clim.df, all.sizegeo))
+
+
 ### Climate table
 clim.tab <- clim.data
 rownames(clim.tab) <- clim.tab[,"mypoints.id"] <- rownames(as.matrix(mash.d))
@@ -1407,6 +1471,54 @@ print(clim.cor.xtab,
 pdf("../results/clim_cor.pdf")
 heatmap((cor(clim.df)), scale = "none", col = cm.colors(256)) 
 dev.off()
+
+### Table: size ~ biogeo
+xtab.perm.size <- xtable::xtable(perm.size$aov.tab,
+               caption = "PerMANOVA pseudo-F table for the analysis of the factors 
+correlated with ant genome size similarity.",
+               label = "tab:perm_size")
+print(xtab.perm.size,
+      type = "latex",
+      file = "../results/perm_size.tex",
+      sanitize.colnames.function = italic,
+      include.rownames = TRUE,
+      include.colnames = TRUE
+      )
+xtab.perm.mash <- xtable::xtable(perm.mash$aov.tab,
+               caption = "PerMANOVA pseudo-F table for the analysis of the factors 
+correlated with ant genome similarity (MASH distance).",
+               label = "tab:perm_mash")
+print(xtab.perm.mash,
+      type = "latex",
+      file = "../results/perm_mash.tex",
+      sanitize.colnames.function = italic,
+      include.rownames = TRUE,
+      include.colnames = TRUE
+      )
+xtab.perm.size.napg <- xtable::xtable(perm.size.napg$aov.tab,
+               caption = "PerMANOVA pseudo-F table for the analysis of the factors 
+correlated with ant genome size similarity (Euclidan distance) only including the 
+previously sequenced NCBI ant specimens.",
+               label = "tab:perm_size_napg")
+print(xtab.perm.size.napg,
+      type = "latex",
+      file = "../results/perm_size_napg.tex",
+      sanitize.colnames.function = italic,
+      include.rownames = TRUE,
+      include.colnames = TRUE
+      )
+xtab.perm.mash.napg <- xtable::xtable(perm.mash.napg$aov.tab,
+               caption = "PerMANOVA pseudo-F table for the analysis of the factors 
+correlated with ant genome similarity (MASH distance) only including the 
+previously sequenced NCBI ant specimens.",
+               label = "tab:perm_mash_napg")
+print(xtab.perm.mash.napg,
+      type = "latex",
+      file = "../results/perm_mash_napg.tex",
+      sanitize.colnames.function = italic,
+      include.rownames = TRUE,
+      include.colnames = TRUE
+      )
 
 
 ## system("scp ../results/clim_cor.pdf matthewklau@fas.harvard.edu:public_html/tmp.pdf")

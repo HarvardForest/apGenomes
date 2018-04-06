@@ -107,7 +107,7 @@
 			"rdt:endCol": 65
 		},
 		"p11": {
-			"rdt:name": "get_names <- function(x) {	x <- strsplit(x, split = \" \")[",
+			"rdt:name": "get_names <- function(x) {x <- strsplit(x, split = \" \")[",
 			"rdt:type": "Operation",
 			"rdt:elapsedTime": 34.677,
 			"rdt:scriptNum": 0,
@@ -117,7 +117,7 @@
 			"rdt:endCol": 1
 		},
 		"p12": {
-			"rdt:name": "reorder_size <- function(x, decreasing = TRUE) {	factor(x",
+			"rdt:name": "reorder_size <- function(x, decreasing = TRUE) {factor(x",
 			"rdt:type": "Operation",
 			"rdt:elapsedTime": 34.692,
 			"rdt:scriptNum": 0,
@@ -127,7 +127,7 @@
 			"rdt:endCol": 1
 		},
 		"p13": {
-			"rdt:name": "get.spp <- function(x) {	x <- grep(\"species\", strsplit(x,",
+			"rdt:name": "get.spp <- function(x) {x <- grep(\"species\", strsplit(x,",
 			"rdt:type": "Operation",
 			"rdt:elapsedTime": 34.706,
 			"rdt:scriptNum": 0,
@@ -137,7 +137,7 @@
 			"rdt:endCol": 1
 		},
 		"p14": {
-			"rdt:name": "as.mashdist <- function(x) {	lab <- unique(as.character(u",
+			"rdt:name": "as.mashdist <- function(x) {lab <- unique(as.character(u",
 			"rdt:type": "Operation",
 			"rdt:elapsedTime": 34.718,
 			"rdt:scriptNum": 0,
@@ -147,7 +147,7 @@
 			"rdt:endCol": 1
 		},
 		"p15": {
-			"rdt:name": "get.mash.p <- function(x) {	lab <- unique(as.character(un",
+			"rdt:name": "get.mash.p <- function(x) {lab <- unique(as.character(un",
 			"rdt:type": "Operation",
 			"rdt:elapsedTime": 34.734,
 			"rdt:scriptNum": 0,
@@ -157,7 +157,7 @@
 			"rdt:endCol": 1
 		},
 		"p16": {
-			"rdt:name": "onlyAz <- function(x) {	paste(strsplit(x, split = \"\")[[1]",
+			"rdt:name": "onlyAz <- function(x) {paste(strsplit(x, split = \"\")[[1]",
 			"rdt:type": "Operation",
 			"rdt:elapsedTime": 34.746,
 			"rdt:scriptNum": 0,
@@ -167,7 +167,7 @@
 			"rdt:endCol": 1
 		},
 		"p17": {
-			"rdt:name": "italic <- function(x) {	paste0(\"{\\emph{\", x, \"}}\")}",
+			"rdt:name": "italic <- function(x) {paste0(\"{\\emph{\", x, \"}}\")}",
 			"rdt:type": "Operation",
 			"rdt:elapsedTime": 34.759,
 			"rdt:scriptNum": 0,
