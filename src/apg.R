@@ -115,6 +115,8 @@ ant.gen.size <- ant.gen.size[!apply(ant.gen.size,1,function(x) any(grepl('MEAN',
 ant.gen.size <- ant.gen.size[ant.gen.size[,1] != '',]
 ant.gen.size[,'1C Genome Size (Mb)'] <- as.numeric(as.character(ant.gen.size[,'1C Genome Size (Mb)']))
 
+
+
 ### Genome Size by Location
 ant.gs.world <- table(substr(ant.gen.size[,"Collection Info"],1,3))
 ant.gs.usa <- table(grep("USA",ant.gen.size[,"Collection Info"],value = TRUE))
@@ -140,6 +142,13 @@ gaga.loc <- apply(gaga.loc,2,function(x) sapply(x, onlyAz))
 colnames(gaga.loc) <- c("City","State","Country")
 ## Change ordering
 gaga.loc <- data.frame(gaga.loc)
+
+### Ant genome size information
+### from ncbi and new aphaenogaster genomes
+ncbi.ant <- read.csv("../data/storage/apg/ncbi_ant.csv")
+colnames(ncbi.ant)[1] <- 'Organism'
+## Parse the reference sizes
+ref.sizes <- c(as.numeric(ncbi.ant[,'Size..Mb.']),ant.gen.size[,'1C Genome Size (Mb)'])
 
 ## source("src/apg_mash.R")
 ### Analyze the mash distnaces
@@ -332,26 +341,6 @@ if (all(sapply(c("lat","lon"),grepl, x = colnames(ncbi_info)))){
 r <- getData("worldclim",var="bio",res=2.5)
 wc <- r 
 names(wc) <- c("MAT", "MDR", "Iso", "TS", "Tmax", "Tmin", "ATR", "MTWeQ", "MTDQ","MTWaQ", "MTCQ", "PA", "PWM", "PDM", "PS", "PWeQ", "PDQ", "PWaQ", "PCQ")
-## BIO1 = Annual Mean Temperature "MAT"
-## BIO2 = Mean Diurnal Range (Mean of monthly (max temp - min temp)) "MDR"
-## BIO3 = Isothermality (BIO2/BIO7) (* 100) "Iso"
-## BIO4 = Temperature Seasonality (standard deviation *100) "TS"
-## BIO5 = Max Temperature of Warmest Month "Tmax"
-## BIO6 = Min Temperature of Coldest Month "Tmin"
-## BIO7 = Temperature Annual Range (BIO5-BIO6) "ATR"
-## BIO8 = Mean Temperature of Wettest Quarter "MTWeQ"
-## BIO9 = Mean Temperature of Driest Quarter "MTDQ
-## BIO10 = Mean Temperature of Warmest Quarter "MTWaQ"
-## BIO11 = Mean Temperature of Coldest Quarter "MTCQ"
-## BIO12 = Annual Precipitation "PA"
-## BIO13 = Precipitation of Wettest Month "PWM"
-## BIO14 = Precipitation of Driest Month "PDM"
-## BIO15 = Precipitation Seasonality (Coefficient of Variation) "PS"
-## BIO16 = Precipitation of Wettest Quarter "PWeQ"
-## BIO17 = Precipitation of Driest Quarter "PDQ"
-## BIO18 = Precipitation of Warmest Quarter "PWaQ"
-## BIO19 = Precipitation of Coldest Quarter "PCQ"
-
 bio.labs <- c(
 MAT = "MAT: Annual Mean Temperature (BIO1)",
 MDR = "MDR: Mean Diurnal Range (Mean of monthly (max temp - min temp)) (BIO2)",
@@ -373,6 +362,7 @@ PDQ = "PDQ: Precipitation of Driest Quarter (BIO17)",
 PWaQ = "PWaQ: Precipitation of Warmest Quarter (BIO18)",
 PCQ = "PCQ: Precipitation of Coldest Quarter (BIO19)")
 
+### NCBI information
 ncbi_gps <- na.omit(ncbi_info[,c("lon","lat")])
 ncbi.spc <- SpatialPoints(ncbi_gps, 
                           proj4string = r@crs)
@@ -621,32 +611,6 @@ print(wc.all.xtab,
 ## hymenopteragenome.org
 ## rspatial.org/sdm/
 
-if (!any(grepl("ncbi_ant.csv", dir("../data/storage/apg")))){
-    source('src/ncbi_genome_info.R')
-}
-ncbi.ant <- read.csv("../data/storage/apg/ncbi_ant.csv")
-colnames(ncbi.ant)[1] <- 'Organism'
-
-### Parse the reference sizes
-ref.sizes <- c(as.numeric(ncbi.ant[,'Size..Mb.']),ant.gen.size[,'1C Genome Size (Mb)'])
-
-### AntWeb Info
-## aw.apg <- list()
-## for (i in 1:nrow(sample.info)){
-##     aw.apg[[i]] <- aw_data(
-##         scientific_name = 
-##             paste('Aphaenogaster',
-##                   sample.info[i,'spec_epithet']),
-##         georeferenced = TRUE)
-## }
-## ### ant web info for ncbi
-## aw.ncbi <- list()
-## for (i in 1:nrow(sample.info)){
-##     aw.ncbi[[i]] <- aw_data(
-##         scientific_name = 
-##             as.character(ncbi.ant[i,2]),
-##         georeferenced = TRUE)
-## }
 
 ### Inter-species comparisons
 ### Load other ant genome information
@@ -657,7 +621,6 @@ if (no.rudis){
     sample.info <- sample.info[!(grepl("rud",sample.info[,"broadID"])),]
     broad.info <- broad.info[!(grepl("rud",broad.info[,"Collaborator.Sample.ID"])),]
 }
-
 
 ### Collect gaemr data for making tables and figures
 if (make.stats.table){
@@ -963,6 +926,8 @@ for (i in 1:nrow(all.geo)){
 all.gd <- as.dist(all.gd)
 
 ### Analysis of genome size and similarity
+all.mash.d <- as.dist(all.mash)
+size.d <- dist(all.size[,"size"])
 size.d.napg <- as.dist(as.matrix(size.d)[ap != "Ap", ap != "Ap"])
 all.mash.d.napg <- as.dist(as.matrix(all.mash.d)[ap != "Ap", ap != "Ap"])
 wc.d.napg <- as.dist(as.matrix(wc.d)[ap != "Ap", ap != "Ap"])
@@ -1006,21 +971,6 @@ perm.mash.napg <- adonis(all.mash.d.napg ~ Lat + Lon + MAT + Tmin + Tmax + PA + 
        data = clim.df[ap != "Ap",], 
        perm = 10000)
 
-
-### shapiro.test(lm_sizegeo$residuals) # ran check of residuals
-cap_lmsizegeo <- capture.output(summary(lm_sizegeo))
-write.table(capture.output(shapiro.test(residuals(lm_sizegeo))), 
-            file = "../results/cap_shapiro.txt", 
-            col.names = FALSE, row.names = FALSE, quote = FALSE)
-write.table(cap_lmsizegeo, file = "../results/cap_lmsizegeo.txt", col.names = FALSE, row.names = FALSE, quote = FALSE)
-print(xtable(lm_sizegeo, label = "tab:sizegeo", 
-             caption = "Regression of genome size and geographic position showing the additive and interactive effects tests using all currently sequenced ant genomes."),
-      type = "latex",
-      file = "../results/lm_sizegeo.tex",
-      sanitize.colnames.function = italic,
-      include.rownames = TRUE,
-      include.colnames = TRUE
-      )
 
 ### Figures
 ### Ant genomes previously sequenced
