@@ -114,8 +114,8 @@ ant.gen.size <- tables[[1]]
 ant.gen.size <- ant.gen.size[!apply(ant.gen.size,1,function(x) any(grepl('MEAN',x))),]
 ant.gen.size <- ant.gen.size[ant.gen.size[,1] != '',]
 ant.gen.size[,'1C Genome Size (Mb)'] <- as.numeric(as.character(ant.gen.size[,'1C Genome Size (Mb)']))
-
-
+cyto.sizes <- as.character(tables[[1]][ , "1C Genome Size (Mb)"])
+cyto.sizes <- as.numeric(cyto.sizes[cyto.sizes != ""])
 
 ### Genome Size by Location
 ant.gs.world <- table(substr(ant.gen.size[,"Collection Info"],1,3))
@@ -974,13 +974,17 @@ perm.mash.napg <- adonis(all.mash.d.napg ~ Lat + Lon + MAT + Tmin + Tmax + PA + 
 
 ### Figures
 ### Ant genomes previously sequenced
-png("../results/gaga_world.png",width = 700, height = 700)
+pdf("../results/gaga_world.pdf")
 ggplot(gaga.loc, aes(reorder_size(Country))) + 
     geom_bar(stat = "count") + 
         xlab("") + ylab("Frequency") +
             theme(axis.text=element_text(size=12),
                   axis.title=element_text(size=20,face="bold"),
-                  axis.text.x = element_text(angle = 25, hjust = 1))
+                  axis.text.x = element_text(angle = 25, hjust = 1), 
+                  panel.grid.major = element_blank(),
+                  panel.grid.minor = element_blank(),
+                  panel.border = element_blank(),
+                  panel.background = element_blank())
 dev.off()
 
 png("../results/gaga_usa.png",width = 700, height = 700)
@@ -1043,6 +1047,19 @@ ggplot(data.frame(size = ref.sizes), aes(size)) +
                   axis.title=element_text(size=20,face="bold"))
 dev.off()
 
+pdf("../results/ncbi_gaga_compare.pdf")
+ggplot(data.frame(size = c(na.omit(ref.sizes),cyto.sizes)), aes(size)) + 
+    geom_histogram(binwidth = 50) + 
+        geom_vline(xintercept = gaemr.tab[,"TotalScaffoldLength"] / 1000000) + 
+            xlab("Genome Size (Mb)") + ylab("Frequency") +
+                theme(axis.text=element_text(size=12),
+                      axis.title=element_text(size=20,face="bold"), 
+                      panel.grid.major = element_blank(),
+                      panel.grid.minor = element_blank(),
+                      panel.border = element_blank(),
+                      panel.background = element_blank())
+dev.off()
+
 ### Cytometry figure
 ### genome_sizes.png
 
@@ -1103,11 +1120,13 @@ ggplot(df,aes(geo,mash)) + geom_point() +
 dev.off()
 
 ## Heatmap
-png("../results/ncbi_heat.png",width = 1200, height = 800, pointsize = 25)
+pdf("../results/ncbi_heat.pdf")
 heatmap(ncbi.gen, 
-        RowSideColors=rainbow(nlevels(geno.info[,"subfamily"]))[as.numeric(geno.info[,"subfamily"])],
+        RowSideColors=rainbow(
+            nlevels(geno.info[,"subfamily"]))[as.numeric(geno.info[,"subfamily"])],
         symm = T, margins = c(1,10),labCol = "")
 dev.off()
+
 ## system("scp results/ncbi_heat.png matthewklau@fas.harvard.edu:public_html/tmp.png")
 png("../results/apg_heat.png",width = 1200, height = 800, pointsize = 25)
 heatmap(mash, 
