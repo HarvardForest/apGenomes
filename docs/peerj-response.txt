@@ -1,3 +1,90 @@
+RESPONSE SUMMARY: On the whole, we find the comments have greatly
+improved the paper and thank all of the reviewers and the editor for
+their time and assistance. In response to all reviewers' comments we
+have reduced the emphasis of the ecological/biogeographical
+results. This was done primarily because of the intractability of the
+statistical separation of phylogenetic effects. As stated by all three
+reviewers, we have not removed these results, as they present an
+initial perspective that will be useful for readers. We have largely
+followed the comments of the Reviewer 2s. 
+
+R1
+
+RESPONSE: Increase the clarity of bases for hypotheses about genomics
+and biogeography
+RESPONSE: Increase the clarity of bases for hypotheses. Connect
+ecological importance of ants and genomics. 
+RESPONSE: Editorial and grammatical errors have been fixed and the
+entire document has been checked. Cautionary sentiment is well taken. 
+
+R2
+
+RESPONSE: 
+
+- Add cautionary text on statistical power
+- Reduce biogeographic/climate analysis, consider an appendix
+- Change title and abstract to reduce climate/biogeography
+- Tone down discussion of climate
+
+RESPONSE: Thank you for the thorough feedback. All changes have been
+made. 
+
+R3
+
+RESPONSE: Although not ideal, assembly size is an estimate of genome
+size. Future analysis should include a k-mer analysis. 
+
+RESPONSE: Based on Reviewer 2 comments, the conclusiveness of the
+biogeoggraphic analysis has been reduced. Added to discussion
+references to the relationship between 
+
+RESPONSE: We also considered the correct method of conducting the
+analyses, such as using centers of known species ranges as suggested
+by the reviewer. After considering and acutally beginning to explore
+these analyses, we decided against using this approach for the main
+reason that (with the exception of A. rudis) all genomes in our
+sample, and most of the ant genomes present in NCBI, are from a single
+location. Given the potential for selection to act to create
+geographic mosaic patterns, it is most appropriate to use the data
+from the sampling local. We acknowledge that this is imperfect, and in
+response to this and other comments we have included more careful
+language and reduced the conclusiveness of the biogeographic
+patterns. Again, our intent is to add to the effort to use these
+samples as a resource to broaden our view of climate change impacts. 
+
+RESPONSE: This is a valid point. Need to add sequencing type as an
+overlay. 
+
+RESPONSE: This is an good observation, and we had initially
+constructed the analysis with only the Aphaenogaster species. We
+switched to this perspective, largely due to issues of power (as has
+been pointed out by other reviewers). With regard to phylogeny, yes
+such patterns could result from phylogeny, and undoubtedly this is
+playing a role; however, without more sampling we do not currently,
+even when including all sequenced ant genomes, have enough power to
+distinguish the impacts. Our preference is to not attempt to include
+too many statistical factors and have addressed this issue by reducing
+the conclusiveness of the biogeographic patterns.
+
+RESPONSE: Whole colony DNA was used in order to have sufficient
+concentrations for sequencing. The method used was explicitely
+developed for whole colony sequencing of a similarly colonial
+mosquito, and in disucussion with the sequencing facility, polygyny
+was not an issue for any part of the sequencing process. The more
+pressing issue for assembly was contamination from non-target
+organisms, this was addressed with sequence cleaning procedure. We did
+not examine colony structure yet, but are certainly considering this
+for future work.
+
+RESPONSE: This is a great suggestion. We are exploring this option for
+the next stages of analysis.
+
+RESPONSE: Average genome size?
+
+RESPONSE: Line 128-130: Why was this BLAST analysis done?
+
+RESPONSE: Thank you, we certainly hope so. 
+
 Reviewer 1 (Anonymous)
 Basic reporting
 
@@ -261,6 +348,7 @@ a more appropriate approach. I would argue that such a correction is
 essential. The conclusion that climate influences genomic
 characteristics is completely dependent on this analysis.
 
+
 RESPONSE: Based on Reviewer 2 comments, the conclusiveness of the
 biogeoggraphic analysis has been reduced. Added to discussion
 references to the relationship between 
@@ -277,11 +365,30 @@ effectively a single population but I don’t believe that this is the
 case. While there appears to be some undiscovered species diversity
 within A. rudis, the rest appear to be good species without gene flow
 between them.
+
+RESPONSE: We also considered the correct method of conducting the
+analyses, such as using centers of known species ranges as suggested
+by the reviewer. After considering and acutally beginning to explore
+these analyses, we decided against using this approach for the main
+reason that (with the exception of A. rudis) all genomes in our
+sample, and most of the ant genomes present in NCBI, are from a single
+location. Given the potential for selection to act to create
+geographic mosaic patterns, it is most appropriate to use the data
+from the sampling local. We acknowledge that this is imperfect, and in
+response to this and other comments we have included more careful
+language and reduced the conclusiveness of the biogeographic
+patterns. Again, our intent is to add to the effort to use these
+samples as a resource to broaden our view of climate change impacts. 
+
 4. The previously sequenced ant genomes included in the analysis were
 sequenced using a variety of different methods. For example, some
 genomes included 454 sequencing. This could bias the size of the
 genome assembled. Perhaps some of these influences could be taken into
 account.
+
+RESPONSE: This is a valid point. Need to add sequencing type as an
+overlay. 
+
 5. The authors perform their analyses both by including Aphaenogaster
 genomes and again without these new genomes. However, a third analysis
 that focuses just on Aphaenogaster might be more compelling. This
@@ -293,6 +400,17 @@ that is also over-represented, could have a similar effect. Relatedly,
 the fact that Aphaenogaster has such an impact on the analyses seems
 to suggest that phylogeny is playing a significant role.
 
+RESPONSE: This is an good observation, and we had initially
+constructed the analysis with only the Aphaenogaster species. We
+switched to this perspective, largely due to issues of power (as has
+been pointed out by other reviewers). With regard to phylogeny, yes
+such patterns could result from phylogeny, and undoubtedly this is
+playing a role; however, without more sampling we do not currently,
+even when including all sequenced ant genomes, have enough power to
+distinguish the impacts. Our preference is to not attempt to include
+too many statistical factors and have addressed this issue by reducing
+the conclusiveness of the biogeographic patterns.
+
 Other comments:
 
 - More detail is needed for the DNA extraction procedure. Was it
@@ -301,14 +419,34 @@ Other comments:
   assembly? Reporting heterozygosity/genetic diversity would be useful
   and these data could be used to infer colony structure if it is not
   already known.
+
+RESPONSE: Whole colony DNA was used in order to have sufficient
+concentrations for sequencing. The method used was explicitely
+developed for whole colony sequencing of a similarly colonial
+mosquito, and in disucussion with the sequencing facility, polygyny
+was not an issue for any part of the sequencing process. The more
+pressing issue for assembly was contamination from non-target
+organisms, this was addressed with sequence cleaning procedure. We did
+not examine colony structure yet, but are certainly considering this
+for future work.
+
 - While genome annotation is certainly a significant additional
   challenge, comparing gene sets across species could provide
   additional insight. This can now be relatively easily accomplished
   with pipelines like BRAKER which don’t necessarily require
   transcript data to run.
+
+RESPONSE: This is a great suggestion. We are exploring this option for
+the next stages of analysis.
+
 - Line 128: That is not the average genome size of those listed in the
   table
+
+RESPONSE: Average genome size?
+
 - Line 128-130: Why was this BLAST analysis done?
+
+RESPONSE: Line 128-130: Why was this BLAST analysis done?
 
 Validity of the findings
 no comment
@@ -323,3 +461,10 @@ relatively few taxonomic groups, particularly within ants, where
 multiple closely related species have been de novo sequenced, making
 this a potentially valuable resource for studying both ants and genome
 evolution.
+
+RESPONSE: Thank you, we certainly hope so. 
+
+
+
+
+
