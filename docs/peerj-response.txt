@@ -12,8 +12,10 @@ R1
 
 RESPONSE: Increase the clarity of bases for hypotheses about genomics
 and biogeography
+
 RESPONSE: Increase the clarity of bases for hypotheses. Connect
 ecological importance of ants and genomics. 
+
 RESPONSE: Editorial and grammatical errors have been fixed and the
 entire document has been checked. Cautionary sentiment is well taken. 
 
@@ -26,8 +28,9 @@ RESPONSE:
 - Change title and abstract to reduce climate/biogeography
 - Tone down discussion of climate
 
-RESPONSE: Thank you for the thorough feedback. All changes have been
-made. 
+RESPONSE: Thank you for the thorough feedback. Changes have been made
+in order to reduce the conclusiveness of the findings regarding the
+biogeographic patterns and implications for climate change. 
 
 R3
 
@@ -84,6 +87,7 @@ RESPONSE: Average genome size?
 RESPONSE: Line 128-130: Why was this BLAST analysis done?
 
 RESPONSE: Thank you, we certainly hope so. 
+
 
 Reviewer 1 (Anonymous)
 Basic reporting
@@ -288,39 +292,43 @@ With kind regards,
 Gino Brignoli & Yannick Wurm
 
 Minor comments
-L52 “...social structure and community assembly” - missing u
-L89 “With the these new…” - remove “the”
 
-L94: "demonstrated patterns in the evolutionary dynamics of ant genome
-size (Tsutsui et al., 2008) " - I think the authors simply mean to say
-that there was variation in genome size.
-L113: Anophales -> Anopheles
-L118 "blast" is lowercase - while subsequent page it is uppercase L128
-L118: which version of BLAST? What was approach used to remove
-contaminants, chimeric sequences etc (software, parameters etc)
-L126: what does "70% of fragments mapped " mean? Fragments of what? Mapped from where to where?
-L128: using -> Using
-L128/129: which NCBI sequence database? NR? Which blast algorithm? Blastx? blastn?
-L130: the -> The. similar capitalization issues in Fig 3 legend and elsewehre
-L133: I don't understand what "recommended for gene coverage" means?
-L123: "Genome Quality:" -> usually the CEGMA (or BUSCO) metrics are used as biological measures of genome completeness.
-L189 to 191 - were all 26 ant species used for all analyses? If so
-which collection locations were used for previously published genomes?
-(Such information may unfortunately be absent from previously
-published genomes)
-Pg13 “Figure 6. Plot an showing…” - remove “an”
-L249 “from from previous experimental…” 
-Table 1 can be supplementary
-Ref "The evolution of genome size in ants. " - should only have 4
-authors but has about 20x more!
-The two rudis colonies do not cluster together according to
-whole-genome MASH. I understand the authors dont want to do fullgenome
-comparisons here - however does e.g., a mitochondrial or nuclear
-“housekeeping” gene phylogeny based on sequences from these sample
-support the polyphyly?
+X L118: which version of BLAST? What was approach used to remove
+      contaminants, chimeric sequences etc (software, parameters etc)
+X L128/129: which NCBI sequence database? NR? Which blast algorithm? Blastx? blastn?
+
+X L52 “...social structure and community assembly” - missing u
+X L89 “With the these new…” - remove “the”
+X L94: "demonstrated patterns in the evolutionary dynamics of ant genome
+      size (Tsutsui et al., 2008) " - I think the authors simply mean
+      to say that there was variation in genome size.
+X L113: Anophales -> Anopheles
+X L118 "blast" is lowercase - while subsequent page it is uppercase L128
+X L128: using -> Using
+X L130: the -> The. similar capitalization issues in Fig 3 legend and elsewehre
+X L133: I don't understand what "recommended for gene coverage" means?
+X L189 to 191 - were all 26 ant species used for all analyses? If so
+       which collection locations were used for previously published
+       genomes?  (Such information may unfortunately be absent from
+       previously published genomes)
+X Pg13 “Figure 6. Plot an showing…” - remove “an”
+X L249 “from from previous experimental…” 
+X Table 1 can be supplementary
 
 RESPONSE: Thank you for the thorough feedback. All changes have been
 made. 
+
+? L123: "Genome Quality:" -> usually the CEGMA (or BUSCO) metrics are
+        used as biological measures of genome completeness.
+? L126: what does "70% of fragments mapped " mean? Fragments of what? Mapped from where to where?
+? Ref "The evolution of genome size in ants. " - should only have 4
+      authors but has about 20x more!
+? The two rudis colonies do not cluster together according to
+   whole-genome MASH. I understand the authors dont want to do
+   fullgenome comparisons here - however does e.g., a mitochondrial or
+   nuclear “housekeeping” gene phylogeny based on sequences from these
+   sample support the polyphyly?
+
 
 Reviewer 3 (Anonymous)
 
@@ -386,8 +394,9 @@ genomes included 454 sequencing. This could bias the size of the
 genome assembled. Perhaps some of these influences could be taken into
 account.
 
-RESPONSE: This is a valid point. Need to add sequencing type as an
-overlay. 
+RESPONSE: This is a valid point. We have included text pointing this
+out as a potential confoudning variable that should be controlled for
+in future studies. 
 
 5. The authors perform their analyses both by including Aphaenogaster
 genomes and again without these new genomes. However, a third analysis
@@ -420,11 +429,10 @@ Other comments:
   and these data could be used to infer colony structure if it is not
   already known.
 
-RESPONSE: Whole colony DNA was used in order to have sufficient
-concentrations for sequencing. The method used was explicitely
-developed for whole colony sequencing of a similarly colonial
-mosquito, and in disucussion with the sequencing facility, polygyny
-was not an issue for any part of the sequencing process. The more
+RESPONSE: Whole colonoies were used in order to have sufficient
+concentrations of DNA for sequencing. The method used was explicitely
+developed for whole colony sequencing of a colonial mosquito species.
+The sequenced ants are known to for high rates of polygyny. The more
 pressing issue for assembly was contamination from non-target
 organisms, this was addressed with sequence cleaning procedure. We did
 not examine colony structure yet, but are certainly considering this
@@ -437,16 +445,20 @@ for future work.
   transcript data to run.
 
 RESPONSE: This is a great suggestion. We are exploring this option for
-the next stages of analysis.
+the next stages of analysis as we would like to make these sequences
+available to the general public. 
 
 - Line 128: That is not the average genome size of those listed in the
   table
 
-RESPONSE: Average genome size?
+RESPONSE: Yes, this was a typo. Fixed now in both the abstract and the
+main text. 
 
 - Line 128-130: Why was this BLAST analysis done?
 
-RESPONSE: Line 128-130: Why was this BLAST analysis done?
+RESPONSE: The BLAST analysis was used primarily to identify
+contaminant sequences, but it was also used to match contigs to
+other sequences in NCBI's sequence database. 
 
 Validity of the findings
 no comment

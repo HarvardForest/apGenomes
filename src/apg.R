@@ -530,7 +530,7 @@ pdf(file = "../results/worldclim_ordination.pdf", width = 10, height = 10)
 ## par(mfrow = c(1,2))
 plot(nms[,1:2], pch = "", xlab = "NMDS 1", ylab = "NMDS 2", xlim = range(nms[,1:2]) + c(-0.025, 0.025))
 text(nms[,1:2], labels = sapply(rownames(all.mash), get_names), cex = 1)
-plot(vec, col = "darkgrey", cex = 0.90)
+plot(vec, col = grey(0, alpha = 0.75), cex = 0.80)
 ## plot(napg.nms[,1:2], pch = "", xlab = "NMDS 1", ylab = "NMDS 2")
 ## text(napg.nms[,1:2], labels = sapply(rownames(as.matrix(all.mash[ap != "Ap",])), get_names), cex = 0.5)
 ## plot(napg.vec, col = "darkgrey", cex = 0.75)
@@ -787,12 +787,49 @@ if (make.stats.table){
     colnames(ncbi.xtab) <- c('Ant Species','BioProject Accession','BioSample Accession')
     rownames(ncbi.xtab) <- ncbi.xtab[,"Ant Species"]
     ncbi.xtab <- ncbi.xtab[,-1]
-    ncbi.xtab <- ncbi.xtab[order(rownames(ncbi.xtab)),]
+    ncbi.info <- ncbi.xtab <- ncbi.xtab[order(rownames(ncbi.xtab)),]
+    ## Convert to xtab
     ncbi.xtab <- xtable::xtable(ncbi.xtab, caption = "NCBI genome database accession information for the previously sequenced ant genomes.")
     ## Table: create ncbi_ants 
     print(ncbi.xtab,
           type = "latex",
           file = "../results/ncbi_ants.tex",
+          sanitize.rownames.function = italic,
+          include.rownames = TRUE,
+          include.colnames = TRUE
+          )
+    ## Ant location data
+    ncbi.locs <- na.omit(ncbi.gps[, c(-5, -7)])
+    colnames(ncbi.locs)[6:7] <- c("Lon", "Lat")
+    ncbi.locs[,6:7] <-     ncbi.locs[,7:6]
+    rownames(ncbi.locs) <- ncbi.locs[,1]
+    ncbi.locs <- ncbi.locs[,-1]
+    ncbi.locs <- cbind(ncbi.locs[, 5:6], ncbi.locs[, -5:-6])
+    ncbi.locs <- ncbi.locs[, -4:-5]
+    ncbi.locs <- ncbi.locs[,-4]
+    ncbi.locs <- ncbi.locs[,-3]
+    ncbi.locs.xtab <- xtable::xtable(ncbi.locs, caption = "Coordinates obtained from the literature published for the ant genome sequences used in the biogeographic analyses.")
+    ## Table: create ncbi_locs
+    print(ncbi.locs.xtab,
+          type = "latex",
+          file = "../results/ncbi_locs.tex",
+          sanitize.rownames.function = italic,
+          include.rownames = TRUE,
+          include.colnames = TRUE
+          )
+    ## Convert to xtab
+    adds <- matrix("NA", 2 , 2)
+    colnames(adds) <- c("Lon", "Lat")
+    rownames(adds) <- c("Monomorium pharaonis", "Wasmannia auropunctata")
+    ncbi.info.locs <- rbind(ncbi.locs[rownames(ncbi.locs) %in% rownames(ncbi.info),], adds)
+    ncbi.info.locs <- ncbi.info.locs[order(rownames(ncbi.info.locs)), ]
+    ncbi.info.locs <- cbind(ncbi.info, ncbi.info.locs)
+    ncbi.info.locs <- cbind(ncbi.info.locs[, -3:-4], ncbi.info.locs[, 4:3])
+    ncbi.info.locs <- xtable::xtable(ncbi.info.locs, caption = "NCBI genome database accession information for the previously sequenced ant genomes and coordinates for species those species that could be obtained from the published literature.", digits = 3, label = "tab:ncbi_info_locs")
+    ## Table: create ncbi_ants 
+    print(ncbi.info.locs,
+          type = "latex",
+          file = "../results/ncbi_info_locs.tex",
           sanitize.rownames.function = italic,
           include.rownames = TRUE,
           include.colnames = TRUE
@@ -1410,13 +1447,11 @@ lm.all.size <- lm(size ~ lat + lon + MAT + Tmin + Tmax + PA + PS, data = data.fr
 
 
 ### Climate table
-clim.tab <- clim.data
-rownames(clim.tab) <- clim.tab[,"mypoints.id"] <- rownames(as.matrix(mash.d))
-clim.tab <- clim.tab[order(clim.tab[,"mypoints.id"]),]
-clim.tab <- clim.tab[,c(2,1,6,5,4)]
+clim.tab <- clim.df[grepl("Aphaenogaster", rownames(clim.df)), 
+                    c("Lat", "Lon", "Tmin", "Tmax", "PA")]
 colnames(clim.tab) <- c("Lat","Lon","Tmin (C)","Tmax (C)","Precip (mm)")
-clim.xtab <- xtable::xtable(clim.tab, caption =
-"Climate variables for colony sample sites. Climate are 30 year normal values (1976-2016) for January minimum temperature (Tmin), July maximum temperature (Tmax) and total precipitation (Precip) extracted from the PRISM (PRISM Climate Group, Oregon State University, USA).", label = "tab:climate")
+clim.tab <- clim.tab[order(rownames(clim.tab)), ]
+clim.xtab <- xtable::xtable(clim.tab, caption = paste0("Climate variables for colony sample sites. Climate are 30 year normal values (1970-2000) for January minimum temperature (Tmin), July maximum temperature (Tmax) and total precipitation (Precip) ", "from the WorldClim database accessed on ", format(Sys.time(), "%d %B %Y"), "."), label = "tab:climate")
 print(clim.xtab,
       type = "latex",
       file = "../results/climate.tex",
