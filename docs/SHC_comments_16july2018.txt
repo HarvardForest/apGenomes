@@ -1,0 +1,104 @@
+L35 Both reviewers were clearly skeptical that this paper had anything
+to do with climate change per se.  Climate adaptation, yes
+(ultimately), because this adds the first temperate genomes to the
+overall set of sequenced ant genomes.  But climate change, no.  Yet
+the first two paragraphs are still entirely devoted to climate change.
+
+The motivation for the study was climate change and the ultimate goal
+is to predict responses of ants and ecosystems to climate change. I do
+see that we can not make hard conclusions about climate change because
+of the confoudned nature of the data. I will reduce the emphasis even
+more than I have. 
+
+L60 This shows genomes by country, not by climate zone or genera.
+
+Ah, yes, I moved the figure reference.
+
+L75 The relationship is not about variation per se (ie the variation
+does not change across climates).  Particular characteristics might.
+It would be better to move the genome /climate hypotheses up earlier
+to lay out the basis for your analyses rather than back-loading them
+after the objectives.
+
+Move the hypotheses?
+
+L77 This is just about climate, no genomes included in here.  Yet the
+second sentence makes genomic predictions.  Unclear.
+
+???
+
+L81 The hypothesis is that patterns will exist?  That is very very
+vague.  Is there no literature on climate effects on either of these
+genomic characteristics at all?  Do genomes generally get smaller or
+larger with temperature or some other env variable?  Would one really
+expect convergence in genomic similarity on the basis of habitat?
+Why?  This sounds like fishing for anything that comes out with no
+biological basis for any prediction.  Reviewer 1 specifically asked
+for background to justify these analyses.
+
+???
+
+L85 Doesn't this sentence confound phylogeny and climate?
+
+???
+
+L153 Reviewer 3 critiques total bp length as a measure of genome size,
+and suggested something else (using GenomeScope) instead.  I see no
+evidence you have done this.  Can you defend your decision to retain
+this measure?
+
+???
+
+L158 The third reviewer critiqued your decision to use sampling
+location info instead of some sort of range-wide center or range for
+these species.  Can you defend the decision you have made?
+
+???
+
+L161 MASH similarity is a proxy for phylogeny.  Why not use it to
+control for phylogeny and test effects on genome size in a
+phylogenetically controlled way, as the reviewers want?  You don't
+actually expect climate to directly affect genome similarity at the
+sequence level, except in its covariance with phylogeny (ie clades
+move across space in a biogeographically cohesive way).  Use it as a
+predictor instead.  I suspect it will eliminate your environmental
+effect, but that is the essence of the analytical problem here.  You
+have added a bunch of highly phylogenetically correlated
+samples. Presenting a weak, uncontrolled analysis in order to have
+something significant to report is not really that helpful.
+
+???
+
+L189 The third reviewer suggested looking only at Aphaenogaster.  I do
+not see that you have done so.
+
+???
+
+L210 You need to remove this stuff.  The reviewers did not buy it.
+
+???
+
+L212 This is a much more relevant frame.  You can speculate at the
+very end that understanding climate adaptation at the genomic level
+can provide insights for prospective changes under climate change, but
+that's a step farther removed from where you are now.
+
+??? 
+
+L213 now you have returned to climate change, but you should be
+focusing on climate adaptation across ants.  What is known about
+climate adaptation in ants in extreme environments?  Variation in
+freeze-tolerance?  What characteristics to the currently sequenced
+species possess, and how are Aphaenogaster different?
+
+???
+
+L216 It is not strong, because it is confounded.
+
+??? 
+
+L222 Oh - why was this not in the introduction?  This is what your
+reviewers were looking for - an a priori reason to expect genome size
+might change in a particular way in response to these variables.
+
+Move to intro?
